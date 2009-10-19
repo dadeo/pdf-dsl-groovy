@@ -3,6 +3,7 @@ package pdfdsl.support
 import com.lowagie.text.pdf.PdfContentByte
 import com.lowagie.text.Rectangle
 import com.lowagie.text.pdf.BaseFont
+import com.lowagie.text.pdf.ColumnText
 
 
 abstract class DslWriter {
@@ -24,19 +25,20 @@ abstract class DslWriter {
     over.endText();
   }
 
-//  def column(values: MapWrapper)(f: (ColumnText) => Unit) {
-//    val columnText: ColumnText = new ColumnText(getDirectContent(values.page))
-//
-//    val (x, y) = values.at
-//    val pageSize: Rectangle = getPageSize(values.page)
-//    val adjustedX = x.value(pageSize, values) - values.justificationOffset
-//    val adjustedY = y.value(pageSize, values)
-//    columnText.setSimpleColumn(adjustedX, adjustedY - values.height, adjustedX + values.width, adjustedY)
-//
-//    f(columnText)
-//
-//    columnText.go()
-//  }
+  def column(values, closure) {
+    values = new MapWrapper(values)
+    
+    def columnText = new ColumnText(getDirectContent(values.page))
+
+    Rectangle pageSize = getPageSize(values.page)
+    def adjustedX = (float) (values.at[0].value(pageSize, values) - values.justificationOffset)
+    def adjustedY = (float) values.at[1].value(pageSize, values)
+    columnText.setSimpleColumn(adjustedX, (float)(adjustedY - values.height), (float)(adjustedX + values.width), adjustedY)
+
+    closure(columnText)
+
+    columnText.go()
+  }
 
   abstract byte[] bytes()
 

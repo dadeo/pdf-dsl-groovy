@@ -7,6 +7,7 @@ import pdfdsl.support.Locations
 import pdfdsl.support.Location
 import pdfdsl.support.ResultLocation
 import pdfdsl.support.SectionCommand
+import pdfdsl.support.TableCommand
 
 class PdfDsl {
   private def commands = []
@@ -52,6 +53,13 @@ class PdfDsl {
 
   def section(lingo, closure) {
     SectionCommand command = new SectionCommand(lingo: defaults + lingo)
+    closure.delegate = command
+    closure()
+    commands << command
+  }
+
+  def table(lingo, closure) {
+    TableCommand command = new TableCommand(lingo: defaults + lingo)
     closure.delegate = command
     closure()
     commands << command

@@ -10,16 +10,16 @@ public class VisualTest extends GroovyTestCase {
     TestPdfFactory.createPdf("target/HelloWorldRead.pdf")
 
     def dsl = new PdfDsl().do {
-//      table at: [100, top - 200], page: 1, width: 500, height: 600, {
-//        headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"]
-//
-//        rows data: [
-//            ["c1", "c2", "c3", "c4", "c5"],
-//            ["c1", "c2", "c3", "c4", "c5"],
-//            ["c1", "c2", "c3", "c4", "c5"]
-//        ]
-//      }
-//
+      table at: [100, top - 200], page: 1, width: 500, height: 600, {
+        headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"]
+
+        rows data: [
+            ["c1", "c2", "c3", "c4", "c5"],
+            ["c1", "c2", "c3", "c4", "c5"],
+            ["c1", "c2", "c3", "c4", "c5"]
+        ]
+      }
+
       write text: "centered-middle", justified: center, at: [center, middle], page: 1
       write text: "hello world 2", at: [25, 700], page: 2
       write text: "hello world 1", at: [26, 700 + fontSize], page: 2
