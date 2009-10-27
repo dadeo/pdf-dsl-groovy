@@ -40,6 +40,13 @@ abstract class DslWriter {
     columnText.go()
   }
 
+  def withDirectContent(page, closure) {
+    PdfContentByte cb = getDirectContent(page)
+    cb.saveState()
+    closure(cb, getPageSize(page))
+    cb.restoreState()
+  }
+
   abstract byte[] bytes()
 
   abstract protected PdfContentByte getDirectContent(int page)

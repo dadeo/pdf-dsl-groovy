@@ -1,6 +1,5 @@
 package pdfdsl
 
-import com.lowagie.text.Chunk
 import java.awt.Color
 
 
@@ -10,6 +9,14 @@ public class VisualTest extends GroovyTestCase {
     TestPdfFactory.createPdf("target/HelloWorldRead.pdf")
 
     def dsl = new PdfDsl().do {
+
+      def y = top - (fontSize * 3) - 2
+      line at: [center - 20, y], to: [center + 20, y], width: 2
+
+      line at: [left, top], to: [right, bottom], page: 3
+      line at: [left, bottom], to: [right, top], width: 5, page: 3
+      line at: [100, top - 200], to: [600, top - 200], width: 8, color: Color.BLUE
+
       table at: [100, top - 200], page: 1, width: 500, height: 600, {
         headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"]
 

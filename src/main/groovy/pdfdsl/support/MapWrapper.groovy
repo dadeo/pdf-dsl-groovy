@@ -1,6 +1,7 @@
 package pdfdsl.support
 
 import com.lowagie.text.pdf.BaseFont
+import java.awt.Color
 
 
 class MapWrapper {
@@ -10,15 +11,20 @@ class MapWrapper {
     mapIn = map
   }
 
+  def getColor() {
+    mapIn["color"] ?: Color.BLACK
+  }
+
   def getText() {
     mapIn["text"] ?: ""
   }
 
   def getAt() {
-    def at = mapIn["at"]
-    def x = (at[0] instanceof Number) ? new Location(at[0]) : at[0]
-    def y = (at[1] instanceof Number) ? new Location(at[1]) : at[1]
-    [x,y]
+    forceCoordinatesToLocation(mapIn["at"])
+  }
+
+  def getTo() {
+    forceCoordinatesToLocation(mapIn["to"])
   }
 
   def getHeight() {
@@ -47,6 +53,12 @@ class MapWrapper {
     } else if(justification == Locations.right) {
       widthOfText
     } else 0
+  }
+
+  private List forceCoordinatesToLocation(location) {
+    def x = (location[0] instanceof Number) ? new Location(location[0]) : location[0]
+    def y = (location[1] instanceof Number) ? new Location(location[1]) : location[1]
+    [x, y]
   }
 
 }
