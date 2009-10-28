@@ -22,18 +22,22 @@ class TableCommand  extends InternalCommand {
   def stampWith(DslWriter dslWriter) {
     def table = new PdfPTable(headers.data.size())
     dslWriter.column(lingo) { ColumnText columnText ->
+
+      def headersLingo = new MapWrapper(lingo + headers)
       headers.data.each { header ->
-        def cell = new PdfPCell(new Phrase(header))
+        def cell = new PdfPCell(new Phrase(header, headersLingo.font))
         cell.setGrayFill(0.95f)
         cell.setBorderWidthTop(0f)
         cell.setBorderWidthLeft(0f)
         cell.setBorderWidthRight(0f)
-        cell.setHorizontalAlignment(justification(headers.justified)) 
+        cell.setHorizontalAlignment(justification(headers.justified))
         table.addCell(cell)
       }
+
+      def rowsLingo = new MapWrapper(lingo + rows)
       rows.data.each { row ->
         row.each { column ->
-          table.addCell(column)
+          table.addCell(new Phrase(column, rowsLingo.font))
         }
       }
       columnText.addElement(table)

@@ -9,10 +9,11 @@ import pdfdsl.support.ResultLocation
 import pdfdsl.support.SectionCommand
 import pdfdsl.support.TableCommand
 import pdfdsl.support.LineCommand
+import com.lowagie.text.pdf.BaseFont
 
 class PdfDsl {
   private def commands = []
-  private def defaults = [page:1, fontSize:12]
+  private def defaults = [configuredFonts:[:], page:1, fontSize:12]
 
   def 'do'(closure) {
     closure.delegate = this
@@ -46,6 +47,17 @@ class PdfDsl {
       command.stampWith(dslWriter)
     }
     dslWriter.bytes()
+  }
+
+  def font(lingo) {
+    if(!lingo.id) throw new RuntimeException("Font id required")
+    def embedded = lingo?.embedded ? BaseFont.EMBEDDED : BaseFont.NOT_EMBEDDED
+    def encoding = lingo?.encoding ?: BaseFont.WINANSI
+    if(lingo.name || lingo.file) {
+      defaults.configuredFonts[lingo.id] = BaseFont.createFont(lingo.name ?: lingo.file, encoding, embedded)
+    } else {
+      throw new RuntimeException("Font name or file required")
+    }
   }
 
   def line(lingo) {

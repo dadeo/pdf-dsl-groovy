@@ -2,6 +2,7 @@ package pdfdsl.support
 
 import com.lowagie.text.pdf.BaseFont
 import java.awt.Color
+import com.lowagie.text.Font
 
 
 class MapWrapper {
@@ -43,7 +44,18 @@ class MapWrapper {
     mapIn["page"]
   }
 
-  def baseFont = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED)
+  def getFont() {
+    new Font(baseFont, fontSize)
+  }
+
+  def getBaseFont() {
+    if(mapIn.font) {
+     mapIn.configuredFonts[mapIn.font] 
+    } else {
+      BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED)
+    }
+//  def baseFont = BaseFont.createFont("/Library/Fonts/Herculanum.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED)
+  }
 
   float getJustificationOffset() {
     def justification = mapIn["justified"]
