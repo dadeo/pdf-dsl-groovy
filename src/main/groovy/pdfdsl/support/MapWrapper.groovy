@@ -12,6 +12,10 @@ class MapWrapper {
     mapIn = map
   }
 
+  def propertyMissing(String name) {
+    mapIn[name]  
+  }
+
   def getColor() {
     mapIn["color"] ?: Color.BLACK
   }

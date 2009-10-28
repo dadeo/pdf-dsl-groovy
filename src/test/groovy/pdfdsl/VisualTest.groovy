@@ -43,6 +43,8 @@ public class VisualTest extends GroovyTestCase {
       write text: "top-right-justified", justified: right, at: [center, top - fontSize * 4], page: 1
       write text: "centered-middle", justified: center, at: [center, middle], page: 1, font:'f1'
 
+      rectangle at: [center, middle], width: 144, height: 72, backgroundColor:Color.lightGray, borderColor:Color.RED
+
       section page: 1, at: [left + 50, 400], {
         line text: "pinky jones", font:'f1'
         line text: "suite abc"

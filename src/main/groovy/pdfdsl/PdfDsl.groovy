@@ -10,6 +10,7 @@ import pdfdsl.support.SectionCommand
 import pdfdsl.support.TableCommand
 import pdfdsl.support.LineCommand
 import com.lowagie.text.pdf.BaseFont
+import pdfdsl.support.RectangleCommand
 
 class PdfDsl {
   private def commands = []
@@ -81,6 +82,10 @@ class PdfDsl {
     closure.delegate = command
     closure()
     commands << command
+  }
+
+  def rectangle(lingo) {
+    commands << new RectangleCommand(lingo: defaults + lingo)  
   }
 
   def getRight() {
