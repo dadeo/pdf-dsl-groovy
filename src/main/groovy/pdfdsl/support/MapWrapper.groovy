@@ -58,12 +58,19 @@ class MapWrapper {
     } else {
       BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED)
     }
-//  def baseFont = BaseFont.createFont("/Library/Fonts/Herculanum.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED)
+  }
+
+  float getTextLength() {
+    baseFont.getWidthPoint(text, fontSize)
+  }
+
+  float getTextLength(t) {
+    baseFont.getWidthPoint(t, fontSize)
   }
 
   float getJustificationOffset() {
     def justification = mapIn["justified"]
-    def widthOfText = baseFont.getWidthPoint(text, fontSize)
+    def widthOfText = textLength
     if(justification == Locations.center) {
       widthOfText / 2
     } else if(justification == Locations.right) {

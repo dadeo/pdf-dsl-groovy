@@ -1,10 +1,9 @@
 package pdfdsl.support
 
 class LineCommand extends InternalCommand {
-  private def defaults = [width: 1]
 
-  void setLingo(lingo) {
-    super.lingo = defaults + lingo
+  LineCommand() {
+    defaults = [width:1]
   }
 
   def stampWith(DslWriter dslWriter) {

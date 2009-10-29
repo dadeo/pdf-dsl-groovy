@@ -45,21 +45,21 @@ public class VisualTest extends GroovyTestCase {
 
       rectangle at: [center, middle], width: 144, height: 72, backgroundColor:Color.lightGray, borderColor:Color.RED
 
-      section page: 1, at: [left + 50, 400], {
+      section page: 1, at: [left + 50, 400], borderColor:Color.BLUE, {
         line text: "pinky jones", font:'f1'
         line text: "suite abc"
         line text: "123 main st"
         line text: "des moines, ia 50023"
       }
 
-      section page: 1, at: [center, 300], justified: center, font:'f2', {
+      section page: 1, at: [center, 300], justified: center, font:'f2', fontSize:24, borderColor:Color.RED, padding: 10, {
         line text: "pinky jones"
         line text: "suite abc"
         line text: "123 main st"
         line text: "des moines, ia 50023"
       }
 
-      section page: 1, at: [right - 50, 200], justified: right, {
+      section page: 1, at: [right - 50, 200], justified: right, borderColor:Color.YELLOW, {
         line text: "pinky jones"
         line text: "suite abc"
         line text: "123 main st"

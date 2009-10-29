@@ -4,10 +4,9 @@ import java.awt.Color
 
 
 class RectangleCommand extends InternalCommand {
-  private def defaults = [borderWidth: 1, borderColor: Color.BLACK, backgroundColor: Color.WHITE]
 
-  void setLingo(lingo) {
-    super.lingo = defaults + lingo
+  RectangleCommand() {
+    defaults = [borderWidth: 1, borderColor: Color.BLACK, backgroundColor: Color.WHITE]
   }
 
   def stampWith(DslWriter dslWriter) {
