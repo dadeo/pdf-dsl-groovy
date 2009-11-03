@@ -7,18 +7,13 @@ import com.lowagie.text.pdf.BaseFont
 public class VisualTest extends GroovyTestCase {
 
   void testIt() {
-    TestPdfFactory.createPdf("target/HelloWorldRead.pdf")
+    TestPdfFactory.createPdf("target/original.pdf")
 
-    def dsl = new PdfDsl().do {
+    PdfDsl dsl = new PdfDsl()
+
+    def pdfTemplate1 = dsl.createTemplate {
       font id:'f1', file:'/Library/Fonts/Herculanum.ttf', embedded:true
       font id:'f2', name:BaseFont.TIMES_ROMAN
-
-      def y = top - (fontSize * 3) - 2
-      line at: [center - 20, y], to: [center + 20, y], width: 2
-
-      line at: [left, top], to: [right, bottom], page: 3
-      line at: [left, bottom], to: [right, top], width: 5, page: 3
-      line at: [100, top - 200], to: [600, top - 200], width: 8, color: Color.BLUE
 
       table at: [100, top - 200], page: 1, width: 500, height: 600, {
         headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font:'f1'
@@ -29,6 +24,15 @@ public class VisualTest extends GroovyTestCase {
             ["c1", "c2", "c3", "c4", "c5"]
         ]
       }
+    }
+
+    def pdfTemplate2 = dsl.createTemplate {
+      def y = top - (fontSize * 3) - 2
+      line at: [center - 20, y], to: [center + 20, y], width: 2
+
+      line at: [left, top], to: [right, bottom], page: 3
+      line at: [left, bottom], to: [right, top], width: 5, page: 3
+      line at: [100, top - 200], to: [600, top - 200], width: 8, color: Color.BLUE
 
       write text: "hello world 2", at: [25, 700], page: 2
       write text: "hello world 1", at: [26, 700 + fontSize], page: 2
@@ -67,8 +71,15 @@ public class VisualTest extends GroovyTestCase {
       }
     }
 
-    new File("target/HelloWorldCreate.pdf").withOutputStream { it << dsl.create() }
-    new File("target/HelloWorldUpdate.pdf").withOutputStream { it << dsl.stamp(new File("target/HelloWorldRead.pdf").readBytes()) }
+    new File("target/create.pdf").withOutputStream {
+      it << pdfTemplate1.stamp(pdfTemplate2.create())
+    }
+
+    new File("target/createTableOnly.pdf").withOutputStream { it << pdfTemplate1.create() }
+
+    new File("target/update.pdf").withOutputStream {
+      it << pdfTemplate1.stamp(pdfTemplate2.stamp(new File("target/original.pdf").readBytes()))
+    }
   }
 
 }
