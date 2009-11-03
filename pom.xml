@@ -9,6 +9,10 @@
     <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+    <scm>
+        <developerConnection>scm:git:git://github.com/dadeo/pdf-dsl-groovy.git</developerConnection>
+    </scm>
+
     <distributionManagement>
         <repository>
             <id>google-code</id>
