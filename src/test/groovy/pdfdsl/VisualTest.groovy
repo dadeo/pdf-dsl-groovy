@@ -1,3 +1,15 @@
+/**
+ * Copyright to the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at:
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
 package pdfdsl
 
 import java.awt.Color
@@ -12,13 +24,13 @@ public class VisualTest extends GroovyTestCase {
     PdfDsl dsl = new PdfDsl()
 
     def pdfTemplate1 = dsl.createTemplate {
-      font id:'f1', file:'/Library/Fonts/Herculanum.ttf', embedded:true
-      font id:'f2', name:BaseFont.TIMES_ROMAN
+      font id: 'f1', file: '/Library/Fonts/Herculanum.ttf', embedded: true
+      font id: 'f2', name: BaseFont.TIMES_ROMAN
 
       table at: [100, top - 200], page: 1, width: 500, height: 600, {
-        headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font:'f1'
+        headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'f1'
 
-        rows font:'f2', data: [
+        rows font: 'f2', data: [
             ["c1", "c2", "c3", "c4", "c5"],
             ["c1", "c2", "c3", "c4", "c5"],
             ["c1", "c2", "c3", "c4", "c5"]
@@ -39,31 +51,31 @@ public class VisualTest extends GroovyTestCase {
       write text: "hello world 3", at: [25, 700 - fontSize], page: 2
       write text: "bottom-right", justified: right, at: [right, bottom], page: 1
       write text: "bottom-left", justified: left, at: [left, bottom], page: 1
-      write text: "top-right", justified: right, at: [right, top - fontSize], page: 1, font:'f2'
-      write text: "top-left", at: [left, top - fontSize], page: 1, font:'f2'
+      write text: "top-right", justified: right, at: [right, top - fontSize], page: 1, font: 'f2'
+      write text: "top-left", at: [left, top - fontSize], page: 1, font: 'f2'
       write text: "top-center", at: [(right - left) / 2, top - fontSize], page: 1
       write text: "almost-top-center", at: [center, top - fontSize - fontSize], page: 1
       write text: "top-center-justified", justified: center, at: [center, top - fontSize * 3], page: 1
       write text: "top-right-justified", justified: right, at: [center, top - fontSize * 4], page: 1
-      write text: "centered-middle", justified: center, at: [center, middle], page: 1, font:'f1'
+      write text: "centered-middle", justified: center, at: [center, middle], page: 1, font: 'f1'
 
-      rectangle at: [center, middle], width: 144, height: 72, backgroundColor:Color.lightGray, borderColor:Color.RED
+      rectangle at: [center, middle], width: 144, height: 72, backgroundColor: Color.lightGray, borderColor: Color.RED
 
-      section page: 1, at: [left + 50, 400], borderColor:Color.BLUE, {
-        line text: "pinky jones", font:'f1'
+      section page: 1, at: [left + 50, 400], borderColor: Color.BLUE, {
+        line text: "pinky jones", font: 'f1'
         line text: "suite abc"
         line text: "123 main st"
         line text: "des moines, ia 50023"
       }
 
-      section page: 1, at: [center, 300], justified: center, font:'f2', fontSize:24, borderColor:Color.RED, padding: 10, {
+      section page: 1, at: [center, 300], justified: center, font: 'f2', fontSize: 24, borderColor: Color.RED, padding: 10, {
         line text: "pinky jones"
         line text: "suite abc"
         line text: "123 main st"
         line text: "des moines, ia 50023"
       }
 
-      section page: 1, at: [right - 50, 200], justified: right, borderColor:Color.YELLOW, {
+      section page: 1, at: [right - 50, 200], justified: right, borderColor: Color.YELLOW, {
         line text: "pinky jones"
         line text: "suite abc"
         line text: "123 main st"
