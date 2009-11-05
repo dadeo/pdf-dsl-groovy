@@ -44,22 +44,6 @@ class MapWrapper {
     forceCoordinatesToLocation(mapIn["to"])
   }
 
-  def getHeight() {
-    mapIn["height"]
-  }
-
-  def getWidth() {
-    mapIn["width"]
-  }
-
-  def getFontSize() {
-    mapIn["fontSize"]
-  }
-
-  def getPage() {
-    mapIn["page"]
-  }
-
   def getFont() {
     new Font(baseFont, fontSize)
   }
@@ -88,6 +72,14 @@ class MapWrapper {
     } else if (justification == Locations.right) {
       widthOfText
     } else 0
+  }
+
+  def plus(Map map) {
+    new MapWrapper(mapIn + map)  
+  }
+
+  def plus(MapWrapper wrapper) {
+    plus wrapper.mapIn
   }
 
   private List forceCoordinatesToLocation(location) {

@@ -13,15 +13,23 @@
 package pdfdsl.support
 
 
-class InternalCommand {
-  def lingo
-  def defaults = [:]
+class LastPosition {
+  private static startYs = new ThreadLocal()
+  private static lastYs = new ThreadLocal()
 
-  void setLingo(lingo) {
-    this.lingo = new MapWrapper(defaults + lingo)
+  static def getStartY() {
+    startYs.get() ?: 0
   }
 
-  def stampWith(DslWriter dslWriter) {
-    dslWriter.stamp(lingo)
+  static def setStartY(value) {
+    startYs.set(value)
+  }
+
+  static def getLastY() {
+    lastYs.get() ?: 0
+  }
+
+  static def setLastY(value) {
+    lastYs.set(value)
   }
 }

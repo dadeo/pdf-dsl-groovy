@@ -35,7 +35,7 @@ class TableCommand extends InternalCommand {
     def table = new PdfPTable(headers.data.size())
     dslWriter.column(lingo) {ColumnText columnText ->
 
-      def headersLingo = new MapWrapper(lingo + headers)
+      def headersLingo = lingo + headers
       headers.data.each {header ->
         def cell = new PdfPCell(new Phrase(header, headersLingo.font))
         cell.setGrayFill(0.95f)
@@ -46,7 +46,7 @@ class TableCommand extends InternalCommand {
         table.addCell(cell)
       }
 
-      def rowsLingo = new MapWrapper(lingo + rows)
+      def rowsLingo = lingo + rows
       rows.data.each {row ->
         row.each {column ->
           table.addCell(new Phrase(column, rowsLingo.font))

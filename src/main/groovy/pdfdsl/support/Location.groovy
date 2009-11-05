@@ -65,4 +65,8 @@ class Location {
   def multiply(int location) {
     multiply(new Location({a, b -> location}))
   }
+
+  def negative() {
+    new ResultLocation("-", new Location(0), this)
+  }
 }

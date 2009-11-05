@@ -13,15 +13,28 @@
 package pdfdsl.support
 
 
-class InternalCommand {
-  def lingo
-  def defaults = [:]
+class MapWrapperTest extends GroovyTestCase {
+  
+  void test_plus_map() {
+    Map originalMap = [a: 1, b: 2]
 
-  void setLingo(lingo) {
-    this.lingo = new MapWrapper(defaults + lingo)
+    def mw1 = new MapWrapper(originalMap)
+    def mw2 = mw1 + [b:3, c:4]
+    assertEquals originalMap, mw1.mapIn
+    assertEquals( [a:1, b:3, c:4], mw2.mapIn )
   }
 
-  def stampWith(DslWriter dslWriter) {
-    dslWriter.stamp(lingo)
+  void test_plus_mapWrapper() {
+    Map originalMap1 = [a: 1, b: 2]
+    Map originalMap2 = [b: 3, c: 4]
+
+    def mw1 = new MapWrapper(originalMap1)
+    def mw2 = new MapWrapper(originalMap2)
+    def mw3 = mw1 + mw2
+
+    assertEquals originalMap1, mw1.mapIn
+    assertEquals originalMap2, mw2.mapIn
+    assertEquals( [a:1, b:3, c:4], mw3.mapIn )
   }
+
 }

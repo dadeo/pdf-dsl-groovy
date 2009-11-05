@@ -32,6 +32,10 @@ class NewPdfWriter extends DslWriter {
     writer.getDirectContent()
   }
 
+  protected PdfContentByte getDirectContentUnder(int page) {
+    writer.getDirectContentUnder()
+  }
+
   protected Rectangle getPageSize(int page) {
     document.getPageSize()
   }

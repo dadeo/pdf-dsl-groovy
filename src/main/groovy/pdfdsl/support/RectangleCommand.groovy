@@ -18,30 +18,32 @@ import java.awt.Color
 class RectangleCommand extends InternalCommand {
 
   RectangleCommand() {
-    defaults = [borderWidth: 1, borderColor: Color.BLACK, backgroundColor: Color.WHITE]
+    defaults = [borderWidth: 1, borderColor: Color.BLACK]
   }
 
   def stampWith(DslWriter dslWriter) {
     dslWriter.withDirectContent(lingo.page) {cb, pageSize ->
-      def attrs = new MapWrapper(lingo)
+      def attrs = lingo
 //      cb.lineWidth = 4
 
       def plotRectangle = {
+        def x = (float) attrs.at[0].value(pageSize, attrs)
+        def y = (float) attrs.at[1].value(pageSize, attrs)
         cb.rectangle(
-            (float) attrs.at[0].value(pageSize, attrs),
-            (float) attrs.at[1].value(pageSize, attrs),
+            (float) x,
+            (float) y,
             (float) attrs.width,
             (float) -attrs.height
         )
       }
 
+      if(attrs.backgroundColor) {
+        plotRectangle()
+        cb.colorFill = attrs.backgroundColor
+        cb.fill()
+      }
+
       plotRectangle()
-
-      cb.colorFill = attrs.backgroundColor
-      cb.fill()
-
-      plotRectangle()
-
       cb.colorStroke = attrs.borderColor
       cb.stroke()
 

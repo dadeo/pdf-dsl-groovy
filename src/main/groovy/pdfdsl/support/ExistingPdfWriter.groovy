@@ -32,6 +32,10 @@ class ExistingPdfWriter extends DslWriter {
     stamper.getOverContent(page)
   }
 
+  protected PdfContentByte getDirectContentUnder(int page) {
+    stamper.getUnderContent(page)
+  }
+
   protected Rectangle getPageSize(int page) {
     reader.getPageSizeWithRotation(page)
   }

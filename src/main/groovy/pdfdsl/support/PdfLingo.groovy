@@ -91,6 +91,14 @@ class PdfLingo {
     Locations.fontSize
   }
 
+  def getStartY() {
+    Locations.startY
+  }
+
+  def getLastY() {
+    Locations.lastY
+  }
+
   static plus(Integer target, Location location) {
     new ResultLocation("+", new Location(target), location)
   }

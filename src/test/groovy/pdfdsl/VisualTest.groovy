@@ -25,7 +25,10 @@ public class VisualTest extends GroovyTestCase {
 
     def pdfTemplate1 = dsl.createTemplate {
       font id: 'f1', file: '/Library/Fonts/Herculanum.ttf', embedded: true
-      font id: 'f2', name: BaseFont.TIMES_ROMAN
+      font id: 'f2', name: BaseFont.TIMES_BOLD
+      font id: 'f3', name: BaseFont.TIMES_ROMAN
+
+      write text: "100, top-200", at: [100, top-200], page: 1
 
       table at: [100, top - 200], page: 1, width: 500, height: 600, {
         headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'f1'
@@ -51,7 +54,7 @@ public class VisualTest extends GroovyTestCase {
       write text: "hello world 3", at: [25, 700 - fontSize], page: 2
       write text: "bottom-right", justified: right, at: [right, bottom], page: 1
       write text: "bottom-left", justified: left, at: [left, bottom], page: 1
-      write text: "top-right", justified: right, at: [right, top - fontSize], page: 1, font: 'f2'
+      write text: "top-right", justified: right, at: [right, top - fontSize], page: 1, font: 'f3'
       write text: "top-left", at: [left, top - fontSize], page: 1, font: 'f2'
       write text: "top-center", at: [(right - left) / 2, top - fontSize], page: 1
       write text: "almost-top-center", at: [center, top - fontSize - fontSize], page: 1
@@ -68,7 +71,7 @@ public class VisualTest extends GroovyTestCase {
         line text: "des moines, ia 50023"
       }
 
-      section page: 1, at: [center, 300], justified: center, font: 'f2', fontSize: 24, borderColor: Color.RED, padding: 10, {
+      section page: 1, at: [center, 300], justified: center, font: 'f3', fontSize: 24, borderColor: Color.RED, padding: 10, {
         line text: "pinky jones"
         line text: "suite abc"
         line text: "123 main st"
@@ -81,6 +84,19 @@ public class VisualTest extends GroovyTestCase {
         line text: "123 main st"
         line text: "des moines, ia 50023"
       }
+
+      section page: 1, at: [left + 50, 250], width: 250, height: 150, justified: left, font: 'f3', fontSize:10, {
+        text value: "This is my Main Heading", font:'f2', fontSize:12, newline:'after'
+        text value: "This is important.", font:'f2'
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+      }
+
+      section page: 1, at: [left + 50, lastY - fontSize], width: 250, height: 150, justified: left, font: 'f3', fontSize:10, borderColor: Color.YELLOW,{
+        text value: "This is my Main Heading", font:'f2', fontSize:12, newline:'after'
+        text value: "This is important.", font:'f2'
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+      }
+
     }
 
     new File("target/create.pdf").withOutputStream {

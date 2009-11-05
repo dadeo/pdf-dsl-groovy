@@ -17,7 +17,7 @@ import pdfdsl.support.PdfTemplate
 
 class PdfDsl {
 
-  private def defaultSettings = [configuredFonts: [:], page: 1, fontSize: 12]
+  private def defaultSettings = [configuredFonts: [:], page: 1, fontSize: 12, spaces:'  ']
 
   def createTemplate(closure) {
     def commands = []
