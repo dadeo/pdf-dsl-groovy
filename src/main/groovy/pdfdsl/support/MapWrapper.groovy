@@ -65,8 +65,11 @@ class MapWrapper {
   }
 
   float getJustificationOffset() {
+    getJustificationOffset textLength
+  }
+
+  float getJustificationOffset(widthOfText) {
     def justification = mapIn["justified"]
-    def widthOfText = textLength
     if (justification == Locations.center) {
       widthOfText / 2
     } else if (justification == Locations.right) {

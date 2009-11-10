@@ -37,12 +37,12 @@ class SectionCommand extends InternalCommand {
 
   def stampWith(DslWriter dslWriter) {
     LastPosition.startY = lingo.at[1].value(dslWriter.getPageSize(lingo.page), lingo)
-    
+
     if (text) {
       processText(dslWriter)
     }
 
-    if(lines) {
+    if (lines) {
       processLines(dslWriter)
     }
   }
@@ -56,61 +56,83 @@ class SectionCommand extends InternalCommand {
       maxLength = Math.max(maxLength, lingo.getTextLength(it.text))
     }
 
-    drawBorder(maxLength, dslWriter, coordinates.at[1].value(lingo.pageSize, lingo) )
+    drawBorder(maxLength, dslWriter, coordinates.at[1].value(lingo.pageSize, lingo))
   }
 
-  private def drawBorder = { maxLength, DslWriter dslWriter, lastY ->
+  private def drawBorder = {maxLength, DslWriter dslWriter, lastY ->
     if (lingo.borderColor) {
-      dslWriter.withDirectContent(lingo.page) {cb, pageSize ->
-
-        def offset = 0
-        if (lingo["justified"] == Locations.center) {
-          offset = maxLength / 2
-        } else if (lingo["justified"] == Locations.right) {
-          offset = maxLength
-        }
-
-        def plotRectangle = {
-          def y = lingo.at[1].value(pageSize, lingo) + lingo.fontSize
-
-          cb.rectangle(
-              (float) (lingo.at[0].value(pageSize, lingo) - offset - lingo.padding),
-              (float) (y + lingo.padding),
-              (float) (maxLength + (lingo.padding * 2)),
-              (float) (lastY - y + lingo.fontSize - (lingo.padding * 2))
-          )
-        }
-
-        plotRectangle()
-
-        cb.colorStroke = lingo.borderColor
-        cb.stroke()
+      def dimensionsExtractor = {pageSize ->
+        def offset = lingo.getJustificationOffset(maxLength)
+        float x = (float) (lingo.at[0].value(pageSize, lingo) - offset - lingo.padding)
+        float y = (float) (lingo.at[1].value(pageSize, lingo) + lingo.padding + lingo.fontSize)
+        float width = (float) (maxLength + (lingo.padding * 2))
+        float height = (float) (lastY - y + lingo.fontSize - (lingo.padding * 2))
+        [x, y, width, height]
       }
+
+      drawRectangle dslWriter, dimensionsExtractor
+    }
+  }
+
+  private def drawBorder2 = {maxLength, DslWriter dslWriter, lastY ->
+    if (lingo.borderColor) {
+      def dimensionsExtractor = {pageSize ->
+        final EXTRA_PADDING = lingo.fontSize * 0
+        def offset = lingo.getJustificationOffset(maxLength)
+        float x = (float) (lingo.at[0].value(pageSize, lingo) - offset - lingo.padding - EXTRA_PADDING)
+        float y = (float) (lingo.at[1].value(pageSize, lingo) + lingo.padding)
+        float width = (float) (maxLength + (lingo.padding * 2) + (EXTRA_PADDING * 2))
+        float height = (float) (lastY - y - (lingo.padding * 2) - EXTRA_PADDING)
+        [x, y, width, height]
+      }
+
+      drawRectangle dslWriter, dimensionsExtractor
+    }
+  }
+
+  private def drawRectangle = {dslWriter, dimensionsExtractor ->
+    dslWriter.withDirectContent(lingo.page) {cb, pageSize ->
+
+      def plotRectangle = {
+        cb.rectangle(* dimensionsExtractor(pageSize))
+      }
+
+      plotRectangle()
+
+      cb.colorStroke = lingo.borderColor
+      cb.stroke()
     }
   }
 
   private def processText(DslWriter dslWriter) {
     dslWriter.column(lingo) {ColumnText columnText ->
-      def p = new Paragraph()
-      def spaces = null
+      def p = null
+      def writeParagraph = {
+        if (p) {
+          columnText.addElement(p)
+          p = null
+        }
+      }
       text.each {
         def mapLingo = lingo + it
         if (it.newline == 'before') {
-          p.add(new Phrase("\n"))
-          spaces = null
+          writeParagraph()
         }
-        if (spaces) {
-          p.add new Phrase(spaces, mapLingo.font)
-        }
-        p.add new Phrase(it.value, mapLingo.font)
-        if (it.newline == 'after') {
-          p.add(new Phrase("\n"))
-          spaces = null
+        if (p) {
+          p.add new Phrase(lingo.spaces, mapLingo.font)
+          p.add new Phrase(it.value, mapLingo.font)
         } else {
-          spaces = lingo.spaces
+          p = new Paragraph(it.value, mapLingo.font)
+          p.leading = (float) (mapLingo.fontSize * 1.0)
+          p.extraParagraphSpace = (float) (mapLingo.fontSize * 0.25)
+        }
+        if (it.newline == 'after') {
+          writeParagraph()
         }
       }
-      columnText.addElement(p)
+      writeParagraph()
+
+      drawBorder2.curry lingo.width, dslWriter
     }
   }
 

@@ -43,11 +43,15 @@ abstract class DslWriter {
     def adjustedY = (float) values.at[1].value(pageSize, values)
     columnText.setSimpleColumn(adjustedX, (float) (adjustedY - values.height), (float) (adjustedX + values.width), adjustedY)
 
-    closure(columnText)
+    def callback = closure(columnText)
 
     columnText.go()
 
-    LastPosition.lastY = columnText.getYLine()
+    def lastY = columnText.getYLine()
+
+    if(callback instanceof Closure) callback(lastY)
+
+    LastPosition.lastY = lastY
   }
 
   def withDirectContent(page, closure) {
