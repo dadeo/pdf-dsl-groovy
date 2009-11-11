@@ -61,6 +61,13 @@ abstract class DslWriter {
     cb.restoreState()
   }
 
+  def withDirectContentUnder(page, closure) {
+    PdfContentByte cb = getDirectContentUnder(page)
+    cb.saveState()
+    closure(cb, getPageSize(page))
+    cb.restoreState()
+  }
+
   abstract byte[] bytes()
 
   abstract protected PdfContentByte getDirectContent(int page)

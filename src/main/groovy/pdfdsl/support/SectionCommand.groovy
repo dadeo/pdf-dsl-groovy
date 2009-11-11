@@ -91,10 +91,16 @@ class SectionCommand extends InternalCommand {
   }
 
   private def drawRectangle = {dslWriter, dimensionsExtractor ->
-    dslWriter.withDirectContent(lingo.page) {cb, pageSize ->
+    dslWriter.withDirectContentUnder(lingo.page) {cb, pageSize ->
 
       def plotRectangle = {
         cb.rectangle(* dimensionsExtractor(pageSize))
+      }
+
+      if(lingo.backgroundColor) {
+        plotRectangle()
+        cb.colorFill = lingo.backgroundColor
+        cb.fill()
       }
 
       plotRectangle()
@@ -123,8 +129,8 @@ class SectionCommand extends InternalCommand {
           p.add new Phrase(it.value, mapLingo.font)
         } else {
           p = new Paragraph(it.value, mapLingo.font)
-          p.leading = (float) (mapLingo.fontSize * 1.0)
-          p.extraParagraphSpace = (float) (mapLingo.fontSize * 0.25)
+          p.leading = (float) (mapLingo.fontSize * mapLingo.leading)
+          p.extraParagraphSpace = (float) (mapLingo.fontSize * mapLingo.extraParagraphSpace)
         }
         if (it.newline == 'after') {
           writeParagraph()

@@ -45,7 +45,11 @@ class MapWrapper {
   }
 
   def getFont() {
-    new Font(baseFont, fontSize)
+    def font = new Font(baseFont, fontSize)
+    if(color) {
+      font.color = color
+    }
+    font
   }
 
   def getBaseFont() {

@@ -91,8 +91,11 @@ public class VisualTest extends GroovyTestCase {
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
       }
 
-      section page: 1, at: [left + 50, lastY - fontSize], width: 250, height: 150, justified: left, font: 'f3', fontSize:10, borderColor: Color.YELLOW, padding:4, {
+      section page: 1, at: [left + 50, lastY - fontSize], width: 250, height: 150, justified: left, font: 'f3', fontSize:10, color: Color.WHITE, borderColor: Color.YELLOW, backgroundColor: Color.BLACK, padding:4, {
         text value: "This is my Main Heading", font:'f2', fontSize:20, newline:'after'
+      }
+
+      section page: 1, at: [left + 50, lastY-12], width: 250, height: 150, justified: left, font: 'f3', fontSize:10, borderColor: Color.YELLOW, padding:4, {
         text value: "This is important.", font:'f2'
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
       }
