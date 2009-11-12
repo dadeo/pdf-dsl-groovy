@@ -89,6 +89,10 @@ class MapWrapper {
     plus wrapper.mapIn
   }
 
+  def getY(DslWriter dslWriter) {
+    at[1].value(dslWriter.getPageSize(page), this)
+  }
+
   private List forceCoordinatesToLocation(location) {
     def x = (location[0] instanceof Number) ? new Location(location[0]) : location[0]
     def y = (location[1] instanceof Number) ? new Location(location[1]) : location[1]

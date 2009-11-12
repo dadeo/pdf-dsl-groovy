@@ -14,4 +14,10 @@ package pdfdsl.support
 
 
 class WriteCommand extends InternalCommand {
+
+  def stampWith(DslWriter dslWriter) {
+    super.stampWith(dslWriter)
+    LastPosition.lastY = lingo.getY(dslWriter)
+  }
+
 }

@@ -62,6 +62,8 @@ class TableCommand extends InternalCommand {
 
       table.totalWidth = (float) lingo.width 
       table.writeSelectedRows 0, -1, adjustedX, adjustedY, contentBytes
+      
+      LastPosition.lastY = (float) (adjustedY - table.totalHeight)      
     }
   }
 
