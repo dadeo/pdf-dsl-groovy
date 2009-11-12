@@ -26,7 +26,7 @@ class ResultLocation extends Location {
     this.location2 = location2
   }
 
-  def value(Rectangle rect, MapWrapper mapWrapper) {
+  float value(Rectangle rect, MapWrapper mapWrapper) {
     def value1 = location1.value(rect, mapWrapper)
     def value2 = location2.value(rect, mapWrapper)
     switch (operation) {

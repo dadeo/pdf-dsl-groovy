@@ -30,8 +30,8 @@ class Location {
     this.valueClosure = valueClosure
   }
 
-  def value(Rectangle rect, MapWrapper mapWrapper) {
-    valueClosure rect, mapWrapper
+  float value(Rectangle rect, MapWrapper mapWrapper) {
+    valueClosure(rect, mapWrapper)
   }
 
   def plus(Location location) {
@@ -50,19 +50,19 @@ class Location {
     new ResultLocation("*", this, location)
   }
 
-  def plus(int location) {
+  def plus(Number location) {
     plus(new Location({a, b -> location}))
   }
 
-  def minus(int location) {
+  def minus(Number location) {
     minus(new Location({a, b -> location}))
   }
 
-  def div(int location) {
+  def div(Number location) {
     div(new Location({a, b -> location}))
   }
 
-  def multiply(int location) {
+  def multiply(Number location) {
     multiply(new Location({a, b -> location}))
   }
 

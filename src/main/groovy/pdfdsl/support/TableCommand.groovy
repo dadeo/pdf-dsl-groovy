@@ -17,6 +17,7 @@ import com.lowagie.text.pdf.ColumnText
 import com.lowagie.text.pdf.PdfPCell
 import com.lowagie.text.Phrase
 import com.lowagie.text.Element
+import java.awt.Color
 
 
 class TableCommand extends InternalCommand {
@@ -32,16 +33,17 @@ class TableCommand extends InternalCommand {
   }
 
   def stampWith(DslWriter dslWriter) {
-    def table = new PdfPTable(headers.data.size())
-    dslWriter.column(lingo) {ColumnText columnText ->
+    dslWriter.withDirectContent(lingo.page) { contentBytes, pageSize ->
+      def table = new PdfPTable(headers.data.size())
 
       def headersLingo = lingo + headers
       headers.data.each {header ->
         def cell = new PdfPCell(new Phrase(header, headersLingo.font))
-        cell.setGrayFill(0.95f)
-        cell.setBorderWidthTop(0f)
-        cell.setBorderWidthLeft(0f)
-        cell.setBorderWidthRight(0f)
+        cell.setBackgroundColor(new Color(240, 240, 240))
+        cell.setBorderWidthTop(0.05f)
+        cell.setBorderWidthLeft(0.05f)
+        cell.setBorderWidthRight(0.05f)
+        cell.setBorderColor(new Color(216, 216, 216))
         cell.setHorizontalAlignment(justification(headers.justified))
         table.addCell(cell)
       }
@@ -49,10 +51,17 @@ class TableCommand extends InternalCommand {
       def rowsLingo = lingo + rows
       rows.data.each {row ->
         row.each {column ->
-          table.addCell(new Phrase(column, rowsLingo.font))
+          PdfPCell cell = new PdfPCell(new Phrase(column, rowsLingo.font))
+          cell.setBorderColor(new Color(216, 216, 216))
+          table.addCell(cell)
         }
       }
-      columnText.addElement(table)
+
+      def adjustedX = lingo.at[0].value(pageSize, lingo)
+      def adjustedY = lingo.at[1].value(pageSize, lingo)
+
+      table.totalWidth = (float) lingo.width 
+      table.writeSelectedRows 0, -1, adjustedX, adjustedY, contentBytes
     }
   }
 

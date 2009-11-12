@@ -16,11 +16,12 @@ import com.lowagie.text.Document
 import com.lowagie.text.Paragraph
 import com.lowagie.text.Chapter
 import com.lowagie.text.pdf.PdfWriter
+import com.lowagie.text.PageSize
 
 
 class TestPdfFactory {
   static def createPdf(String filename) {
-    def document = new Document();
+    def document = new Document(PageSize.LETTER);
     PdfWriter.getInstance(document, new FileOutputStream(filename));
     document.open();
     def hello = new Paragraph("(English:) hello, " +

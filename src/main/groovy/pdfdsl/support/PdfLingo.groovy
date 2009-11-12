@@ -63,6 +63,14 @@ class PdfLingo {
     commands << new RectangleCommand(lingo: defaultSettings + lingo)
   }
 
+  def canvas(lingo, closure) {
+    commands << new CanvasCommand(lingo: defaultSettings + lingo, closure: closure)
+  }
+
+  def column(lingo, closure) {
+    commands << new ColumnCommand(lingo: defaultSettings + lingo, closure: closure)
+  }
+
   def getRight() {
     Locations.right
   }

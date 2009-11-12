@@ -14,6 +14,8 @@ package pdfdsl
 
 import java.awt.Color
 import com.lowagie.text.pdf.BaseFont
+import com.lowagie.text.pdf.PdfPTable
+import com.lowagie.text.pdf.PdfPCell
 
 
 public class VisualTest extends GroovyTestCase {
@@ -30,7 +32,7 @@ public class VisualTest extends GroovyTestCase {
 
       write text: "100, top-200", at: [100, top-200], page: 1
 
-      table at: [100, top - 200], page: 1, width: 500, height: 600, {
+      table at: [100, top - 200], page: 1, width: 3*72, height: 600, {
         headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'f1'
 
         rows font: 'f2', data: [
@@ -100,6 +102,30 @@ public class VisualTest extends GroovyTestCase {
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
       }
 
+      canvas page:2, {
+        PdfPTable table = new PdfPTable(4)
+        PdfPTable nested1 = new PdfPTable(2)
+        nested1.addCell("1.1")
+        nested1.addCell("1.2")
+        PdfPTable nested2 = new PdfPTable(1)
+        nested2.addCell("20.1")
+        nested2.addCell("20.2")
+        (0..<24).each { i ->
+          switch(i) {
+            case 1:
+              table.addCell new PdfPCell(nested1)
+              break
+            case 20:
+              table.addCell new PdfPCell(nested2)
+              break
+            default:
+              table.addCell "cell $i"
+          }
+        }
+        table.totalWidth = 400
+        table.writeSelectedRows 0, -1, 200, (float)(9.5*72), canvas
+      }
+      
     }
 
     new File("target/create.pdf").withOutputStream {
