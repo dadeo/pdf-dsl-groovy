@@ -71,6 +71,10 @@ class PdfLingo {
     commands << new ColumnCommand(lingo: defaultSettings + lingo, closure: closure)
   }
 
+  def columns(lingo, closure) {
+    commands << new ColumnsCommand(lingo: defaultSettings + lingo, closure: closure)
+  }
+
   def getRight() {
     Locations.right
   }

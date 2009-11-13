@@ -30,9 +30,9 @@ public class VisualTest extends GroovyTestCase {
       font id: 'f2', name: BaseFont.TIMES_BOLD
       font id: 'f3', name: BaseFont.TIMES_ROMAN
 
-      write text: "100, top-100", at: [100, top-100], page: 1
+      write text: "100, top-100", at: [100, top - 100], page: 1
 
-      table at: [100, top - 100], page: 1, width: 3*72, height: 600, {
+      table at: [100, top - 100], page: 1, width: 4 * 72, height: 600, {
         headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'f1'
 
         rows font: 'f2', data: [
@@ -42,10 +42,10 @@ public class VisualTest extends GroovyTestCase {
         ]
       }
 
-      write text: "I follow the table", at: [100, lastY - fontSize], page:1
-      write text: "and I follow it", at: [100, lastY - fontSize], page:1
+      write text: "I follow the table", at: [100, lastY - fontSize], page: 1
+      write text: "and I follow it", at: [100, lastY - fontSize], page: 1
 
-      table at: [100, lastY], page: 1, width: 3*72, height: 600, {
+      table at: [100, lastY], page: 1, width: 4 * 72, height: 600, {
         headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'f1'
 
         rows font: 'f2', data: [
@@ -63,7 +63,7 @@ public class VisualTest extends GroovyTestCase {
 
       line at: [left, top], to: [right, bottom], page: 3
       line at: [left, bottom], to: [right, top], width: 5, page: 3
-      line at: [50, top - 100], to: [3*72+150, top - 100], width: 8, color: Color.BLUE
+      line at: [50, top - 100], to: [3 * 72 + 150, top - 100], width: 8, color: Color.BLUE
 
       write text: "hello world 2", at: [25, 700], page: 2
       write text: "hello world 1", at: [26, 700 + fontSize], page: 2
@@ -101,23 +101,23 @@ public class VisualTest extends GroovyTestCase {
         line text: "des moines, ia 50023"
       }
 
-      section page: 1, at: [left + 50, 250], width: 250, height: 150, justified: left, font: 'f3', fontSize:10, {
-        text value: "This is my Main Heading", font:'f2', fontSize:12, newline:'after'
-        text value: "This is important.", font:'f2'
+      section page: 1, at: [left + 50, 250], width: 250, height: 150, justified: left, font: 'f3', fontSize: 10, {
+        text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
+        text value: "This is important.", font: 'f2'
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
       }
 
-      section page: 1, at: [left + 50, lastY - fontSize], width: 250, height: 150, justified: left, font: 'f3', fontSize:10, color: Color.WHITE, borderColor: Color.YELLOW, backgroundColor: Color.BLACK, padding:4, {
-        text value: "This is my Main Heading", font:'f2', fontSize:20, newline:'after'
+      section page: 1, at: [left + 50, lastY - fontSize], width: 250, height: 150, justified: left, font: 'f3', fontSize: 10, color: Color.WHITE, borderColor: Color.YELLOW, backgroundColor: Color.BLACK, padding: 4, {
+        text value: "This is my Main Heading", font: 'f2', fontSize: 20, newline: 'after'
       }
 
-      section page: 1, at: [left + 50, lastY-12], width: 250, height: 150, justified: left, font: 'f3', fontSize:10, borderColor: Color.YELLOW, padding:4, {
-        text value: "This is important.", font:'f2'
+      section page: 1, at: [left + 50, lastY - 12], width: 250, height: 150, justified: left, font: 'f3', fontSize: 10, borderColor: Color.YELLOW, padding: 4, {
+        text value: "This is important.", font: 'f2'
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
       }
 
       def tableHeight = 0
-      canvas page:2, {
+      canvas page: 2, {
         PdfPTable table = new PdfPTable(4)
         PdfPTable nested1 = new PdfPTable(2)
         nested1.addCell("1.1")
@@ -125,8 +125,8 @@ public class VisualTest extends GroovyTestCase {
         PdfPTable nested2 = new PdfPTable(1)
         nested2.addCell("20.1")
         nested2.addCell("20.2")
-        (0..<24).each { i ->
-          switch(i) {
+        (0..<24).each {i ->
+          switch (i) {
             case 1:
               table.addCell new PdfPCell(nested1)
               break
@@ -138,11 +138,11 @@ public class VisualTest extends GroovyTestCase {
           }
         }
         table.totalWidth = 400
-        table.writeSelectedRows 0, -1, 200, (float)(9.5*72), canvas
+        table.writeSelectedRows 0, -1, 200, (float) (9.5 * 72), canvas
         tableHeight = table.getTotalHeight()
       }
 
-      canvas page:2, {
+      canvas page: 2, {
         PdfPTable table = new PdfPTable(4)
         PdfPTable nested1 = new PdfPTable(2)
         nested1.addCell("1.1")
@@ -150,8 +150,8 @@ public class VisualTest extends GroovyTestCase {
         PdfPTable nested2 = new PdfPTable(1)
         nested2.addCell("20.1")
         nested2.addCell("20.2")
-        (0..<24).each { i ->
-          switch(i) {
+        (0..<24).each {i ->
+          switch (i) {
             case 1:
               table.addCell new PdfPCell(nested1)
               break
@@ -163,8 +163,71 @@ public class VisualTest extends GroovyTestCase {
           }
         }
         table.totalWidth = 400
-        table.writeSelectedRows 0, -1, 200, (float)(9.5*72 - tableHeight), canvas
+        table.writeSelectedRows 0, -1, 200, (float) (9.5 * 72 - tableHeight), canvas
       }
+
+      columns page: 3, {
+        column {
+          section at: [left + 50, top - 100], width: 225, height: 150, justified: left, font: 'f3', fontSize: 10, {
+            text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
+            text value: "This is important.", font: 'f2'
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+          }
+          section at: [left + 50, lastY - fontSize], width: 225, height: 150, justified: left, font: 'f3', fontSize: 10, {
+            text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
+            text value: "This is important.", font: 'f2'
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+          }
+        }
+        column {
+          section at: [center + 25, top - 100], width: 225, height: 550, justified: left, font: 'f3', fontSize: 10, {
+            text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
+            text value: "This is important.", font: 'f2'
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+          }
+        }
+      }
+
+      section page:3, at: [left + 50, lastY - fontSize], width: 7.5*72, height: 150, justified: left, font: 'f3', fontSize: 10, {
+        text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
+        text value: "This is important.", font: 'f2'
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+      }
+
     }
 
     new File("target/create.pdf").withOutputStream {
