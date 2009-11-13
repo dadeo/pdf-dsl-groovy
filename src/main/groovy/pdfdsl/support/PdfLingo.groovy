@@ -127,4 +127,7 @@ class PdfLingo {
     new ResultLocation("/", new Location(target), location)
   }
 
+  static min(target, location1, location2) {
+    new MinimumLocation(location1, location2)
+  }
 }

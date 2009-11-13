@@ -29,6 +29,8 @@ public class VisualTest extends GroovyTestCase {
       font id: 'f1', file: '/Library/Fonts/Herculanum.ttf', embedded: true
       font id: 'f2', name: BaseFont.TIMES_BOLD
       font id: 'f3', name: BaseFont.TIMES_ROMAN
+      font id: 'verdana', file: '/Library/Fonts/Verdana.ttf', embedded: true
+      font id: 'verdana bold', file: '/Library/Fonts/Verdana Bold.ttf', embedded: true
 
       write text: "100, top-100", at: [100, top - 100], page: 1
 
@@ -168,19 +170,15 @@ public class VisualTest extends GroovyTestCase {
 
       columns page: 3, {
         column {
-          section at: [left + 50, top - 100], width: 225, height: 150, justified: left, font: 'f3', fontSize: 10, {
+          section at: [left + 50, top - 100], width: 225, height: 550, justified: left, font: 'f3', fontSize: 10, {
             text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
             text value: "This is important.", font: 'f2'
             text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
             text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
           }
-          section at: [left + 50, lastY - fontSize], width: 225, height: 150, justified: left, font: 'f3', fontSize: 10, {
+          section at: [left + 50, lastY - fontSize], width: 225, height: 550, justified: left, font: 'f3', fontSize: 10, {
             text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
             text value: "This is important.", font: 'f2'
-            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
             text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
             text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
             text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
@@ -188,11 +186,9 @@ public class VisualTest extends GroovyTestCase {
           }
         }
         column {
-          section at: [center + 25, top - 100], width: 225, height: 550, justified: left, font: 'f3', fontSize: 10, {
-            text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-            text value: "This is important.", font: 'f2'
-            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-            text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+          section at: [center + 25, top - 100], width: 225, height: 550, justified: left, font: 'verdana', fontSize: 10, {
+            text value: "This is my Main Heading", font: 'verdana bold', fontSize: 12, newline: 'after'
+            text value: "This is important.", font: 'verdana bold'
             text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
             text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
             text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
@@ -212,17 +208,9 @@ public class VisualTest extends GroovyTestCase {
         }
       }
 
-      section page:3, at: [left + 50, lastY - fontSize], width: 7.5*72, height: 150, justified: left, font: 'f3', fontSize: 10, {
+      section page:3, at: [left + 50, min(lastY - fontSize, middle)], width: 7.5*72, height: 150, justified: left, font: 'f3', fontSize: 10, {
         text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
         text value: "This is important.", font: 'f2'
-        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
