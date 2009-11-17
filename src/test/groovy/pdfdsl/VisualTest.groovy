@@ -16,6 +16,11 @@ import java.awt.Color
 import com.lowagie.text.pdf.BaseFont
 import com.lowagie.text.pdf.PdfPTable
 import com.lowagie.text.pdf.PdfPCell
+import com.lowagie.text.ListItem
+import com.lowagie.text.Phrase
+import com.lowagie.text.Paragraph
+import com.lowagie.text.Chunk
+import com.lowagie.text.ZapfDingbatsList
 
 
 public class VisualTest extends GroovyTestCase {
@@ -157,6 +162,26 @@ public class VisualTest extends GroovyTestCase {
             case 1:
               table.addCell new PdfPCell(nested1)
               break
+            case 17:
+              def list = new ZapfDingbatsList(108, 15)
+              list.add(new ListItem("item 1"))
+              list.add(new ListItem("item 2"))
+              list.add(new ListItem("item 3"))
+              list.add(new ListItem("item 4"))
+              def listCell = new PdfPCell()
+              listCell.addElement(list)
+              table.addCell listCell
+              break
+            case 18:
+              def list = new com.lowagie.text.List(com.lowagie.text.List.UNORDERED, 10)
+              list.add(new ListItem("item 1"))
+              list.add(new ListItem("item 2"))
+              list.add(new ListItem("item 3"))
+              list.add(new ListItem("item 4"))
+              def listCell = new PdfPCell()
+              listCell.addElement(list)
+              table.addCell listCell
+              break
             case 20:
               table.addCell new PdfPCell(nested2)
               break
@@ -208,7 +233,7 @@ public class VisualTest extends GroovyTestCase {
         }
       }
 
-      section page:3, at: [left + 50, min(lastY - fontSize, middle)], width: 7.5*72, height: 150, justified: left, font: 'f3', fontSize: 10, {
+      section page: 3, at: [left + 50, min(lastY - fontSize, middle)], width: 7.5 * 72, height: 150, justified: left, font: 'f3', fontSize: 10, {
         text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
         text value: "This is important.", font: 'f2'
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
