@@ -16,6 +16,7 @@ import com.lowagie.text.pdf.PdfReader
 import com.lowagie.text.pdf.PdfStamper
 import com.lowagie.text.Rectangle
 import com.lowagie.text.pdf.PdfContentByte
+import com.lowagie.text.PageSize
 
 class ExistingPdfWriter extends DslWriter {
   private def reader
@@ -50,6 +51,6 @@ class ExistingPdfWriter extends DslWriter {
   }
 
   def insertPage() {
-    stamper.insertPage(reader.getNumberOfPages + 1, PageSize.LETTER)
+    stamper.insertPage(reader.getNumberOfPages() + 1, PageSize.LETTER)
   }
 }
