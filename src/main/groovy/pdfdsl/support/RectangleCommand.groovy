@@ -31,11 +31,12 @@ class RectangleCommand extends InternalCommand {
         def x = (float) attrs.at[0].value(pageSize, attrs)
         def y = (float) attrs.at[1].value(pageSize, attrs)
         def width = (float) attrs.width.value(pageSize, attrs)
+        def height = (float) attrs.height.value(pageSize, attrs)
         cb.rectangle(
             (float) x,
             (float) y,
             (float) width,
-            (float) -attrs.height
+            (float) -height
         )
       }
 

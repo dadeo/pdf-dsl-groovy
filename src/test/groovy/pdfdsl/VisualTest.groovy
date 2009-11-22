@@ -241,7 +241,8 @@ public class VisualTest extends GroovyTestCase {
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
       }
 
-      section page: 2, at: [center, bottom+150], width: right - center - 50, height: 150, justified: left, font: 'f3', fontSize: 10, {
+      section page: 2, at: [center, bottom+150], width: right - center - 50, height: bottom+72, justified: left, font: 'f3', fontSize: 10, {
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
       }

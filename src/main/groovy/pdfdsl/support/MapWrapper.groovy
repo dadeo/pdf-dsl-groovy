@@ -105,6 +105,14 @@ class MapWrapper {
     width.value(dslWriter.getPageSize(page), this)
   }
 
+  def getHeight() {
+    forceToLocation(mapIn["height"] ?: 0)
+  }
+
+  def getHeight(DslWriter dslWriter) {
+    height.value(dslWriter.getPageSize(page), this)
+  }
+
   private List forceCoordinatesToLocation(location) {
     def x = forceToLocation(location[0])
     def y = forceToLocation(location[1])
