@@ -24,7 +24,8 @@ class RectangleCommand extends InternalCommand {
   def stampWith(DslWriter dslWriter) {
     dslWriter.withDirectContent(lingo.page) {cb, pageSize ->
       def attrs = lingo
-//      cb.lineWidth = 4
+      
+      cb.lineWidth = attrs.borderWidth ?: 1
 
       def plotRectangle = {
         def x = (float) attrs.at[0].value(pageSize, attrs)

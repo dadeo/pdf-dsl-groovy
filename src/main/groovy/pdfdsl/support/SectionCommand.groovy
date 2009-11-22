@@ -56,7 +56,7 @@ class SectionCommand extends InternalCommand {
       maxLength = Math.max(maxLength, lingo.getTextLength(it.text))
     }
 
-    drawBorder(maxLength, dslWriter, coordinates.at[1].value(lingo.pageSize, lingo))
+    drawBorder(maxLength, dslWriter, coordinates.at[1].value(dslWriter.getPageSize(lingo.page), lingo))
   }
 
   private def drawBorder = {maxLength, DslWriter dslWriter, lastY ->

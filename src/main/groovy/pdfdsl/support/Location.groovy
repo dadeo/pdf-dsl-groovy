@@ -16,7 +16,10 @@ import com.lowagie.text.Rectangle
 
 
 class Location {
-  private valueClosure
+  protected valueClosure
+  private boolean invoked
+  private float result
+  private boolean cache = true
 
   Location() {
     this(0)
@@ -30,8 +33,18 @@ class Location {
     this.valueClosure = valueClosure
   }
 
-  float value(Rectangle rect, MapWrapper mapWrapper) {
-    valueClosure(rect, mapWrapper)
+  Location(valueClosure, cache) {
+    this.valueClosure = valueClosure
+    this.cache = cache
+  }
+
+  final float value(Rectangle rect, MapWrapper mapWrapper) {
+    if(cache && invoked) {
+      result
+    } else {
+      invoked = true
+      result = valueClosure(rect, mapWrapper)
+    }
   }
 
   def plus(Location location) {

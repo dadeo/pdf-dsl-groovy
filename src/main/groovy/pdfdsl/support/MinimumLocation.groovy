@@ -22,12 +22,12 @@ class MinimumLocation extends Location {
   MinimumLocation(location1, location2) {
     this.location1 = location1
     this.location2 = location2
-  }
 
-  float value(Rectangle rect, MapWrapper mapWrapper) {
-    def value1 = valueOf(location1, rect, mapWrapper)
-    def value2 = valueOf(location2, rect, mapWrapper)
-    Math.min(value1, value2)
+    valueClosure = {rect, mapWrapper ->
+      def value1 = valueOf(location1, rect, mapWrapper)
+      def value2 = valueOf(location2, rect, mapWrapper)
+      Math.min(value1, value2)
+    }
   }
 
   private valueOf(location, rect, mapWrapper) {

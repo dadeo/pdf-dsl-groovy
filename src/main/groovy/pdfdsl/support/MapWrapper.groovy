@@ -89,6 +89,10 @@ class MapWrapper {
     plus wrapper.mapIn
   }
 
+  def getX(DslWriter dslWriter) {
+    at[0].value(dslWriter.getPageSize(page), this)
+  }
+
   def getY(DslWriter dslWriter) {
     at[1].value(dslWriter.getPageSize(page), this)
   }
