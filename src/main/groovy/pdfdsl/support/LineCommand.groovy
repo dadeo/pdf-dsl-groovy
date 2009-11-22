@@ -20,7 +20,7 @@ class LineCommand extends InternalCommand {
 
   def stampWith(DslWriter dslWriter) {
     dslWriter.withDirectContent(lingo.page) {cb, pageSize ->
-      cb.lineWidth = lingo.width
+      cb.lineWidth = lingo.width.value(pageSize, lingo)
       cb.moveTo((float) lingo.at[0].value(pageSize, lingo), (float) lingo.at[1].value(pageSize, lingo))
       cb.lineTo((float) lingo.to[0].value(pageSize, lingo), (float) lingo.to[1].value(pageSize, lingo))
       cb.colorStroke = lingo.color

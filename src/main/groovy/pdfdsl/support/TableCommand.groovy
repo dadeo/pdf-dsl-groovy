@@ -60,7 +60,7 @@ class TableCommand extends InternalCommand {
       def adjustedX = lingo.at[0].value(pageSize, lingo)
       def adjustedY = lingo.at[1].value(pageSize, lingo)
 
-      table.totalWidth = (float) lingo.width 
+      table.totalWidth = (float) lingo.getWidth(dslWriter)
       table.writeSelectedRows 0, -1, adjustedX, adjustedY, contentBytes
       
       LastPosition.lastY = (float) (adjustedY - table.totalHeight)      

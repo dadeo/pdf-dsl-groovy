@@ -97,10 +97,22 @@ class MapWrapper {
     at[1].value(dslWriter.getPageSize(page), this)
   }
 
+  def getWidth() {
+    forceToLocation(mapIn["width"] ?: 0)
+  }
+
+  def getWidth(DslWriter dslWriter) {
+    width.value(dslWriter.getPageSize(page), this)
+  }
+
   private List forceCoordinatesToLocation(location) {
-    def x = (location[0] instanceof Number) ? new Location(location[0]) : location[0]
-    def y = (location[1] instanceof Number) ? new Location(location[1]) : location[1]
+    def x = forceToLocation(location[0])
+    def y = forceToLocation(location[1])
     [x, y]
+  }
+
+  private Location forceToLocation(location) {
+    (location instanceof Number) ? new Location(location) : location
   }
 
 }

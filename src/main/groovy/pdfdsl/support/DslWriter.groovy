@@ -41,7 +41,9 @@ abstract class DslWriter {
     Rectangle pageSize = getPageSize(values.page)
     def adjustedX = (float) (values.at[0].value(pageSize, values) - values.justificationOffset)
     def adjustedY = (float) values.at[1].value(pageSize, values)
-    columnText.setSimpleColumn(adjustedX, (float) (adjustedY - values.height), (float) (adjustedX + values.width), adjustedY)
+    def adjustedWidth = (float) values.width.value(pageSize, values)
+
+    columnText.setSimpleColumn(adjustedX, (float) (adjustedY - values.height), (float) (adjustedX + adjustedWidth), adjustedY)
 
     def callback = closure(columnText)
 

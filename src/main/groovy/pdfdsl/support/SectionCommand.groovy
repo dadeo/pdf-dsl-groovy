@@ -138,7 +138,7 @@ class SectionCommand extends InternalCommand {
       }
       writeParagraph()
 
-      drawBorder2.curry lingo.width, dslWriter
+      drawBorder2.curry lingo.getWidth(dslWriter), dslWriter
     }
   }
 
