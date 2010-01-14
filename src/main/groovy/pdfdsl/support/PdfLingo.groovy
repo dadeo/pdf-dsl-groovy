@@ -36,6 +36,12 @@ class PdfLingo {
     }
   }
 
+  def each(collection, closure) {
+    closure.delegate = this
+    closure.resolveStrategy = Closure.DELEGATE_FIRST
+    collection.each closure
+  }
+
   def line(lingo) {
     commands << new LineCommand(lingo: defaultSettings + lingo)
   }

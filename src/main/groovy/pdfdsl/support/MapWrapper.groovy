@@ -16,7 +16,6 @@ import com.lowagie.text.pdf.BaseFont
 import java.awt.Color
 import com.lowagie.text.Font
 
-
 class MapWrapper {
   private mapIn
 

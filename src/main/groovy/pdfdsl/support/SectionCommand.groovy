@@ -35,6 +35,12 @@ class SectionCommand extends InternalCommand {
     text << map
   }
 
+  def each(collection, closure) {
+    closure.delegate = this
+    closure.resolveStrategy = Closure.DELEGATE_FIRST
+    collection.each closure
+  }
+
   def stampWith(DslWriter dslWriter) {
     LastPosition.startY = lingo.at[1].value(dslWriter.getPageSize(lingo.page), lingo)
 
