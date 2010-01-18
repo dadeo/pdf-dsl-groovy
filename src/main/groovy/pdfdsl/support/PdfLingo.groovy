@@ -13,6 +13,7 @@
 package pdfdsl.support
 
 import com.lowagie.text.pdf.BaseFont
+import com.lowagie.text.Font
 
 
 class PdfLingo {
@@ -34,6 +35,10 @@ class PdfLingo {
     } else {
       throw new RuntimeException("Font name or file required")
     }
+  }
+
+  def getFont(String id, int size) {
+    new Font(defaultSettings.configuredFonts[id], size)
   }
 
   def each(collection, closure) {
@@ -135,5 +140,13 @@ class PdfLingo {
 
   static min(target, location1, location2) {
     new MinimumLocation(location1, location2)
+  }
+
+  static getInch(Number number) {
+    getInches number
+  }
+
+  static getInches(Number number) {
+    (number * 72) as float
   }
 }

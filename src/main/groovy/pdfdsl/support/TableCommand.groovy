@@ -24,6 +24,10 @@ class TableCommand extends InternalCommand {
   private headers
   private rows
 
+  TableCommand() {
+    defaults = [borderColor: new Color(216, 216, 216)]
+  }
+
   def headers(map) {
     headers = map.clone()
   }
@@ -43,7 +47,7 @@ class TableCommand extends InternalCommand {
         cell.setBorderWidthTop(0.05f)
         cell.setBorderWidthLeft(0.05f)
         cell.setBorderWidthRight(0.05f)
-        cell.setBorderColor(new Color(216, 216, 216))
+        cell.setBorderColor(headersLingo.borderColor)
         cell.setHorizontalAlignment(justification(headers.justified))
         table.addCell(cell)
       }
@@ -52,7 +56,7 @@ class TableCommand extends InternalCommand {
       rows.data.each {row ->
         row.each {column ->
           PdfPCell cell = new PdfPCell(new Phrase(column, rowsLingo.font))
-          cell.setBorderColor(new Color(216, 216, 216))
+          cell.setBorderColor(rowsLingo.borderColor)
           table.addCell(cell)
         }
       }

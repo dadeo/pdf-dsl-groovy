@@ -21,14 +21,22 @@ class CanvasCommand extends InternalCommand {
   }
 
   def stampWith(DslWriter dslWriter) {
-    lingo.mapIn["at"] = [Locations.left, Locations.top]
+    if(!lingo.mapIn["at"]) {
+      lingo.mapIn["at"] = [Locations.left, Locations.top]
+    }
     def pageSize = dslWriter.getPageSize(lingo.page)
-    lingo.mapIn["width"] = pageSize.width
-    lingo.mapIn["height"] = pageSize.height
+    if(!lingo.mapIn["width"]) {
+      lingo.mapIn["width"] = pageSize.width
+    }
+    if(!lingo.mapIn["height"]) {
+      lingo.mapIn["height"] = pageSize.height
+    }
     dslWriter.column(lingo) {columnText ->
       closure.delegate = columnText
       closure.resolveStrategy = Closure.DELEGATE_FIRST
-      closure columnText
+      use(PdfLingo) {
+        closure columnText
+      }
     }
   }
 
