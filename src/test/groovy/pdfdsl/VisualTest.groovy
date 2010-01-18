@@ -21,6 +21,7 @@ import com.lowagie.text.Phrase
 import com.lowagie.text.Paragraph
 import com.lowagie.text.Chunk
 import com.lowagie.text.ZapfDingbatsList
+import com.lowagie.text.Font
 
 
 public class VisualTest extends GroovyTestCase {
@@ -41,7 +42,10 @@ public class VisualTest extends GroovyTestCase {
       font id: 'verdana', file: '/Library/Fonts/Verdana.ttf', embedded: true
       font id: 'verdana bold', file: '/Library/Fonts/Verdana Bold.ttf', embedded: true
 
-      write text: "100, top-100", at: [100, top - 100], page: 1
+      namedFont id: 'text', font: 'f3', size: 11
+      namedFont id: 'bold text', font: 'f2', size: 24
+
+      write text: "100, top-100", at: [100, top - 100], page: 1, font: 'bold text'
 
       table at: [100, top - 100], page: 1, width: 4 * 72, height: 600, {
         headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'f1'
@@ -118,10 +122,6 @@ public class VisualTest extends GroovyTestCase {
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
       }
 
-      section page: 1, at: [left + 50, lastY - fontSize], width: 250, height: 150, justified: left, font: 'f3', fontSize: 10, color: Color.WHITE, borderColor: Color.YELLOW, backgroundColor: Color.BLACK, padding: 4, {
-        text value: "This is my Main Heading", font: 'f2', fontSize: 20, newline: 'after'
-      }
-
       section page: 1, at: [left + 50, lastY - 12], width: 250, height: 150, justified: left, font: 'f3', fontSize: 10, borderColor: Color.YELLOW, padding: 4, {
         text value: "This is important.", font: 'f2'
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
@@ -167,11 +167,19 @@ public class VisualTest extends GroovyTestCase {
               table.addCell new PdfPCell(nested1)
               break
             case 17:
-              def list = new ZapfDingbatsList(108, 15)
-              list.add(new ListItem("item 1"))
-              list.add(new ListItem("item 2"))
-              list.add(new ListItem("item 3"))
-              list.add(new ListItem("item 4"))
+              def createItem = {
+                def item = new ListItem(it)
+                item.setListSymbol(new Chunk((char) 108, new Font(Font.ZAPFDINGBATS, 5)))
+                item.setLeading(10f)
+                item.setSpacingAfter(0f)
+                item
+              }
+
+              def list = new com.lowagie.text.List(false, 10)
+              list.add(createItem("item 1"))
+              list.add(createItem("item 2"))
+              list.add(createItem("item 3"))
+              list.add(createItem("item 4"))
               def listCell = new PdfPCell()
               listCell.addElement(list)
               table.addCell listCell
@@ -195,6 +203,17 @@ public class VisualTest extends GroovyTestCase {
         }
         table.totalWidth = 400
         table.writeSelectedRows 0, -1, 200, (float) (9.5 * 72 - tableHeight), canvas
+        tableHeight = table.getTotalHeight()
+      }
+
+      canvas page: 2, {
+        PdfPTable table = new PdfPTable([3f*72, 2f*72] as float[])
+        (0..<12).each {i ->
+          table.addCell "cell $i"
+        }
+        table.totalWidth = 400
+        table.writeSelectedRows 0, -1, 200, (float) (5.5 * 72), canvas
+        tableHeight = table.getTotalHeight()
       }
 
       columns page: 3, {

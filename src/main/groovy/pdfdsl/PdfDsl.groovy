@@ -19,6 +19,8 @@ class PdfDsl {
 
   private def defaultSettings = [
       configuredFonts: [:],
+      namedFonts: [:],
+      namedColors: [:],
       page: 1,
       fontSize: 12,
       spaces: '  ',

@@ -37,6 +37,35 @@ class PdfLingo {
     }
   }
 
+  def namedFont(lingo) {
+    def baseFont = defaultSettings.configuredFonts[lingo.font]
+    def font = new Font(baseFont, lingo.size)
+    if (lingo.color) {
+      font.color = lingo.color
+    }
+    defaultSettings.namedFonts[lingo.id] = font
+  }
+
+  def namedFont(String id) {
+    defaultSettings.namedFonts[id]
+  }
+
+  def getNamedFont() {
+    defaultSettings.namedFonts
+  }
+
+  def namedColor(lingo) {
+    defaultSettings.namedColors[lingo.id] = lingo.color
+  }
+
+  def namedColor(String id) {
+    defaultSettings.namedColors[id]
+  }
+
+  def getNamedColor() {
+    defaultSettings.namedColors
+  }
+
   def getFont(String id, int size) {
     new Font(defaultSettings.configuredFonts[id], size)
   }

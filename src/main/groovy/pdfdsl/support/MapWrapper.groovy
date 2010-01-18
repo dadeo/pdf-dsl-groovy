@@ -28,7 +28,12 @@ class MapWrapper {
   }
 
   def getColor() {
-      mapIn["color"] ?: Color.BLACK
+    def value = mapIn['color']
+    if(value instanceof String) {
+      mapIn.namedColors[value]
+    } else {
+      value ?: Color.BLACK
+    }
   }
 
   def getText() {
@@ -44,7 +49,13 @@ class MapWrapper {
   }
 
   def getFont() {
-    def font = new Font(baseFont, fontSize)
+    def font
+    def namedFont = mapIn.namedFonts[mapIn.font]
+    if(namedFont) {
+      font = namedFont
+    } else {
+      font = new Font(baseFont, fontSize)
+    }
     if(color) {
       font.color = color
     }
@@ -52,10 +63,24 @@ class MapWrapper {
   }
 
   def getBaseFont() {
-    if (mapIn.font) {
+    def font
+    def namedFont = mapIn.namedFonts[mapIn.font]
+    if (namedFont) {
+      namedFont.baseFont
+    } else if (mapIn.font) {
       mapIn.configuredFonts[mapIn.font]
     } else {
       BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED)
+    }
+  }
+
+  def getFontSize() {
+    def font
+    def namedFont = mapIn.namedFonts[mapIn.font]
+    if(namedFont) {
+      namedFont.size
+    } else {
+      mapIn["fontSize"]
     }
   }
 
