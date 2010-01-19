@@ -12,7 +12,6 @@
  */
 package pdfdsl.support
 
-
 class PdfTemplate {
   private def commands
 

@@ -12,10 +12,9 @@
  */
 package pdfdsl.support
 
-import com.lowagie.text.pdf.ColumnText
-import com.lowagie.text.Phrase
 import com.lowagie.text.Paragraph
-
+import com.lowagie.text.Phrase
+import com.lowagie.text.pdf.ColumnText
 
 class SectionCommand extends InternalCommand {
 

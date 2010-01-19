@@ -12,7 +12,6 @@
  */
 package pdfdsl.support
 
-
 class CanvasCommand extends InternalCommand {
   def closure
 
@@ -34,7 +33,7 @@ class CanvasCommand extends InternalCommand {
     dslWriter.column(lingo) {columnText ->
       closure.delegate = columnText
       closure.resolveStrategy = Closure.DELEGATE_FIRST
-      use(PdfLingo) {
+      use(BasicPdfLingo) {
         closure columnText
       }
     }

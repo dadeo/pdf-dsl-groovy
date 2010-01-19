@@ -14,7 +14,6 @@ package pdfdsl.support
 
 import java.awt.Color
 
-
 class RectangleCommand extends InternalCommand {
 
   RectangleCommand() {

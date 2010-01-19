@@ -12,68 +12,13 @@
  */
 package pdfdsl.support
 
-import com.lowagie.text.pdf.BaseFont
-import com.lowagie.text.Font
-
-
-class PdfLingo {
+class PdfLingo extends BasicPdfLingo {
 
   private def commands
-  private def defaultSettings
 
   PdfLingo(commands, defaults) {
+    super(defaults)
     this.commands = commands
-    this.defaultSettings = defaults
-  }
-
-  def font(lingo) {
-    if (!lingo.id) throw new RuntimeException("Font id required")
-    def embedded = lingo?.embedded ? BaseFont.EMBEDDED : BaseFont.NOT_EMBEDDED
-    def encoding = lingo?.encoding ?: BaseFont.WINANSI
-    if (lingo.name || lingo.file) {
-      defaultSettings.configuredFonts[lingo.id] = BaseFont.createFont(lingo.name ?: lingo.file, encoding, embedded)
-    } else {
-      throw new RuntimeException("Font name or file required")
-    }
-  }
-
-  def namedFont(lingo) {
-    def baseFont = defaultSettings.configuredFonts[lingo.font]
-    def font = new Font(baseFont, lingo.size)
-    if (lingo.color) {
-      font.color = lingo.color
-    }
-    defaultSettings.namedFonts[lingo.id] = font
-  }
-
-  def namedFont(String id) {
-    defaultSettings.namedFonts[id]
-  }
-
-  def getNamedFont() {
-    defaultSettings.namedFonts
-  }
-
-  def namedColor(lingo) {
-    defaultSettings.namedColors[lingo.id] = lingo.color
-  }
-
-  def namedColor(String id) {
-    defaultSettings.namedColors[id]
-  }
-
-  def getNamedColor() {
-    defaultSettings.namedColors
-  }
-
-  def getFont(String id, int size) {
-    new Font(defaultSettings.configuredFonts[id], size)
-  }
-
-  def each(collection, closure) {
-    closure.delegate = this
-    closure.resolveStrategy = Closure.DELEGATE_FIRST
-    collection.each closure
   }
 
   def line(lingo) {
@@ -84,11 +29,17 @@ class PdfLingo {
     commands << new WriteCommand(lingo: defaultSettings + lingo)
   }
 
+  def section(closure) {
+    section([:], closure)
+  }
+
   def section(lingo, closure) {
     SectionCommand command = new SectionCommand(lingo: defaultSettings + lingo)
     closure.delegate = command
     closure.resolveStrategy = Closure.DELEGATE_FIRST
-    closure()
+    use(BasicPdfLingo) {
+      closure()
+    }
     commands << command
   }
 
@@ -107,75 +58,16 @@ class PdfLingo {
     commands << new CanvasCommand(lingo: defaultSettings + lingo, closure: closure)
   }
 
-  def column(lingo, closure) {
-    commands << new ColumnCommand(lingo: defaultSettings + lingo, closure: closure)
-  }
+//  def column(lingo, closure) {
+//    commands << new ColumnCommand(lingo: defaultSettings + lingo, closure: closure)
+//  }
 
   def columns(lingo, closure) {
-    commands << new ColumnsCommand(lingo: defaultSettings + lingo, closure: closure)
+    def command = new ColumnsCommand(lingo: defaultSettings + lingo, closure: closure)
+    closure.delegate = command
+    closure.resolveStrategy = Closure.DELEGATE_FIRST
+    closure()
+    commands << command
   }
 
-  def getRight() {
-    Locations.right
-  }
-
-  def getLeft() {
-    Locations.left
-  }
-
-  def getCenter() {
-    Locations.center
-  }
-
-  def getTop() {
-    Locations.top
-  }
-
-  def getBottom() {
-    Locations.bottom
-  }
-
-  def getMiddle() {
-    Locations.middle
-  }
-
-  def getFontSize() {
-    Locations.fontSize
-  }
-
-  def getStartY() {
-    Locations.startY
-  }
-
-  def getLastY() {
-    Locations.lastY
-  }
-
-  static plus(Integer target, Location location) {
-    new ResultLocation("+", new Location(target), location)
-  }
-
-  static minus(Integer target, Location location) {
-    new ResultLocation("-", new Location(target), location)
-  }
-
-  static multiply(Integer target, Location location) {
-    new ResultLocation("*", new Location(target), location)
-  }
-
-  static div(Integer target, Location location) {
-    new ResultLocation("/", new Location(target), location)
-  }
-
-  static min(target, location1, location2) {
-    new MinimumLocation(location1, location2)
-  }
-
-  static getInch(Number number) {
-    getInches number
-  }
-
-  static getInches(Number number) {
-    (number * 72) as float
-  }
 }

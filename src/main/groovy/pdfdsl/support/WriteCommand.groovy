@@ -12,7 +12,6 @@
  */
 package pdfdsl.support
 
-
 class WriteCommand extends InternalCommand {
 
   def stampWith(DslWriter dslWriter) {

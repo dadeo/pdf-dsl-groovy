@@ -14,7 +14,6 @@ package pdfdsl.support
 
 import com.lowagie.text.Rectangle
 
-
 class Locations {
 
   static def center = new Location({Rectangle rect, MapWrapper mapWrapper -> (rect.right - rect.left) / 2})

@@ -12,34 +12,39 @@
  */
 package pdfdsl.support
 
-import com.lowagie.text.pdf.ColumnText
-import com.lowagie.text.Phrase
-import com.lowagie.text.Paragraph
-
-
 class ColumnsCommand extends InternalCommand {
   def closure
 
   private columns = []
 
-  def column(closure) {
-    columns << closure
+  ColumnsCommand() {
+    defaults = [sectionSpacing: 0]
+  }
+
+  def column(Closure closure) {
+    column [:], closure
+  }
+
+  def column(Map lingo, Closure closure) {
+    columns << [lingo: this.lingo + lingo, closure:closure]
   }
 
   def stampWith(DslWriter dslWriter) {
-    closure.resolveStrategy = Closure.DELEGATE_FIRST
-    closure.delegate = this
-    closure()
-
     def lastYs = []
-    columns.each {columnClosure ->
+    columns.each {column ->
       def commands = []
-      columnClosure.resolveStrategy = Closure.DELEGATE_FIRST
-      columnClosure.delegate = new PdfLingo(commands, lingo.mapIn)
-      use(PdfLingo) {
-        columnClosure()
+      column.closure.resolveStrategy = Closure.DELEGATE_FIRST
+      column.closure.delegate = new PdfLingo(commands, column.lingo.mapIn)
+      use(BasicPdfLingo) {
+        column.closure()
       }
-      commands.each { it.stampWith dslWriter }
+
+      commands.eachWithIndex { command, index ->
+        if(index != 0 && command.lingo.mapIn.at == column.lingo.mapIn.at) {
+          command.lingo.setY(LastPosition.lastY.minus(command.lingo.sectionSpacing))
+        }
+        command.stampWith dslWriter
+      }
       lastYs << LastPosition.lastY
     }
     LastPosition.lastY = lastYs.inject(lastYs[0]) {v1, v2 -> Math.min(v1, v2) }

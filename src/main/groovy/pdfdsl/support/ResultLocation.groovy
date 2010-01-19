@@ -12,9 +12,6 @@
  */
 package pdfdsl.support
 
-import com.lowagie.text.Rectangle
-
-
 class ResultLocation extends Location {
   private String operation
   private Location location1

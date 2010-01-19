@@ -12,9 +12,6 @@
  */
 package pdfdsl.support
 
-import com.lowagie.text.Rectangle
-
-
 class MinimumLocation extends Location {
   private location1
   private location2

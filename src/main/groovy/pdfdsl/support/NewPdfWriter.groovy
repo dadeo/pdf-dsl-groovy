@@ -13,11 +13,10 @@
 package pdfdsl.support
 
 import com.lowagie.text.Document
-import com.lowagie.text.pdf.PdfWriter
-import com.lowagie.text.pdf.PdfContentByte
-import com.lowagie.text.Rectangle
 import com.lowagie.text.PageSize
-
+import com.lowagie.text.Rectangle
+import com.lowagie.text.pdf.PdfContentByte
+import com.lowagie.text.pdf.PdfWriter
 
 class NewPdfWriter extends DslWriter {
   private def out = new ByteArrayOutputStream()

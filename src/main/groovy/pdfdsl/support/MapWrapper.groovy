@@ -12,9 +12,9 @@
  */
 package pdfdsl.support
 
+import com.lowagie.text.Font
 import com.lowagie.text.pdf.BaseFont
 import java.awt.Color
-import com.lowagie.text.Font
 
 class MapWrapper {
   private mapIn
@@ -135,6 +135,10 @@ class MapWrapper {
 
   def getHeight(DslWriter dslWriter) {
     height.value(dslWriter.getPageSize(page), this)
+  }
+
+  def setY(amount) {
+    mapIn["at"][1] = amount
   }
 
   private List forceCoordinatesToLocation(location) {

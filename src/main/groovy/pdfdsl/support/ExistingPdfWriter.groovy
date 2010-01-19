@@ -12,11 +12,11 @@
  */
 package pdfdsl.support
 
-import com.lowagie.text.pdf.PdfReader
-import com.lowagie.text.pdf.PdfStamper
+import com.lowagie.text.PageSize
 import com.lowagie.text.Rectangle
 import com.lowagie.text.pdf.PdfContentByte
-import com.lowagie.text.PageSize
+import com.lowagie.text.pdf.PdfReader
+import com.lowagie.text.pdf.PdfStamper
 
 class ExistingPdfWriter extends DslWriter {
   private def reader

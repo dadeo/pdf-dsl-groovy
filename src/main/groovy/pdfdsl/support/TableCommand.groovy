@@ -12,13 +12,11 @@
  */
 package pdfdsl.support
 
-import com.lowagie.text.pdf.PdfPTable
-import com.lowagie.text.pdf.ColumnText
-import com.lowagie.text.pdf.PdfPCell
-import com.lowagie.text.Phrase
 import com.lowagie.text.Element
+import com.lowagie.text.Phrase
+import com.lowagie.text.pdf.PdfPCell
+import com.lowagie.text.pdf.PdfPTable
 import java.awt.Color
-
 
 class TableCommand extends InternalCommand {
   private headers

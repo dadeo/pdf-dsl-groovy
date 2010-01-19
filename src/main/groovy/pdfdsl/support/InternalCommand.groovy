@@ -12,7 +12,6 @@
  */
 package pdfdsl.support
 
-
 class InternalCommand {
   def lingo
   def defaults = [:]

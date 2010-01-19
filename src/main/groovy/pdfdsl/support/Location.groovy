@@ -14,7 +14,6 @@ package pdfdsl.support
 
 import com.lowagie.text.Rectangle
 
-
 class Location {
   protected valueClosure
   private boolean invoked
@@ -23,6 +22,10 @@ class Location {
 
   Location() {
     this(0)
+  }
+
+  Location(Location value) {
+    this.valueClosure = value.valueClosure
   }
 
   Location(Number value) {

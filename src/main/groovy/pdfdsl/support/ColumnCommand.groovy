@@ -12,7 +12,6 @@
  */
 package pdfdsl.support
 
-
 class ColumnCommand extends InternalCommand {
   def closure
 

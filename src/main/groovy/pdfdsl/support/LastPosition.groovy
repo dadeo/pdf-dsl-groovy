@@ -12,7 +12,6 @@
  */
 package pdfdsl.support
 
-
 class LastPosition {
   private static startYs = new ThreadLocal()
   private static lastYs = new ThreadLocal()
