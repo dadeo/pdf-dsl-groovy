@@ -31,7 +31,11 @@ class CanvasCommand extends InternalCommand {
       lingo.mapIn["height"] = pageSize.height
     }
     dslWriter.column(lingo) {columnText ->
-      closure.delegate = columnText
+      closure.delegate = new DelegateWrapper(columnText)
+      closure.delegate.overrides.insertTable = { values ->
+        def overrideLingo = lingo + values
+        values.table.writeSelectedRows 0, -1, overrideLingo.getX(dslWriter), overrideLingo.getY(dslWriter), columnText.canvas
+      }
       closure.resolveStrategy = Closure.DELEGATE_FIRST
       use(BasicPdfLingo) {
         closure columnText
