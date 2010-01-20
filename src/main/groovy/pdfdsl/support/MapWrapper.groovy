@@ -129,6 +129,11 @@ class MapWrapper {
     at[1].value(dslWriter.getPageSize(page), this)
   }
 
+  def locationValue(String name, DslWriter dslWriter) {
+    def value = mapIn[name]
+    (value instanceof Number) ? value.toFloat() : value.value(dslWriter.getPageSize(page), this)
+  }
+
   def setWidth(value) {
     mapIn["width"] = value
   }

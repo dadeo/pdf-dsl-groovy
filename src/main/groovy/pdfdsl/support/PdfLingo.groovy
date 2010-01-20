@@ -35,6 +35,10 @@ class PdfLingo extends BasicPdfLingo {
     }
   }
 
+  def insert(lingo) {
+    commands << new InsertCommand(lingo: defaultSettings + lingo)
+  }
+
   def line(lingo) {
     commands << new LineCommand(lingo: defaultSettings + lingo)
   }

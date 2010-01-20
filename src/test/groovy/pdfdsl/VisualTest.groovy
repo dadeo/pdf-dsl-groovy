@@ -244,17 +244,29 @@ public class VisualTest extends GroovyTestCase {
         }
 
         columns {
-          column at: [left + 50, lastY - 0.5.inch], sectionSpacing:10, {
-            section width: 225, height: 550, justified: left, font: 'f3', fontSize: 10, {
+          column at: [left + 50, lastY - 0.5.inch], width: 225, sectionSpacing:10, {
+            section height: 550, justified: left, font: 'f3', fontSize: 10, {
               text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
               text value: "This is important.", font: 'f2'
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
             }
-            section width: 225, height: 550, justified: left, font: 'f3', fontSize: 10, {
+            section height: 550, justified: left, font: 'f3', fontSize: 10, {
               text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
               text value: "This is important.", font: 'f2'
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            }
+
+            PdfPTable table = new PdfPTable(4)
+            table.addCell("hello")
+            table.addCell("world")
+            table.addCell("yo")
+            table.addCell("dog")
+            insert table:table
+
+            section height: 550, justified: left, font: 'f3', fontSize: 10, {
+              text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
+              text value: "This is important.", font: 'f2'
             }
           }
           column at: [center + 25, lastY - 0.5.inch], {
