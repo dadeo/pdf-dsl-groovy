@@ -16,12 +16,12 @@ package pdfdsl.support
 class LocationTest extends GroovyTestCase {
   static final float RESULT = 8
 
-  void test_cache_by_default() {
+  void test_constructor_cache_by_default() {
     def invoked = 0
 
-    def valueClosure = { rect, mapWrapper ->
+    def valueClosure = {rect, mapWrapper ->
       ++invoked
-      if(invoked > 1) fail("location value is not being cached")
+      if (invoked > 1) fail("location value is not being cached")
       RESULT
     }
 
@@ -31,11 +31,11 @@ class LocationTest extends GroovyTestCase {
     assertEquals 8, location.value(null, null)
     assertEquals 1, invoked
   }
-  
-  void test_cache_disabled() {
+
+  void test_constructor_cache_disabled() {
     def invoked = 0
 
-    def valueClosure = { rect, mapWrapper ->
+    def valueClosure = {rect, mapWrapper ->
       ++invoked
       RESULT
     }
@@ -45,6 +45,229 @@ class LocationTest extends GroovyTestCase {
     assertEquals 8, location.value(null, null)
     assertEquals 8, location.value(null, null)
     assertEquals 2, invoked
+  }
+
+  void test_constructor_number() {
+    def location = new Location(5)
+    assertTrue location.invoked
+    assertEquals 5f, location.result
+  }
+
+  void test_constructor_location_number() {
+    def location = new Location(new Location(5))
+    assertTrue location.invoked
+    assertEquals 5f, location.result
+  }
+
+  void test_constructor_location_closure() {
+    def closure = {a, b -> }
+    def location = new Location(new Location(closure))
+    assertFalse location.invoked
+    assertSame closure, location.valueClosure
+  }
+
+  void test_plus_location_original_not_already_invoked() {
+    def location1 = new Location({a, b -> })
+    def location2 = new Location(3)
+
+    def resultLocation = location1 + location2
+
+    assertSame location1, resultLocation.location1
+    assertSame location2, resultLocation.location2
+    assertEquals "+", resultLocation.operation
+  }
+
+  void test_plus_location_second_not_already_invoked() {
+    def location1 = new Location(5)
+    def location2 = new Location({a, b -> })
+
+    def resultLocation = location1 + location2
+
+    assertSame location1, resultLocation.location1
+    assertSame location2, resultLocation.location2
+    assertEquals "+", resultLocation.operation
+  }
+
+  void test_plus_location_both_already_invoked() {
+    def location1 = new Location(5)
+    def location2 = new Location(3)
+
+    def resultLocation = location1 + location2
+
+    assertEquals 8f, resultLocation.result
+    assertTrue resultLocation.invoked
+  }
+
+  void test_plus_number_original_already_invoked() {
+    def location1 = new Location(5)
+
+    def resultLocation = location1 + 4
+
+    assertEquals 9f, resultLocation.result
+    assertTrue resultLocation.invoked
+  }
+
+  void test_plus_number_original_not_already_invoked() {
+    def location1 = new Location({a, b -> })
+
+    def resultLocation = location1 + 4
+
+    assertSame location1, resultLocation.location1
+    assertEquals 4, resultLocation.location2.result
+    assertEquals "+", resultLocation.operation
+  }
+
+  void test_minus_location_original_not_already_invoked() {
+    def location1 = new Location({a, b -> })
+    def location2 = new Location(3)
+
+    def resultLocation = location1 - location2
+
+    assertSame location1, resultLocation.location1
+    assertSame location2, resultLocation.location2
+    assertEquals "-", resultLocation.operation
+  }
+
+  void test_minus_location_second_not_already_invoked() {
+    def location1 = new Location(5)
+    def location2 = new Location({a, b -> })
+
+    def resultLocation = location1 - location2
+
+    assertSame location1, resultLocation.location1
+    assertSame location2, resultLocation.location2
+    assertEquals "-", resultLocation.operation
+  }
+
+  void test_minus_location_both_already_invoked() {
+    def location1 = new Location(5)
+    def location2 = new Location(3)
+
+    def resultLocation = location1 - location2
+
+    assertEquals 2f, resultLocation.result
+    assertTrue resultLocation.invoked
+  }
+
+  void test_minus_number_original_already_invoked() {
+    def location1 = new Location(7)
+
+    def resultLocation = location1 - 4
+
+    assertEquals 3f, resultLocation.result
+    assertTrue resultLocation.invoked
+  }
+
+  void test_minus_number_original_not_already_invoked() {
+    def location1 = new Location({a, b -> })
+
+    def resultLocation = location1 - 4
+
+    assertSame location1, resultLocation.location1
+    assertEquals 4, resultLocation.location2.result
+    assertEquals "-", resultLocation.operation
+  }
+
+  void test_multiply_location_original_not_already_invoked() {
+    def location1 = new Location({a, b -> })
+    def location2 = new Location(3)
+
+    def resultLocation = location1 * location2
+
+    assertSame location1, resultLocation.location1
+    assertSame location2, resultLocation.location2
+    assertEquals "*", resultLocation.operation
+  }
+
+  void test_multiply_location_second_not_already_invoked() {
+    def location1 = new Location(5)
+    def location2 = new Location({a, b -> })
+
+    def resultLocation = location1 * location2
+
+    assertSame location1, resultLocation.location1
+    assertSame location2, resultLocation.location2
+    assertEquals "*", resultLocation.operation
+  }
+
+  void test_multiply_location_both_already_invoked() {
+    def location1 = new Location(5)
+    def location2 = new Location(3)
+
+    def resultLocation = location1 * location2
+
+    assertEquals 15f, resultLocation.result
+    assertTrue resultLocation.invoked
+  }
+
+  void test_multiply_number_original_already_invoked() {
+    def location1 = new Location(7)
+
+    def resultLocation = location1 * 4
+
+    assertEquals 28f, resultLocation.result
+    assertTrue resultLocation.invoked
+  }
+
+  void test_multiply_number_original_not_already_invoked() {
+    def location1 = new Location({a, b -> })
+
+    def resultLocation = location1 * 4
+
+    assertSame location1, resultLocation.location1
+    assertEquals 4, resultLocation.location2.result
+    assertEquals "*", resultLocation.operation
+  }
+
+  void test_div_location_original_not_already_invoked() {
+    def location1 = new Location({a, b -> })
+    def location2 = new Location(3)
+
+    def resultLocation = location1 / location2
+
+    assertSame location1, resultLocation.location1
+    assertSame location2, resultLocation.location2
+    assertEquals "/", resultLocation.operation
+  }
+
+  void test_div_location_second_not_already_invoked() {
+    def location1 = new Location(5)
+    def location2 = new Location({a, b -> })
+
+    def resultLocation = location1 / location2
+
+    assertSame location1, resultLocation.location1
+    assertSame location2, resultLocation.location2
+    assertEquals "/", resultLocation.operation
+  }
+
+  void test_div_location_both_already_invoked() {
+    def location1 = new Location(15)
+    def location2 = new Location(3)
+
+    def resultLocation = location1 / location2
+
+    assertEquals 5f, resultLocation.result
+    assertTrue resultLocation.invoked
+  }
+
+  void test_div_number_original_already_invoked() {
+    def location1 = new Location(28)
+
+    def resultLocation = location1 / 4
+
+    assertEquals 7f, resultLocation.result
+    assertTrue resultLocation.invoked
+  }
+
+  void test_div_number_original_not_already_invoked() {
+    def location1 = new Location({a, b -> })
+
+    def resultLocation = location1 / 4
+
+    assertSame location1, resultLocation.location1
+    assertEquals 4, resultLocation.location2.result
+    assertEquals "/", resultLocation.operation
   }
 
 }

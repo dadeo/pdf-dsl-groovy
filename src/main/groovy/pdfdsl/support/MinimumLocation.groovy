@@ -19,6 +19,7 @@ class MinimumLocation extends Location {
   MinimumLocation(location1, location2) {
     this.location1 = location1
     this.location2 = location2
+    this.invoked = false
 
     valueClosure = {rect, mapWrapper ->
       def value1 = valueOf(location1, rect, mapWrapper)

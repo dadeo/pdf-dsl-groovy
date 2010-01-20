@@ -21,6 +21,7 @@ class ResultLocation extends Location {
     this.operation = operation
     this.location1 = location1
     this.location2 = location2
+    this.invoked = false
 
     valueClosure = {rect, mapWrapper ->
       def value1 = location1.value(rect, mapWrapper)

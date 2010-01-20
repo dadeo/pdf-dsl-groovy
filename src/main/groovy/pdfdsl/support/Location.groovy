@@ -16,7 +16,7 @@ import com.lowagie.text.Rectangle
 
 class Location {
   protected valueClosure
-  private boolean invoked
+  protected boolean invoked
   private float result
   private boolean cache = true
 
@@ -25,11 +25,17 @@ class Location {
   }
 
   Location(Location value) {
-    this.valueClosure = value.valueClosure
+    if(value.invoked) {
+      this.result = value.result
+      this.invoked = true
+    } else {
+      this.valueClosure = value.valueClosure
+    }
   }
 
   Location(Number value) {
-    this.valueClosure = {a, b -> value}
+    this.result = value.toFloat()
+    this.invoked = true
   }
 
   Location(valueClosure) {
@@ -51,35 +57,67 @@ class Location {
   }
 
   def plus(Location location) {
-    new ResultLocation("+", this, location)
+    if(invoked && location.invoked) {
+      plus location.result
+    } else {
+      new ResultLocation("+", this, location)
+    }
   }
 
   def minus(Location location) {
-    new ResultLocation("-", this, location)
+    if(invoked && location.invoked) {
+      minus location.result
+    } else {
+      new ResultLocation("-", this, location)
+    }
   }
 
   def div(Location location) {
-    new ResultLocation("/", this, location)
+    if(invoked && location.invoked) {
+      div location.result
+    } else {
+      new ResultLocation("/", this, location)
+    }
   }
 
   def multiply(Location location) {
-    new ResultLocation("*", this, location)
+    if(invoked && location.invoked) {
+      multiply location.result
+    } else {
+      new ResultLocation("*", this, location)
+    }
   }
 
   def plus(Number location) {
-    plus(new Location({a, b -> location}))
+    if(invoked) {
+      new Location(result + location.toFloat())
+    } else {
+      plus new Location(location)
+    }
   }
 
   def minus(Number location) {
-    minus(new Location({a, b -> location}))
+    if(invoked) {
+      new Location(result - location.toFloat())
+    } else {
+      minus new Location(location)
+    }
   }
 
   def div(Number location) {
-    div(new Location({a, b -> location}))
+    if(invoked) {
+      new Location(result / location.toFloat())
+    } else {
+      div new Location(location)
+    }
   }
 
   def multiply(Number location) {
-    multiply(new Location({a, b -> location}))
+    if(invoked) {
+      new Location(result * location.toFloat())
+    } else {
+      multiply new Location(location)
+    }
   }
 
   def negative() {
