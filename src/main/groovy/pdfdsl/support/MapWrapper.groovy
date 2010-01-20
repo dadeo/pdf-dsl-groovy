@@ -23,6 +23,14 @@ class MapWrapper {
     mapIn = map
   }
 
+  boolean has(name) {
+    mapIn[name] != null
+  }
+
+  def unaltered(name) {
+    mapIn[name]
+  }
+
   def propertyMissing(String name) {
     mapIn[name]
   }
@@ -121,6 +129,10 @@ class MapWrapper {
     at[1].value(dslWriter.getPageSize(page), this)
   }
 
+  def setWidth(value) {
+    mapIn["width"] = value
+  }
+  
   def getWidth() {
     forceToLocation(mapIn["width"] ?: 0)
   }
