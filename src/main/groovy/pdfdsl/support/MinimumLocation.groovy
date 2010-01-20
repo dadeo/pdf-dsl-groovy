@@ -17,18 +17,25 @@ class MinimumLocation extends Location {
   private location2
 
   MinimumLocation(location1, location2) {
-    this.location1 = location1
-    this.location2 = location2
+    this.location1 = forceToLocation(location1)
+    this.location2 = forceToLocation(location2)
     this.invoked = false
 
     valueClosure = {rect, mapWrapper ->
-      def value1 = valueOf(location1, rect, mapWrapper)
-      def value2 = valueOf(location2, rect, mapWrapper)
+      def value1 = this.location1.value(rect, mapWrapper)
+      def value2 = this.location2.value(rect, mapWrapper)
       Math.min(value1, value2)
     }
   }
 
-  private valueOf(location, rect, mapWrapper) {
-    location instanceof Number ? location : location.value(rect, mapWrapper)
+  String toString() {
+    String.valueOf(
+        invoked ? result :
+          (location1.invoked && location2.invoked) ? Math.min(location1.result, location2.result) : "min($location1, $location2)"
+    )
+  }
+
+  private forceToLocation(location) {
+    location instanceof Location ? location : new Location(location)
   }
 }

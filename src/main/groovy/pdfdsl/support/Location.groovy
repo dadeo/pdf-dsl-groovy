@@ -19,6 +19,7 @@ class Location {
   protected boolean invoked
   private float result
   private boolean cache = true
+  private String description
 
   Location() {
     this(0)
@@ -31,6 +32,7 @@ class Location {
     } else {
       this.valueClosure = value.valueClosure
     }
+    this.description = value.description
   }
 
   Location(Number value) {
@@ -38,13 +40,15 @@ class Location {
     this.invoked = true
   }
 
-  Location(valueClosure) {
+  Location(String description, valueClosure) {
     this.valueClosure = valueClosure
+    this.description = description
   }
 
-  Location(valueClosure, cache) {
+  Location(String description, valueClosure, cache) {
     this.valueClosure = valueClosure
     this.cache = cache
+    this.description = description
   }
 
   final float value(Rectangle rect, MapWrapper mapWrapper) {
@@ -123,4 +127,10 @@ class Location {
   def negative() {
     new ResultLocation("-", new Location(0), this)
   }
+
+  String toString() {
+    invoked ? String.valueOf(result) : description
+  }
+
+
 }

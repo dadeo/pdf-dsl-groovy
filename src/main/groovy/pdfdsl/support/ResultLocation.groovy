@@ -25,17 +25,24 @@ class ResultLocation extends Location {
 
     valueClosure = {rect, mapWrapper ->
       def value1 = location1.value(rect, mapWrapper)
-        def value2 = location2.value(rect, mapWrapper)
-        switch (operation) {
-          case "-":
-            return value1 - value2
-          case "+":
-            return value1 + value2
-          case "/":
-            return value1 / value2
-          case "*":
-            return value1 * value2
-        }
+      def value2 = location2.value(rect, mapWrapper)
+      switch (operation) {
+        case "-":
+          return value1 - value2
+        case "+":
+          return value1 + value2
+        case "/":
+          return value1 / value2
+        case "*":
+          return value1 * value2
+      }
     }
   }
+
+  String toString() {
+    (location1.invoked && location2.invoked) ?
+      String.valueOf(valueClosure(null, null)) :
+          location1.toString() + " " + operation + " " + location2.toString()
+  }
+
 }

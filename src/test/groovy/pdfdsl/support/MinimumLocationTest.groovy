@@ -40,24 +40,30 @@ class MinimumLocationTest extends GroovyTestCase {
   }
 
   void test_value_passes_args() {
-    def mock1 = mockControl(3)
-    def mock2 = mockControl(6)
-    assertEquals 3, new MinimumLocation(mock1.proxy, mock2.proxy).value(RECTANGLE, MAP_WRAPPER)
-    assert mock1.invoked
-    assert mock2.invoked
+    def wrapper1 = createLocationWrapper(3)
+    def wrapper2 = createLocationWrapper(6)
+    assertEquals 3, new MinimumLocation(wrapper1.location, wrapper2.location).value(RECTANGLE, MAP_WRAPPER)
   }
 
-  private mockControl(result) {
-    def control = [invoked: false]
-    def mock = [
-        value: {v1, v2 ->
-          assertSame RECTANGLE, v1
-          assertSame MAP_WRAPPER, v2
-          control.invoked = true
-          result
-        }
-    ]
-    control.proxy = mock
+  void test_toString_location1_not_invoked() {
+    assertEquals "min(middle, 400.0)", new MinimumLocation(Locations.middle, 400).toString()
+  }
+
+  void test_toString_location2_not_invoked() {
+    assertEquals "min(400.0, middle)", new MinimumLocation(400, Locations.middle).toString()
+  }
+
+  void test_toString_both_locations_invoked() {
+    assertEquals "300.0", new MinimumLocation(300, 400).toString()
+  }
+
+  private createLocationWrapper(result) {
+    def control = [:]
+    control.location = new Location("", {v1, v2 ->
+      assertSame RECTANGLE, v1
+      assertSame MAP_WRAPPER, v2
+      result
+    })
     control
   }
 }

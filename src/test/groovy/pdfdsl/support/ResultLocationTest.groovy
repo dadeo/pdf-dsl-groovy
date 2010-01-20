@@ -30,23 +30,34 @@ class ResultLocationTest extends GroovyTestCase {
   }
 
   void test_value_plus() {
-    def location = new ResultLocation("+", new Location(CLOSURE1), new Location(CLOSURE2))
+    def location = new ResultLocation("+", new Location("", CLOSURE1), new Location("", CLOSURE2))
     assertEquals 18, location.value(ARG1, ARG2)
   }
   
   void test_value_minus() {
-    def location = new ResultLocation("-", new Location(CLOSURE1), new Location(CLOSURE2))
+    def location = new ResultLocation("-", new Location("", CLOSURE1), new Location("", CLOSURE2))
     assertEquals 12, location.value(ARG1, ARG2)
   }
 
   void test_value_multiply() {
-    def location = new ResultLocation("*", new Location(CLOSURE1), new Location(CLOSURE2))
+    def location = new ResultLocation("*", new Location("", CLOSURE1), new Location("", CLOSURE2))
     assertEquals 45, location.value(ARG1, ARG2)
   }
 
   void test_value_divide() {
-    def location = new ResultLocation("/", new Location(CLOSURE1), new Location(CLOSURE2))
+    def location = new ResultLocation("/", new Location("", CLOSURE1), new Location("", CLOSURE2))
     assertEquals 5, location.value(ARG1, ARG2)
   }
 
+  void test_toString_location1_not_invoked() {
+    assertEquals "center + 5.0", new ResultLocation("+", Locations.center, new Location(5)).toString()
+  }
+
+  void test_toString_location2_not_invoked() {
+    assertEquals "5.0 / center", new ResultLocation("/", new Location(5), Locations.center).toString()
+  }
+  
+  void test_toString_both_locations_invoked() {
+    assertEquals "8.0", new ResultLocation("+", new Location(5), new Location(3)).toString()
+  }
 }

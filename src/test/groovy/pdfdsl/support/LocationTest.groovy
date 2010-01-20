@@ -25,7 +25,7 @@ class LocationTest extends GroovyTestCase {
       RESULT
     }
 
-    def location = new Location(valueClosure)
+    def location = new Location("", valueClosure)
 
     assertEquals 8, location.value(null, null)
     assertEquals 8, location.value(null, null)
@@ -40,7 +40,7 @@ class LocationTest extends GroovyTestCase {
       RESULT
     }
 
-    def location = new Location(valueClosure, false)
+    def location = new Location("location1", valueClosure, false)
 
     assertEquals 8, location.value(null, null)
     assertEquals 8, location.value(null, null)
@@ -61,13 +61,13 @@ class LocationTest extends GroovyTestCase {
 
   void test_constructor_location_closure() {
     def closure = {a, b -> }
-    def location = new Location(new Location(closure))
+    def location = new Location(new Location("", closure))
     assertFalse location.invoked
     assertSame closure, location.valueClosure
   }
 
   void test_plus_location_original_not_already_invoked() {
-    def location1 = new Location({a, b -> })
+    def location1 = new Location("", {a, b -> })
     def location2 = new Location(3)
 
     def resultLocation = location1 + location2
@@ -79,7 +79,7 @@ class LocationTest extends GroovyTestCase {
 
   void test_plus_location_second_not_already_invoked() {
     def location1 = new Location(5)
-    def location2 = new Location({a, b -> })
+    def location2 = new Location("", {a, b -> })
 
     def resultLocation = location1 + location2
 
@@ -108,7 +108,7 @@ class LocationTest extends GroovyTestCase {
   }
 
   void test_plus_number_original_not_already_invoked() {
-    def location1 = new Location({a, b -> })
+    def location1 = new Location("", {a, b -> })
 
     def resultLocation = location1 + 4
 
@@ -118,7 +118,7 @@ class LocationTest extends GroovyTestCase {
   }
 
   void test_minus_location_original_not_already_invoked() {
-    def location1 = new Location({a, b -> })
+    def location1 = new Location("", {a, b -> })
     def location2 = new Location(3)
 
     def resultLocation = location1 - location2
@@ -130,7 +130,7 @@ class LocationTest extends GroovyTestCase {
 
   void test_minus_location_second_not_already_invoked() {
     def location1 = new Location(5)
-    def location2 = new Location({a, b -> })
+    def location2 = new Location("", {a, b -> })
 
     def resultLocation = location1 - location2
 
@@ -159,7 +159,7 @@ class LocationTest extends GroovyTestCase {
   }
 
   void test_minus_number_original_not_already_invoked() {
-    def location1 = new Location({a, b -> })
+    def location1 = new Location("", {a, b -> })
 
     def resultLocation = location1 - 4
 
@@ -169,7 +169,7 @@ class LocationTest extends GroovyTestCase {
   }
 
   void test_multiply_location_original_not_already_invoked() {
-    def location1 = new Location({a, b -> })
+    def location1 = new Location("", {a, b -> })
     def location2 = new Location(3)
 
     def resultLocation = location1 * location2
@@ -181,7 +181,7 @@ class LocationTest extends GroovyTestCase {
 
   void test_multiply_location_second_not_already_invoked() {
     def location1 = new Location(5)
-    def location2 = new Location({a, b -> })
+    def location2 = new Location("", {a, b -> })
 
     def resultLocation = location1 * location2
 
@@ -210,7 +210,7 @@ class LocationTest extends GroovyTestCase {
   }
 
   void test_multiply_number_original_not_already_invoked() {
-    def location1 = new Location({a, b -> })
+    def location1 = new Location("", {a, b -> })
 
     def resultLocation = location1 * 4
 
@@ -220,7 +220,7 @@ class LocationTest extends GroovyTestCase {
   }
 
   void test_div_location_original_not_already_invoked() {
-    def location1 = new Location({a, b -> })
+    def location1 = new Location("", {a, b -> })
     def location2 = new Location(3)
 
     def resultLocation = location1 / location2
@@ -232,7 +232,7 @@ class LocationTest extends GroovyTestCase {
 
   void test_div_location_second_not_already_invoked() {
     def location1 = new Location(5)
-    def location2 = new Location({a, b -> })
+    def location2 = new Location("", {a, b -> })
 
     def resultLocation = location1 / location2
 
@@ -261,7 +261,7 @@ class LocationTest extends GroovyTestCase {
   }
 
   void test_div_number_original_not_already_invoked() {
-    def location1 = new Location({a, b -> })
+    def location1 = new Location("", {a, b -> })
 
     def resultLocation = location1 / 4
 
@@ -270,4 +270,14 @@ class LocationTest extends GroovyTestCase {
     assertEquals "/", resultLocation.operation
   }
 
+  void test_toString_not_invoked() {
+    def location = new Location("my location", {a, b -> 5})
+    assertEquals "my location", location.toString()
+  }
+
+  void test_toString_invoked() {
+    def location = new Location("my location", {a, b -> 5})
+    location.value(null, null)
+    assertEquals "5.0", location.toString()
+  }
 }
