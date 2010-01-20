@@ -31,7 +31,9 @@ class ColumnsCommand extends InternalCommand {
 
   def stampWith(DslWriter dslWriter) {
     def lastYs = []
+    def lastY = LastPosition.lastY
     columns.each {column ->
+      LastPosition.lastY = lastY
       def commands = []
       column.closure.resolveStrategy = Closure.DELEGATE_FIRST
       column.closure.delegate = new PdfLingo(commands, column.lingo.mapIn)
@@ -40,7 +42,7 @@ class ColumnsCommand extends InternalCommand {
       }
 
       commands.eachWithIndex { command, index ->
-        if(index != 0 && command.lingo.mapIn.at == column.lingo.mapIn.at) {
+        if(index != 0) {
           command.lingo.setY(LastPosition.lastY.minus(command.lingo.sectionSpacing))
         }
         command.stampWith dslWriter
