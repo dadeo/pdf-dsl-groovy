@@ -16,16 +16,16 @@ import com.lowagie.text.Rectangle
 
 class Locations {
 
-  static def center = new Location("center", {Rectangle rect, MapWrapper mapWrapper -> (rect.right - rect.left) / 2})
-  static def right = new Location("right", {Rectangle rect, MapWrapper mapWrapper -> rect.right })
-  static def left = new Location("left", {Rectangle rect, MapWrapper mapWrapper -> rect.left })
+  static def center = new Location("center", {Rectangle rect, MapWrapper mapWrapper -> (rect.right - rect.left) / 2}, false)
+  static def right = new Location("right", {Rectangle rect, MapWrapper mapWrapper -> rect.right }, false)
+  static def left = new Location("left", {Rectangle rect, MapWrapper mapWrapper -> rect.left }, false)
 
-  static def top = new Location("top", {Rectangle rect, MapWrapper mapWrapper -> rect.top })
-  static def bottom = new Location("bottom", {Rectangle rect, MapWrapper mapWrapper -> rect.bottom })
-  static def middle = new Location("middle", {Rectangle rect, MapWrapper mapWrapper -> (rect.top - rect.bottom) / 2})
+  static def top = new Location("top", {Rectangle rect, MapWrapper mapWrapper -> rect.top }, false)
+  static def bottom = new Location("bottom", {Rectangle rect, MapWrapper mapWrapper -> rect.bottom }, false)
+  static def middle = new Location("middle", {Rectangle rect, MapWrapper mapWrapper -> (rect.top - rect.bottom) / 2}, false)
 
-  static def fontSize = new Location("fontSize", {Rectangle rect, MapWrapper mapWrapper -> mapWrapper.fontSize })
+  static def fontSize = new Location("fontSize", {Rectangle rect, MapWrapper mapWrapper -> mapWrapper.fontSize }, false)
 
-  static def startY = new Location("startY", {Rectangle rect, MapWrapper mapWrapper -> LastPosition.startY })
+  static def startY = new Location("startY", {Rectangle rect, MapWrapper mapWrapper -> LastPosition.startY }, false)
   static def lastY = new Location("lastY", {Rectangle rect, MapWrapper mapWrapper -> LastPosition.lastY}, false)
 }

@@ -17,9 +17,9 @@ import com.lowagie.text.Rectangle
 class Location {
   protected valueClosure
   protected boolean invoked
-  private float result
-  private boolean cache = true
-  private String description
+  protected float result
+  protected boolean cache = true
+  protected String description
 
   Location() {
     this(0)
@@ -55,7 +55,7 @@ class Location {
     if(cache && invoked) {
       result
     } else {
-      invoked = true
+      invoked = cache
       result = valueClosure(rect, mapWrapper)
     }
   }

@@ -49,6 +49,30 @@ class ResultLocationTest extends GroovyTestCase {
     assertEquals 5, location.value(ARG1, ARG2)
   }
 
+  void test_value_not_cached_when_location1_is_not_cachable() {
+    def count = 0
+    def location = new ResultLocation("+", new Location("", {a, b-> ++count; 5}, false), new Location("", CLOSURE2))
+    assertEquals 8, location.value(ARG1, ARG2)
+    assertEquals 8, location.value(ARG1, ARG2)
+    assertEquals 2, count
+  }
+
+  void test_value_not_cached_when_location2_is_not_cachable() {
+    def count = 0
+    def location = new ResultLocation("+", new Location("", CLOSURE2), new Location("", {a, b-> ++count; 5}, false))
+    assertEquals 8, location.value(ARG1, ARG2)
+    assertEquals 8, location.value(ARG1, ARG2)
+    assertEquals 2, count
+  }
+
+  void test_value_cached_when_both_locations_are_cachable() {
+    def count = 0
+    def location = new ResultLocation("+", new Location("", CLOSURE2), new Location("", {a, b-> ++count; 5}))
+    assertEquals 8, location.value(ARG1, ARG2)
+    assertEquals 8, location.value(ARG1, ARG2)
+    assertEquals 1, count
+  }
+
   void test_toString_location1_not_invoked() {
     assertEquals "center + 5.0", new ResultLocation("+", Locations.center, new Location(5)).toString()
   }

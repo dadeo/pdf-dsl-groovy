@@ -22,6 +22,7 @@ class ResultLocation extends Location {
     this.location1 = location1
     this.location2 = location2
     this.invoked = false
+    this.cache = location1.cache & location2.cache
 
     valueClosure = {rect, mapWrapper ->
       def value1 = location1.value(rect, mapWrapper)
