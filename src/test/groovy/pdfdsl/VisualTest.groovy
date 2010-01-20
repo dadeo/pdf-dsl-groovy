@@ -70,18 +70,20 @@ public class VisualTest extends GroovyTestCase {
         ]
       }
 
-      columns page: 4, {
-        column at: [3.inches, 720], width: 4.5.inches, height: 550, sectionSpacing: 10, extraParagraphSpace:0, leading:1, {
-          section {
-            text value:"Section 1 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
-          }
+      page number:4, {
+        columns {
+          column at: [3.inches, 720], width: 4.5.inches, height: 550, sectionSpacing: 10, extraParagraphSpace:0, leading:1, {
+            section {
+              text value:"Section 1 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
+            }
 
-          section {
-            text value:"Section 2 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
-          }
+            section {
+              text value:"Section 2 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
+            }
 
-          section {
-            text value:"Section 3 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
+            section {
+              text value:"Section 3 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
+            }
           }
         }
       }

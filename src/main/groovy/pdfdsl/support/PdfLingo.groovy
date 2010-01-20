@@ -21,6 +21,20 @@ class PdfLingo extends BasicPdfLingo {
     this.commands = commands
   }
 
+  def page(lingo, closure) {
+    closure.resolveStrategy = Closure.DELEGATE_FIRST
+
+    def pageNumber = lingo.number
+    lingo.remove "number"
+    def newDefaults = defaultSettings + lingo
+    newDefaults.page = pageNumber
+
+    closure.delegate = new PdfLingo(commands, newDefaults)
+    use(PdfLingo) {
+      closure()
+    }
+  }
+
   def line(lingo) {
     commands << new LineCommand(lingo: defaultSettings + lingo)
   }
@@ -61,6 +75,10 @@ class PdfLingo extends BasicPdfLingo {
 //  def column(lingo, closure) {
 //    commands << new ColumnCommand(lingo: defaultSettings + lingo, closure: closure)
 //  }
+
+  def columns(closure) {
+    columns [:], closure
+  }
 
   def columns(lingo, closure) {
     def command = new ColumnsCommand(lingo: defaultSettings + lingo, closure: closure)
