@@ -12,13 +12,17 @@
  */
 package pdfdsl.support
 
-class PdfLingo extends BasicPdfLingo {
+import com.lowagie.text.Font
+import com.lowagie.text.pdf.BaseFont
+
+class CommandPdfLingo {
 
   private def commands
+  private def defaultSettings
 
-  PdfLingo(commands, defaults) {
-    super(defaults)
+  CommandPdfLingo(commands, defaults) {
     this.commands = commands
+    this.defaultSettings = defaults
   }
 
   def page(lingo, closure) {
@@ -29,8 +33,8 @@ class PdfLingo extends BasicPdfLingo {
     def newDefaults = defaultSettings + lingo
     newDefaults.page = pageNumber
 
-    closure.delegate = new PdfLingo(commands, newDefaults)
-    use(PdfLingo) {
+    closure.delegate = new CommandPdfLingo(commands, newDefaults)
+    use(CommandPdfLingo) {
       closure()
     }
   }
@@ -55,7 +59,7 @@ class PdfLingo extends BasicPdfLingo {
     SectionCommand command = new SectionCommand(lingo: defaultSettings + lingo)
     closure.delegate = command
     closure.resolveStrategy = Closure.DELEGATE_FIRST
-    use(BasicPdfLingo) {
+    use(LocationPdfLingo) {
       closure()
     }
     commands << command
@@ -90,6 +94,56 @@ class PdfLingo extends BasicPdfLingo {
     closure.resolveStrategy = Closure.DELEGATE_FIRST
     closure()
     commands << command
+  }
+
+  def font(lingo) {
+    if (!lingo.id) throw new RuntimeException("Font id required")
+    def embedded = lingo?.embedded ? BaseFont.EMBEDDED : BaseFont.NOT_EMBEDDED
+    def encoding = lingo?.encoding ?: BaseFont.WINANSI
+    if (lingo.name || lingo.file) {
+      defaultSettings.configuredFonts[lingo.id] = BaseFont.createFont(lingo.name ?: lingo.file, encoding, embedded)
+    } else {
+      throw new RuntimeException("Font name or file required")
+    }
+  }
+
+  def namedFont(lingo) {
+    def baseFont = defaultSettings.configuredFonts[lingo.font]
+    def font = new Font(baseFont, lingo.size)
+    if (lingo.color) {
+      font.color = lingo.color
+    }
+    defaultSettings.namedFonts[lingo.id] = font
+  }
+
+  def namedFont(String id) {
+    defaultSettings.namedFonts[id]
+  }
+
+  def getNamedFont() {
+    defaultSettings.namedFonts
+  }
+
+  def namedColor(lingo) {
+    defaultSettings.namedColors[lingo.id] = lingo.color
+  }
+
+  def namedColor(String id) {
+    defaultSettings.namedColors[id]
+  }
+
+  def getNamedColor() {
+    defaultSettings.namedColors
+  }
+
+  def getFont(String id, int size) {
+    new Font(defaultSettings.configuredFonts[id], size)
+  }
+
+  def each(collection, closure) {
+    closure.delegate = this
+    closure.resolveStrategy = Closure.DELEGATE_FIRST
+    collection.each closure
   }
 
 }

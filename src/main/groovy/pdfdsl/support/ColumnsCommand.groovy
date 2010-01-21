@@ -36,8 +36,8 @@ class ColumnsCommand extends InternalCommand {
       LastPosition.lastY = lastY
       def commands = []
       column.closure.resolveStrategy = Closure.DELEGATE_FIRST
-      column.closure.delegate = new PdfLingo(commands, column.lingo.mapIn)
-      use(BasicPdfLingo) {
+      column.closure.delegate = new CommandPdfLingo(commands, column.lingo.mapIn)
+      use(LocationPdfLingo) {
         column.closure()
       }
 

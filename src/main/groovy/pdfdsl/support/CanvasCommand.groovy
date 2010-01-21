@@ -37,7 +37,7 @@ class CanvasCommand extends InternalCommand {
         values.table.writeSelectedRows 0, -1, overrideLingo.getX(dslWriter), overrideLingo.getY(dslWriter), columnText.canvas
       }
       closure.resolveStrategy = Closure.DELEGATE_FIRST
-      use(BasicPdfLingo) {
+      use(LocationPdfLingo) {
         closure columnText
       }
     }

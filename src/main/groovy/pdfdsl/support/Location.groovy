@@ -99,7 +99,7 @@ class Location {
   }
 
   boolean computed() {
-    invoked && cached
+    invoked && cache
   }
 
 }

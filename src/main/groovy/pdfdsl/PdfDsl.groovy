@@ -12,9 +12,9 @@
  */
 package pdfdsl
 
-import pdfdsl.support.BasicPdfLingo
-import pdfdsl.support.PdfLingo
+import pdfdsl.support.CommandPdfLingo
 import pdfdsl.support.PdfTemplate
+import pdfdsl.support.LocationPdfLingo
 
 class PdfDsl {
 
@@ -33,8 +33,8 @@ class PdfDsl {
   def createTemplate(closure) {
     def commands = []
     closure.resolveStrategy = Closure.DELEGATE_FIRST
-    closure.delegate = new PdfLingo(commands, defaultSettings)
-    use(BasicPdfLingo) {
+    closure.delegate = new CommandPdfLingo(commands, defaultSettings)
+    use(LocationPdfLingo) {
       closure()
     }
     new PdfTemplate(commands)
