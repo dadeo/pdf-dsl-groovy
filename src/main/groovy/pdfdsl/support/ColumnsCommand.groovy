@@ -42,7 +42,9 @@ class ColumnsCommand extends InternalCommand {
       }
 
       commands.eachWithIndex { command, index ->
-        if(index != 0) {
+        if(index == 0) {
+          command.lingo.setY(column.lingo.unaltered('at')[1])
+        } else {
           command.lingo.setY(LastPosition.lastY.minus(command.lingo.sectionSpacing))
         }
         command.stampWith dslWriter

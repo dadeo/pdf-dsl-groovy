@@ -26,13 +26,11 @@ class Location {
   }
 
   Location(Location value) {
-    if(value.invoked) {
-      this.result = value.result
-      this.invoked = true
-    } else {
-      this.valueClosure = value.valueClosure
-    }
+    this.result = value.result
+    this.invoked = value.invoked
+    this.valueClosure = value.valueClosure
     this.description = value.description
+    this.cache = value.cache
   }
 
   Location(Number value) {
@@ -52,7 +50,7 @@ class Location {
   }
 
   final float value(Rectangle rect, MapWrapper mapWrapper) {
-    if(cache && invoked) {
+    if (computed()) {
       result
     } else {
       invoked = cache
@@ -61,67 +59,35 @@ class Location {
   }
 
   def plus(Location location) {
-    if(invoked && location.invoked) {
-      plus location.result
-    } else {
-      new ResultLocation("+", this, location)
-    }
+    new ResultLocation("+", this, location)
   }
 
   def minus(Location location) {
-    if(invoked && location.invoked) {
-      minus location.result
-    } else {
-      new ResultLocation("-", this, location)
-    }
+    new ResultLocation("-", this, location)
   }
 
   def div(Location location) {
-    if(invoked && location.invoked) {
-      div location.result
-    } else {
-      new ResultLocation("/", this, location)
-    }
+    new ResultLocation("/", this, location)
   }
 
   def multiply(Location location) {
-    if(invoked && location.invoked) {
-      multiply location.result
-    } else {
-      new ResultLocation("*", this, location)
-    }
+    new ResultLocation("*", this, location)
   }
 
   def plus(Number location) {
-    if(invoked) {
-      new Location(result + location.toFloat())
-    } else {
-      plus new Location(location)
-    }
+    plus new Location(location)
   }
 
   def minus(Number location) {
-    if(invoked) {
-      new Location(result - location.toFloat())
-    } else {
-      minus new Location(location)
-    }
+    minus new Location(location)
   }
 
   def div(Number location) {
-    if(invoked) {
-      new Location(result / location.toFloat())
-    } else {
-      div new Location(location)
-    }
+    div new Location(location)
   }
 
   def multiply(Number location) {
-    if(invoked) {
-      new Location(result * location.toFloat())
-    } else {
-      multiply new Location(location)
-    }
+    multiply new Location(location)
   }
 
   def negative() {
@@ -129,8 +95,11 @@ class Location {
   }
 
   String toString() {
-    invoked ? String.valueOf(result) : description
+    computed() ? String.valueOf(result) : description
   }
 
+  boolean computed() {
+    invoked && cached
+  }
 
 }
