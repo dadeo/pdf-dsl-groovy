@@ -19,8 +19,11 @@ import pdfdsl.support.WriteCommand
 import pdfdsl.support.CommandDefinition
 import pdfdsl.support.LineCommand
 import pdfdsl.support.RectangleCommand
+import pdfdsl.support.TableCommand
+import pdfdsl.support.CommandDefinitionFactory
 
 class PdfDsl {
+  CommandDefinitionFactory definitionFactory = new CommandDefinitionFactory()
 
   private def defaultSettings = [
       configuredFonts: [:],
@@ -34,11 +37,7 @@ class PdfDsl {
       extraParagraphSpace: 0.25,
   ]
 
-  private def validCommands = [
-      write:new CommandDefinition(new WriteCommand()),
-      line:new CommandDefinition(new LineCommand()),
-      rectangle:new CommandDefinition(new RectangleCommand()),
-  ]
+  private def validCommands = definitionFactory.createDefinitions()
 
   def createTemplate(closure) {
     def commands = []

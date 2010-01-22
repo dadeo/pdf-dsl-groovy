@@ -13,10 +13,13 @@
 package pdfdsl.support
 
 class CanvasCommand extends InternalCommand {
-  def closure
 
   CanvasCommand() {
     defaults = [padding: 0]
+  }
+
+  def getInsertTables() {
+    lingo.CHILDREN.findAll { it.COMMAND_NAME == 'insertTable' }
   }
 
   def stampWith(DslWriter dslWriter) {
@@ -31,14 +34,13 @@ class CanvasCommand extends InternalCommand {
       lingo.mapIn["height"] = pageSize.height
     }
     dslWriter.column(lingo) {columnText ->
-      closure.delegate = new DelegateWrapper(columnText)
-      closure.delegate.overrides.insertTable = { values ->
-        def overrideLingo = lingo + values
-        values.table.writeSelectedRows 0, -1, overrideLingo.getX(dslWriter), overrideLingo.getY(dslWriter), columnText.canvas
-      }
-      closure.resolveStrategy = Closure.DELEGATE_FIRST
-      use(LocationPdfLingo) {
-        closure columnText
+      insertTables.each { insertTable ->
+        def insertLingo = lingo + insertTable
+        def y = insertLingo.getY(dslWriter)
+        insertLingo.table.writeSelectedRows 0, -1, insertLingo.getX(dslWriter), y, columnText.canvas
+        def lastY = y - insertLingo.table.totalHeight
+        LastPosition.lastY = lastY
+        columnText.yLine = lastY
       }
     }
   }

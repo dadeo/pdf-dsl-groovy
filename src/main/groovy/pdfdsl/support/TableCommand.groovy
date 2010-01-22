@@ -19,19 +19,17 @@ import com.lowagie.text.pdf.PdfPTable
 import java.awt.Color
 
 class TableCommand extends InternalCommand {
-  private headers
-  private rows
 
   TableCommand() {
     defaults = [borderColor: new Color(216, 216, 216)]
   }
 
-  def headers(map) {
-    headers = map.clone()
+  def getHeaders() {
+    lingo.CHILDREN.find { it.COMMAND_NAME == 'headers' }
   }
 
-  def rows(map) {
-    rows = map.clone()
+  def getRows() {
+    lingo.CHILDREN.find { it.COMMAND_NAME == 'rows' }
   }
 
   def stampWith(DslWriter dslWriter) {

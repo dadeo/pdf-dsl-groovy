@@ -47,29 +47,29 @@ public class VisualTest extends GroovyTestCase {
 
       write text: "100, top-100", at: [100, top - 100], page: 1, font: 'bold text'
 
-//      table at: [100, top - 100], page: 1, width: 4 * 72, height: 600, {
-//        headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'f1'
-//
-//        rows font: 'f2', data: [
-//            ["c1", "c2", "c3", "c4", "c5"],
-//            ["c1", "c2", "c3", "c4", "c5"],
-//            ["c1", "c2", "c3", "c4", "c5"]
-//        ]
-//      }
-//
+      table at: [100, top - 100], page: 1, width: 4 * 72, height: 600, {
+        headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'f1'
+
+        rows font: 'f2', data: [
+            ["c1", "c2", "c3", "c4", "c5"],
+            ["c1", "c2", "c3", "c4", "c5"],
+            ["c1", "c2", "c3", "c4", "c5"]
+        ]
+      }
+
       write text: "I follow the table", at: [100, lastY - fontSize], page: 1
       write text: "and I follow it", at: [100, lastY - fontSize], page: 1
-//
-//      table at: [100, lastY], page: 1, width: 4 * 72, height: 600, {
-//        headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'f1'
-//
-//        rows font: 'f2', data: [
-//            ["c1", "c2", "c3", "c4", "c5"],
-//            ["c1", "c2", "c3", "c4", "c5"],
-//            ["c1", "c2", "c3", "c4", "c5"]
-//        ]
-//      }
-//
+
+      table at: [100, lastY], page: 1, width: 4 * 72, height: 600, {
+        headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'f1'
+
+        rows font: 'f2', data: [
+            ["c1", "c2", "c3", "c4", "c5"],
+            ["c1", "c2", "c3", "c4", "c5"],
+            ["c1", "c2", "c3", "c4", "c5"]
+        ]
+      }
+
 //      page number:4, {
 //        columns {
 //          column at: [3.inches, 720], width: 4.5.inches, height: 550, sectionSpacing: 10, extraParagraphSpace:0, leading:1, {
@@ -144,95 +144,99 @@ public class VisualTest extends GroovyTestCase {
 //        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
 //      }
 //
-//      def tableHeight = 0
-//      canvas page: 2, {
-//        PdfPTable table = new PdfPTable(4)
-//        PdfPTable nested1 = new PdfPTable(2)
-//        nested1.addCell("1.1")
-//        nested1.addCell("1.2")
-//        PdfPTable nested2 = new PdfPTable(1)
-//        nested2.addCell("20.1")
-//        nested2.addCell("20.2")
-//        (0..<24).each {i ->
-//          switch (i) {
-//            case 1:
-//              table.addCell new PdfPCell(nested1)
-//              break
-//            case 20:
-//              table.addCell new PdfPCell(nested2)
-//              break
-//            default:
-//              table.addCell "cell $i"
-//          }
-//        }
-//        table.totalWidth = 400
-//        table.writeSelectedRows 0, -1, 200, (float) (9.5 * 72), canvas
-//        tableHeight = table.getTotalHeight()
-//      }
-//
-//      canvas page: 2, {
-//        PdfPTable table = new PdfPTable(4)
-//        PdfPTable nested1 = new PdfPTable(2)
-//        nested1.addCell("1.1")
-//        nested1.addCell("1.2")
-//        PdfPTable nested2 = new PdfPTable(1)
-//        nested2.addCell("20.1")
-//        nested2.addCell("20.2")
-//        (0..<24).each {i ->
-//          switch (i) {
-//            case 1:
-//              table.addCell new PdfPCell(nested1)
-//              break
-//            case 17:
-//              def createItem = {
-//                def item = new ListItem(it)
-//                item.setListSymbol(new Chunk((char) 108, new Font(Font.ZAPFDINGBATS, 5)))
-//                item.setLeading(10f)
-//                item.setSpacingAfter(0f)
-//                item
-//              }
-//
-//              def list = new com.lowagie.text.List(false, 10)
-//              list.add(createItem("item 1"))
-//              list.add(createItem("item 2"))
-//              list.add(createItem("item 3"))
-//              list.add(createItem("item 4"))
-//              def listCell = new PdfPCell()
-//              listCell.addElement(list)
-//              table.addCell listCell
-//              break
-//            case 18:
-//              def list = new com.lowagie.text.List(com.lowagie.text.List.UNORDERED, 10)
-//              list.add(new ListItem("item 1"))
-//              list.add(new ListItem("item 2"))
-//              list.add(new ListItem("item 3"))
-//              list.add(new ListItem("item 4"))
-//              def listCell = new PdfPCell()
-//              listCell.addElement(list)
-//              table.addCell listCell
-//              break
-//            case 20:
-//              table.addCell new PdfPCell(nested2)
-//              break
-//            default:
-//              table.addCell "cell $i"
-//          }
-//        }
-//        table.totalWidth = 400
-//        table.writeSelectedRows 0, -1, 200, (float) (9.5 * 72 - tableHeight), canvas
-//        tableHeight = table.getTotalHeight()
-//      }
-//
-//      canvas page: 2, {
-//        PdfPTable table = new PdfPTable([3f*72, 2f*72] as float[])
-//        (0..<12).each {i ->
-//          table.addCell "cell $i"
-//        }
-//        table.totalWidth = 400
-//        table.writeSelectedRows 0, -1, 200, (float) (5.5 * 72), canvas
-//        tableHeight = table.getTotalHeight()
-//      }
-//
+      def tableHeight = 0
+      canvas page: 2, at:[200, 9.5.inches], {
+        PdfPTable table = new PdfPTable(4)
+        PdfPTable nested1 = new PdfPTable(2)
+        nested1.addCell("1.1")
+        nested1.addCell("1.2")
+        PdfPTable nested2 = new PdfPTable(1)
+        nested2.addCell("20.1")
+        nested2.addCell("20.2")
+        (0..<24).each {i ->
+          switch (i) {
+            case 1:
+              table.addCell new PdfPCell(nested1)
+              break
+            case 20:
+              table.addCell new PdfPCell(nested2)
+              break
+            default:
+              table.addCell "cell $i"
+          }
+        }
+        table.totalWidth = 400
+        insertTable table:table
+      }
+
+      canvas page: 2, at:[200, lastY], {
+        PdfPTable table = new PdfPTable(4)
+        PdfPTable nested1 = new PdfPTable(2)
+        nested1.addCell("1.1")
+        nested1.addCell("1.2")
+        PdfPTable nested2 = new PdfPTable(1)
+        nested2.addCell("20.1")
+        nested2.addCell("20.2")
+        (0..<24).each {i ->
+          switch (i) {
+            case 1:
+              table.addCell new PdfPCell(nested1)
+              break
+            case 17:
+              def createItem = {
+                def item = new ListItem(it)
+                item.setListSymbol(new Chunk((char) 108, new Font(Font.ZAPFDINGBATS, 5)))
+                item.setLeading(10f)
+                item.setSpacingAfter(0f)
+                item
+              }
+
+              def list = new com.lowagie.text.List(false, 10)
+              list.add(createItem("item 1"))
+              list.add(createItem("item 2"))
+              list.add(createItem("item 3"))
+              list.add(createItem("item 4"))
+              def listCell = new PdfPCell()
+              listCell.addElement(list)
+              table.addCell listCell
+              break
+            case 18:
+              def list = new com.lowagie.text.List(com.lowagie.text.List.UNORDERED, 10)
+              list.add(new ListItem("item 1"))
+              list.add(new ListItem("item 2"))
+              list.add(new ListItem("item 3"))
+              list.add(new ListItem("item 4"))
+              def listCell = new PdfPCell()
+              listCell.addElement(list)
+              table.addCell listCell
+              break
+            case 20:
+              table.addCell new PdfPCell(nested2)
+              break
+            default:
+              table.addCell "cell $i"
+          }
+        }
+        table.totalWidth = 400
+        insertTable table:table
+      }
+
+      canvas page: 2, at:[200, lastY - 0.5.inch], {
+        PdfPTable table = new PdfPTable([3.inches, 2.inches] as float[])
+        (0..<12).each {i ->
+          table.addCell "cell $i"
+        }
+        table.totalWidth = 400
+        insertTable table:table
+
+        table = new PdfPTable([3.inches, 2.inches, 1.inch] as float[])
+        (0..<12).each {i ->
+          table.addCell "cell $i"
+        }
+        table.totalWidth = 400
+        insertTable table:table
+      }
+
 //      page number: 3, {
 //        section at: [left + 50, top - 1.inch], width: 7.5.inches, height: 550, justified: left, font: 'f3', fontSize: 10, {
 //          text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
