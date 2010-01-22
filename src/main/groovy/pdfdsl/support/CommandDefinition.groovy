@@ -16,17 +16,28 @@ package pdfdsl.support
 class CommandDefinition {
   private def commandObject
   private def commandDefinitions
+  private def attributeMappings
 
   CommandDefinition(commandObject) {
     this(commandObject, [:])
   }
 
-  CommandDefinition(commandObject, commandDefinitions) {
+  CommandDefinition(commandObject, commandDefinitions, attributeMappings=[:]) {
     this.commandObject = commandObject
     this.commandDefinitions = commandDefinitions
+    this.attributeMappings = attributeMappings
   }
 
   def build(incomingLingo) {
-    incomingLingo.clone() + [COMMAND_OBJECT: commandObject]
+    remap(incomingLingo) + [COMMAND_OBJECT: commandObject]
+  }
+
+  private def remap(incoming) {
+    def result = [:]
+    incoming.each { k, v ->
+      def newName = attributeMappings[k]
+      result[newName ?: k] = v
+    }
+    result
   }
 }

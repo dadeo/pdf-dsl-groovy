@@ -15,6 +15,10 @@ package pdfdsl
 import pdfdsl.support.CommandPdfLingo
 import pdfdsl.support.PdfTemplate
 import pdfdsl.support.LocationPdfLingo
+import pdfdsl.support.WriteCommand
+import pdfdsl.support.CommandDefinition
+import pdfdsl.support.LineCommand
+import pdfdsl.support.RectangleCommand
 
 class PdfDsl {
 
@@ -30,7 +34,11 @@ class PdfDsl {
       extraParagraphSpace: 0.25,
   ]
 
-  private def validCommands = [page:new Object()]
+  private def validCommands = [
+      write:new CommandDefinition(new WriteCommand()),
+      line:new CommandDefinition(new LineCommand()),
+      rectangle:new CommandDefinition(new RectangleCommand()),
+  ]
 
   def createTemplate(closure) {
     def commands = []
@@ -39,7 +47,7 @@ class PdfDsl {
     use(LocationPdfLingo) {
       closure()
     }
-    new PdfTemplate(commands)
+    new PdfTemplate(commands, defaultSettings)
   }
 
 }

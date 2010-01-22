@@ -14,21 +14,18 @@ package pdfdsl.support
 
 class PdfTemplate {
   private def commands
+  private def defaultSettings
 
-  PdfTemplate(commands) {
+  PdfTemplate(commands, defaultSettings) {
     this.commands = commands
+    this.defaultSettings = defaultSettings
   }
 
   byte[] create() {
     def dslWriter = new NewPdfWriter()
     def lastPage = 1
-    commands.sort {it.lingo.page}.each {command ->
-      def page = command.lingo.page
-      while (lastPage < page) {
-        dslWriter.insertPage()
-        lastPage += 1
-      }
-      command.stampWith(dslWriter)
+    commands.sort {it.page ?: defaultSettings.page}.each {command ->
+      lastPage = executeCommand(command, dslWriter, lastPage, defaultSettings)
     }
     dslWriter.bytes()
   }
@@ -36,13 +33,20 @@ class PdfTemplate {
   byte[] stamp(byte[] original) {
     def dslWriter = new ExistingPdfWriter(original)
     commands.each {command ->
-      def page = command.lingo.page
-      while (dslWriter.pageCount() < page) {
-        dslWriter.insertPage()
-      }
-      command.stampWith(dslWriter)
+      executeCommand(command, dslWriter, dslWriter.pageCount(), defaultSettings)
     }
     dslWriter.bytes()
+  }
+
+  private int executeCommand(command, DslWriter dslWriter, int lastPage, aggregatedSettings) {
+    def page = command.page
+    while (lastPage < page) {
+      dslWriter.insertPage()
+      lastPage += 1
+    }
+    command.COMMAND_OBJECT.lingo = aggregatedSettings + command
+    command.COMMAND_OBJECT.stampWith(dslWriter)
+    return lastPage
   }
 
 }
