@@ -30,10 +30,12 @@ class PdfDsl {
       extraParagraphSpace: 0.25,
   ]
 
+  private def validCommands = [page:new Object()]
+
   def createTemplate(closure) {
     def commands = []
     closure.resolveStrategy = Closure.DELEGATE_FIRST
-    closure.delegate = new CommandPdfLingo(commands, defaultSettings)
+    closure.delegate = new CommandPdfLingo(commands, defaultSettings, validCommands)
     use(LocationPdfLingo) {
       closure()
     }

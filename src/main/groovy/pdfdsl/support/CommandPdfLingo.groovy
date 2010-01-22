@@ -19,82 +19,127 @@ class CommandPdfLingo {
 
   private def commands
   private def defaultSettings
+  private def commandDefinitions
+  private def commandPath
 
-  CommandPdfLingo(commands, defaults) {
+  CommandPdfLingo(commands, defaults, commandDefinitions, commandPath="/") {
     this.commands = commands
     this.defaultSettings = defaults
+    this.commandDefinitions = commandDefinitions
+    this.commandPath = commandPath
   }
 
-  def page(lingo, closure) {
-    closure.resolveStrategy = Closure.DELEGATE_FIRST
+  def methodMissing(String name, args) {
+    def commandDefinition = commandDefinitions[name]
+    if (!commandDefinition) {
+      throw new RuntimeException("$name is not a valid command; valid commands for '$commandPath' are (${commandDefinitions.keySet().join(", ")})")
+    }
 
-    def pageNumber = lingo.number
-    lingo.remove "number"
-    def newDefaults = defaultSettings + lingo
-    newDefaults.page = pageNumber
+    def builtCommand = commandDefinition.build((args.size() != 0 && args[0] instanceof Map) ? args[0] : [:])
+    builtCommand.COMMAND_NAME = name
 
-    closure.delegate = new CommandPdfLingo(commands, newDefaults)
-    use(CommandPdfLingo) {
-      closure()
+    Closure closure = findClosure(args)
+    if(closure) {
+      builtCommand.CHILDREN = []
+      closure.delegate = new CommandPdfLingo(builtCommand.CHILDREN, defaultSettings, commandDefinition.commandDefinitions, appendToPath(commandPath, name))
+      closure.resolveStrategy = Closure.DELEGATE_FIRST
+      use(LocationPdfLingo) {
+        closure()
+      }
+    }
+
+    commands << builtCommand
+  }
+
+  private def findClosure(args) {
+    if(args) {
+      if (args.size() == 1 && (args[0] instanceof Closure)) {
+        return args[0]
+      } else if (args.size() == 2 && (args[1] instanceof Closure)) {
+        return args[1]
+      }
+    }
+    null
+  }
+
+  private def appendToPath(path, name) {
+    if(path == "/") {
+      path + name
+    } else {
+      path + "/" + name
     }
   }
 
-  def insert(lingo) {
-    commands << new InsertCommand(lingo: defaultSettings + lingo)
-  }
+//  def page(lingo, closure) {
+//    closure.resolveStrategy = Closure.DELEGATE_FIRST
+//
+//    def pageNumber = lingo.number
+//    lingo.remove "number"
+//    def newDefaults = defaultSettings + lingo
+//    newDefaults.page = pageNumber
+//
+//    closure.delegate = new CommandPdfLingo(commands, newDefaults)
+//    use(CommandPdfLingo) {
+//      closure()
+//    }
+//  }
 
-  def line(lingo) {
-    commands << new LineCommand(lingo: defaultSettings + lingo)
-  }
-
-  def write(lingo) {
-    commands << new WriteCommand(lingo: defaultSettings + lingo)
-  }
-
-  def section(closure) {
-    section([:], closure)
-  }
-
-  def section(lingo, closure) {
-    SectionCommand command = new SectionCommand(lingo: defaultSettings + lingo)
-    closure.delegate = command
-    closure.resolveStrategy = Closure.DELEGATE_FIRST
-    use(LocationPdfLingo) {
-      closure()
-    }
-    commands << command
-  }
-
-  def table(lingo, closure) {
-    TableCommand command = new TableCommand(lingo: defaultSettings + lingo)
-    closure.delegate = command
-    closure()
-    commands << command
-  }
-
-  def rectangle(lingo) {
-    commands << new RectangleCommand(lingo: defaultSettings + lingo)
-  }
-
-  def canvas(lingo, closure) {
-    commands << new CanvasCommand(lingo: defaultSettings + lingo, closure: closure)
-  }
-
+//  def insert(lingo) {
+//    commands << new InsertCommand(lingo: defaultSettings + lingo)
+//  }
+//
+//  def line(lingo) {
+//    commands << new LineCommand(lingo: defaultSettings + lingo)
+//  }
+//
+//  def write(lingo) {
+//    commands << new WriteCommand(lingo: defaultSettings + lingo)
+//  }
+//
+//  def section(closure) {
+//    section([:], closure)
+//  }
+//
+//  def section(lingo, closure) {
+//    SectionCommand command = new SectionCommand(lingo: defaultSettings + lingo)
+//    closure.delegate = command
+//    closure.resolveStrategy = Closure.DELEGATE_FIRST
+//    use(LocationPdfLingo) {
+//      closure()
+//    }
+//    commands << command
+//  }
+//
+//  def table(lingo, closure) {
+//    TableCommand command = new TableCommand(lingo: defaultSettings + lingo)
+//    closure.delegate = command
+//    closure()
+//    commands << command
+//  }
+//
+//  def rectangle(lingo) {
+//    commands << new RectangleCommand(lingo: defaultSettings + lingo)
+//  }
+//
+//  def canvas(lingo, closure) {
+//    commands << new CanvasCommand(lingo: defaultSettings + lingo, closure: closure)
+//  }
+//
 //  def column(lingo, closure) {
 //    commands << new ColumnCommand(lingo: defaultSettings + lingo, closure: closure)
 //  }
 
-  def columns(closure) {
-    columns [:], closure
-  }
+//  def columns(closure) {
+//    columns [:], closure
+//  }
 
-  def columns(lingo, closure) {
-    def command = new ColumnsCommand(lingo: defaultSettings + lingo, closure: closure)
-    closure.delegate = command
-    closure.resolveStrategy = Closure.DELEGATE_FIRST
-    closure()
-    commands << command
-  }
+//  def columns(lingo, closure) {
+//    def command = new ColumnsCommand(lingo: defaultSettings + lingo, closure: closure)
+//    closure.delegate = command
+//    closure.resolveStrategy = Closure.DELEGATE_FIRST
+//    closure()
+//    commands << command
+//  }
 
   def font(lingo) {
     if (!lingo.id) throw new RuntimeException("Font id required")

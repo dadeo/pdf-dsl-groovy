@@ -312,16 +312,18 @@ public class VisualTest extends GroovyTestCase {
       }
     }
 
-    new File("target/create.pdf").withOutputStream {
-      it << pdfTemplate1.stamp(pdfTemplate2.create())
-//      it << pdfTemplate1.create()
-    }
+    pdfTemplate.create()
+    pdfTemplate2.create()
 
-    new File("target/createTableOnly.pdf").withOutputStream { it << pdfTemplate1.create() }
-
-    new File("target/update.pdf").withOutputStream {
-      it << pdfTemplate1.stamp(pdfTemplate2.stamp(new File("target/original.pdf").readBytes()))
-    }
+//    new File("target/create.pdf").withOutputStream {
+//      it << pdfTemplate1.stamp(pdfTemplate2.create())
+//    }
+//
+//    new File("target/createTableOnly.pdf").withOutputStream { it << pdfTemplate1.create() }
+//
+//    new File("target/update.pdf").withOutputStream {
+//      it << pdfTemplate1.stamp(pdfTemplate2.stamp(new File("target/original.pdf").readBytes()))
+//    }
   }
 
 }
