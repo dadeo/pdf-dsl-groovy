@@ -12,33 +12,9 @@
  */
 package pdfdsl.support
 
-class ColumnsCommand extends InternalCommand {
-  private lastY   // TODO: not thread safe
-  private lastYs = [] // TODO: not thread safe
-
-  ColumnsCommand() {
-    defaults = [sectionSpacing: 0]
-  }
+class NoOpCommand extends InternalCommand {
 
   def stampWith(DslWriter dslWriter) {
-  }
-
-  def preChildExecute(childCommand, int index) {
-    def merged = super.preChildExecute(childCommand, index)
-    if (index == 0) {
-      lastY = LastPosition.lastY
-    } else {
-      LastPosition.lastY = lastY
-    }
-    merged
-  }
-  
-  def postChildExecute(childCommand, int index) {
-    lastYs << LastPosition.lastY
-  }
-
-  def postChildrenExecute() {
-    LastPosition.lastY = lastYs.inject(lastYs[0]) {v1, v2 -> Math.min(v1, v2) }
   }
 
 }

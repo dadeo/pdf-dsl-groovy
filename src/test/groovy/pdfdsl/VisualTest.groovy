@@ -70,23 +70,23 @@ public class VisualTest extends GroovyTestCase {
         ]
       }
 
-//      page number:4, {
-//        columns {
-//          column at: [3.inches, 720], width: 4.5.inches, height: 550, sectionSpacing: 10, extraParagraphSpace:0, leading:1, {
-//            section {
-//              text value:"Section 1 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
-//            }
-//
-//            section {
-//              text value:"Section 2 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
-//            }
-//
-//            section {
-//              text value:"Section 3 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
-//            }
-//          }
-//        }
-//      }
+      page number:4, {
+        columns {
+          column at: [3.inches, 720], width: 4.5.inches, height: 550, sectionSpacing: 10, extraParagraphSpace:0, leading:1, {
+            section {
+              text value:"Section 1 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
+            }
+
+            section {
+              text value:"Section 2 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
+            }
+
+            section {
+              text value:"Section 3 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
+            }
+          }
+        }
+      }
     }
 
     def pdfTemplate2 = dsl.createTemplate {
@@ -236,83 +236,83 @@ public class VisualTest extends GroovyTestCase {
         insertTable table:table
       }
 
-//      page number: 3, {
-//        section at: [left + 50, top - 1.inch], width: 7.5.inches, height: 550, justified: left, font: 'f3', fontSize: 10, {
-//          text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-//          text value: "This is important.", font: 'f2'
-//          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//        }
-//
-//        columns {
-//          column at: [left + 50, lastY - 0.5.inch], width: 225, sectionSpacing:10, {
-//            section height: 550, justified: left, font: 'f3', fontSize: 10, {
-//              text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-//              text value: "This is important.", font: 'f2'
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//            }
-//            section height: 550, justified: left, font: 'f3', fontSize: 10, {
-//              text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-//              text value: "This is important.", font: 'f2'
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//            }
-//
-//            PdfPTable table = new PdfPTable(4)
-//            table.addCell("hello")
-//            table.addCell("world")
-//            table.addCell("yo")
-//            table.addCell("dog")
-//            insert table:table
-//
-//            section height: 550, justified: left, font: 'f3', fontSize: 10, {
-//              text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-//              text value: "This is important.", font: 'f2'
-//            }
-//          }
-//          column at: [center + 25, lastY - 0.5.inch], {
-//            section width: 225, height: 550, justified: left, font: 'verdana', fontSize: 10, {
-//              text value: "This is my Main Heading", font: 'verdana bold', fontSize: 12, newline: 'after'
-//              text value: "This is important.", font: 'verdana bold'
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//            }
-//          }
-//        }
-//
-//        section at: [left + 50, min(lastY, middle) - 0.5.inch], width: 7.5 * 72, height: 150, justified: left, font: 'f3', fontSize: 10, {
-//          text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-//          text value: "This is important.", font: 'f2'
-//          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//        }
-//      }
-//
-//      section page: 2, at: [center, bottom + 150], width: right - center - 50, height: bottom + 72, justified: left, font: 'f3', fontSize: 10, {
-//        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//      }
-//
-//      def t = top - 100
-//      each data.addressLines, { write page: 4, at: [100, t], text: it; t -= fontSize}
-//
-//      section page: 4, at: [100, top - 200], fontSize: 10, {
-//        line font: "f1", text: "ADDRESS:"
-//        each data.addressLines, { line text: it }
-//      }
+      page number: 3, {
+        section at: [left + 50, top - 1.inch], width: 7.5.inches, height: 550, justified: left, font: 'f3', fontSize: 10, {
+          text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
+          text value: "This is important.", font: 'f2'
+          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        }
+
+        columns {
+          column at: [left + 50, lastY - 0.5.inch], width: 225, sectionSpacing:10, {
+            section height: 550, justified: left, font: 'f3', fontSize: 10, {
+              text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
+              text value: "This is important.", font: 'f2'
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            }
+            section height: 550, justified: left, font: 'f3', fontSize: 10, {
+              text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
+              text value: "This is important.", font: 'f2'
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            }
+
+            PdfPTable table = new PdfPTable(4)
+            table.addCell("hello")
+            table.addCell("world")
+            table.addCell("yo")
+            table.addCell("dog")
+            insert table:table
+
+            section height: 550, justified: left, font: 'f3', fontSize: 10, {
+              text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
+              text value: "This is important.", font: 'f2'
+            }
+          }
+          column at: [center + 25, lastY - 0.5.inch], {
+            section width: 225, height: 550, justified: left, font: 'verdana', fontSize: 10, {
+              text value: "This is my Main Heading", font: 'verdana bold', fontSize: 12, newline: 'after'
+              text value: "This is important.", font: 'verdana bold'
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+              text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+            }
+          }
+        }
+
+        section at: [left + 50, min(lastY, middle) - 0.5.inch], width: 7.5 * 72, height: 150, justified: left, font: 'f3', fontSize: 10, {
+          text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
+          text value: "This is important.", font: 'f2'
+          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+          text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        }
+      }
+
+      section page: 2, at: [center, bottom + 150], width: right - center - 50, height: bottom + 72, justified: left, font: 'f3', fontSize: 10, {
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+      }
+
+      def t = top - 100
+      each data.addressLines, { write page: 4, at: [100, t], text: it; t -= fontSize}
+
+      section page: 4, at: [100, top - 200], fontSize: 10, {
+        line font: "f1", text: "ADDRESS:"
+        each data.addressLines, { line text: it }
+      }
     }
 
     new File("target/create.pdf").withOutputStream {

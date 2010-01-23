@@ -17,10 +17,21 @@ class InternalCommand {
   def defaults = [:]
 
   void setLingo(lingo) {
-    this.lingo = new MapWrapper(defaults + lingo)
+    this.lingo = new MapWrapper(defaults) + lingo
   }
 
   def stampWith(DslWriter dslWriter) {
     dslWriter.stamp(lingo)
   }
+
+  def preChildExecute(childCommand, int index) {
+    new MapWrapper(lingo.mapIn + childCommand)
+  }
+
+  def postChildExecute(childCommand, int index) {
+  }
+
+  def postChildrenExecute() {
+  }
+
 }

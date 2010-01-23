@@ -25,7 +25,7 @@ class PdfTemplate {
     def dslWriter = new NewPdfWriter()
     def lastPage = 1
     commands.sort {it.page ?: defaultSettings.page}.each {command ->
-      lastPage = executeCommand(command, dslWriter, lastPage, defaultSettings)
+      lastPage = executeRootCommand(command, dslWriter, lastPage)
     }
     dslWriter.bytes()
   }
@@ -33,19 +33,44 @@ class PdfTemplate {
   byte[] stamp(byte[] original) {
     def dslWriter = new ExistingPdfWriter(original)
     commands.each {command ->
-      executeCommand(command, dslWriter, dslWriter.pageCount(), defaultSettings)
+      executeRootCommand(command, dslWriter, dslWriter.pageCount())
     }
     dslWriter.bytes()
   }
 
-  private int executeCommand(command, DslWriter dslWriter, int lastPage, aggregatedSettings) {
-    def page = command.page
-    while (lastPage < page) {
+  private int executeRootCommand(command, DslWriter dslWriter, int lastPage) {
+    def lingo = defaultSettings + command
+    lastPage = ensurePageExists(lastPage, dslWriter, lingo)
+
+    execute command, lingo, dslWriter
+
+    return lastPage
+  }
+
+  private void executeChildCommand(parentExecutableCommand, command, DslWriter dslWriter, int index) {
+    def lingo = parentExecutableCommand.preChildExecute(command, index)
+
+    execute command, lingo, dslWriter
+
+    parentExecutableCommand.postChildExecute(command, index)
+  }
+
+  private void execute(command, lingo, dslWriter) {
+    def executableCommand = command.COMMAND_OBJECT.getClass().newInstance()
+    executableCommand.lingo = lingo
+    executableCommand.stampWith(dslWriter)
+
+    command.CHILDREN.eachWithIndex { child, index ->
+      executeChildCommand executableCommand, child, dslWriter, index
+    }
+    executableCommand.postChildrenExecute()
+  }
+
+  private int ensurePageExists(int lastPage, DslWriter dslWriter, lingo) {
+    while (lastPage < lingo.page) {
       dslWriter.insertPage()
       lastPage += 1
     }
-    command.COMMAND_OBJECT.lingo = aggregatedSettings + command
-    command.COMMAND_OBJECT.stampWith(dslWriter)
     return lastPage
   }
 

@@ -13,18 +13,16 @@
 package pdfdsl.support
 
 class ColumnCommand extends InternalCommand {
-  def closure
-
-  ColumnCommand() {
-    defaults = [padding: 0]
-  }
 
   def stampWith(DslWriter dslWriter) {
-    dslWriter.column(lingo) {columnText ->
-      closure.delegate = columnText
-      closure.resolveStrategy = Closure.DELEGATE_FIRST
-      closure columnText
+  }
+
+  def preChildExecute(childCommand, int index) {
+    def merged = super.preChildExecute(childCommand, index)
+    if (index != 0) {
+      merged.mapIn.at = [merged.at[0], Locations.lastY - merged.sectionSpacing]
     }
+    merged
   }
 
 }
