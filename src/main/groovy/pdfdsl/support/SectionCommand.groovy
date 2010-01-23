@@ -23,27 +23,19 @@ class SectionCommand extends InternalCommand {
     defaults = [padding: 0]
   }
 
-  private lines = []
-  private text = []
-
-  def line(map) {
-    lines << map
+  def getLines() {
+    lingo.CHILDREN.findAll { it.COMMAND_NAME == 'line' }
   }
 
-  def text(map) {
-    text << map
+  def getTexts() {
+    lingo.CHILDREN.findAll { it.COMMAND_NAME == 'text' }
   }
 
-  def each(collection, closure) {
-    closure.delegate = this
-    closure.resolveStrategy = Closure.DELEGATE_FIRST
-    collection.each closure
-  }
 
   def stampWith(DslWriter dslWriter) {
     LastPosition.startY = lingo.at[1].value(dslWriter.getPageSize(lingo.page), lingo)
 
-    if (text) {
+    if (texts) {
       processText(dslWriter)
     }
 
@@ -56,9 +48,10 @@ class SectionCommand extends InternalCommand {
     def coordinates = [at: lingo.at]
     def maxLength = 0
     lines.each {
-      dslWriter.stamp(lingo + coordinates + it)
-      coordinates = [at: [lingo.at[0], coordinates.at[1] - lingo.fontSize]]
-      maxLength = Math.max(maxLength, lingo.getTextLength(it.text))
+      def lineLingo = lingo + coordinates + it
+      dslWriter.stamp(lineLingo)
+      coordinates = [at: [lineLingo.at[0], coordinates.at[1] - lineLingo.fontSize]]
+      maxLength = Math.max(maxLength, lineLingo.getTextLength(it.text))
     }
 
     drawBorder(maxLength, dslWriter, coordinates.at[1].value(dslWriter.getPageSize(lingo.page), lingo))
@@ -124,20 +117,20 @@ class SectionCommand extends InternalCommand {
           p = null
         }
       }
-      text.each {
+      texts.each {
         def mapLingo = lingo + it
         if (it.newline == 'before') {
           writeParagraph()
         }
         if (p) {
-          p.add new Phrase(lingo.spaces, mapLingo.font)
+          p.add new Phrase(mapLingo.spaces, mapLingo.font)
           p.add new Phrase(it.value, mapLingo.font)
         } else {
           p = new Paragraph(it.value, mapLingo.font)
           p.leading = (float) (mapLingo.fontSize * mapLingo.leading)
           p.extraParagraphSpace = (float) (mapLingo.fontSize * mapLingo.extraParagraphSpace)
         }
-        if (it.newline == 'after') {
+        if (mapLingo.newline == 'after') {
           writeParagraph()
         }
       }

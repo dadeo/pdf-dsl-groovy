@@ -112,39 +112,38 @@ public class VisualTest extends GroovyTestCase {
 
       rectangle at: [center, middle], width: 144, height: 72, backgroundColor: Color.lightGray, borderColor: Color.RED
 
-//      section page: 1, at: [left + 50, 400], borderColor: Color.BLUE, {
-//        line text: "pinky jones", font: 'f1'
-//        line text: "suite abc"
-//        line text: "123 main st"
-//        line text: "des moines, ia 50023"
-//      }
-//
-//      section page: 1, at: [center, 300], justified: center, font: 'f3', fontSize: 24, borderColor: Color.RED, padding: 10, {
-//        line text: "pinky jones"
-//        line text: "suite abc"
-//        line text: "123 main st"
-//        line text: "des moines, ia 50023"
-//      }
-//
-//      section page: 1, at: [right - 50, 200], justified: right, borderColor: Color.YELLOW, {
-//        line text: "pinky jones"
-//        line text: "suite abc"
-//        line text: "123 main st"
-//        line text: "des moines, ia 50023"
-//      }
-//
-//      section page: 1, at: [left + 50, 250], width: 250, height: 150, justified: left, font: 'f3', fontSize: 10, {
-//        text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-//        text value: "This is important.", font: 'f2'
-//        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//      }
-//
-//      section page: 1, at: [left + 50, lastY - 12], width: 250, height: 150, justified: left, font: 'f3', fontSize: 10, borderColor: Color.YELLOW, padding: 4, {
-//        text value: "This is important.", font: 'f2'
-//        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
-//      }
-//
-      def tableHeight = 0
+      section page: 1, at: [left + 50, 400], borderColor: Color.BLUE, {
+        line text: "pinky jones", font: 'f1'
+        line text: "suite abc"
+        line text: "123 main st"
+        line text: "des moines, ia 50023"
+      }
+
+      section page: 1, at: [center, 300], justified: center, font: 'f3', fontSize: 24, borderColor: Color.RED, padding: 10, {
+        line text: "pinky jones"
+        line text: "suite abc"
+        line text: "123 main st"
+        line text: "des moines, ia 50023"
+      }
+
+      section page: 1, at: [right - 50, 200], justified: right, borderColor: Color.YELLOW, {
+        line text: "pinky jones"
+        line text: "suite abc"
+        line text: "123 main st"
+        line text: "des moines, ia 50023"
+      }
+
+      section page: 1, at: [left + 50, 250], width: 250, height: 150, justified: left, font: 'f3', fontSize: 10, {
+        text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
+        text value: "This is important.", font: 'f2'
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+      }
+
+      section page: 1, at: [left + 50, lastY - 12], width: 250, height: 150, justified: left, font: 'f3', fontSize: 10, borderColor: Color.YELLOW, padding: 4, {
+        text value: "This is important.", font: 'f2'
+        text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
+      }
+
       canvas page: 2, at:[200, 9.5.inches], {
         PdfPTable table = new PdfPTable(4)
         PdfPTable nested1 = new PdfPTable(2)

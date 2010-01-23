@@ -8,8 +8,9 @@ class CommandDefinitionFactory {
         write: new CommandDefinition(new WriteCommand()),
         line: new CommandDefinition(new LineCommand()),
         rectangle: new CommandDefinition(new RectangleCommand()),
-        table: createTableDefintion(),
-        canvas: createCanvasDefinition()
+        table: createTableDefinition(),
+        canvas: createCanvasDefinition(),
+        section: createSectionDefinition()
     ]
   }
 
@@ -18,10 +19,16 @@ class CommandDefinitionFactory {
     new CommandDefinition(new CanvasCommand(), [insertTable: insertTableDefinition])
   }
 
-  private CommandDefinition createTableDefintion() {
+  private CommandDefinition createTableDefinition() {
     def headersDefinition = new CommandDefinition(new Object())
     def rowsDefinition = new CommandDefinition(new Object())
     new CommandDefinition(new TableCommand(), [headers: headersDefinition, rows: rowsDefinition])
+  }
+
+  private CommandDefinition createSectionDefinition() {
+    def lineDefinition = new CommandDefinition(new Object())
+    def textDefinition = new CommandDefinition(new Object())
+    new CommandDefinition(new SectionCommand(), [line: lineDefinition, text: textDefinition])
   }
 
 }
