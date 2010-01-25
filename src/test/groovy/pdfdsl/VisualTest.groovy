@@ -34,6 +34,8 @@ public class VisualTest extends GroovyTestCase {
         addressLines: ["Christopher Smith Jr.", "1492 Columbus Way", "Plymoth, MA 02360"],
     ]
 
+    def owner = this
+
     PdfDsl dsl = new PdfDsl()
 
     def pdfTemplate1 = dsl.createTemplate {
@@ -276,14 +278,9 @@ public class VisualTest extends GroovyTestCase {
             list.add "item 3"
             insert list:list, leading:1
             
-            PdfPTable table = new PdfPTable(4)
-            table.addCell("hello")
-            table.addCell("world")
-            table.addCell("yo")
-            table.addCell("dog")
-            insert table:table
+            insert table:exec(owner.createTable)
 
-            table = new PdfPTable(2)
+            def table = new PdfPTable(2)
             table.addCell("hello")
             table.addCell("world")
             table.addCell("yo")
@@ -349,6 +346,16 @@ public class VisualTest extends GroovyTestCase {
     new File("target/update.pdf").withOutputStream {
       it << pdfTemplate1.stamp(pdfTemplate2.stamp(new File("target/original.pdf").readBytes()))
     }
+  }
+
+
+  private createTable = {
+    PdfPTable table = new PdfPTable([1.5.inches, 1.inch, 0.5.inch, 0.5.inch] as float[])
+    table.addCell("hello")
+    table.addCell("world")
+    table.addCell("yo")
+    table.addCell("dog")
+    table
   }
 
 }

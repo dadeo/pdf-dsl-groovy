@@ -70,6 +70,14 @@ class CommandPdfLingo {
     }
   }
 
+  def exec(closure, ... args) {
+    closure.delegate = this
+    closure.resolveStrategy = Closure.DELEGATE_FIRST
+    use(LocationPdfLingo) {
+      closure(*args)
+    }
+  }
+  
   def defaults(lingo) {
     defaultSettings.putAll lingo
   }
