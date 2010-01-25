@@ -17,7 +17,7 @@ import com.lowagie.text.pdf.ColumnText
 class InsertCommand extends InternalCommand {
 
   InsertCommand() {
-    defaults = [width: 500]
+    defaults = [width: 500, at:[Locations.left, Locations.lastY]]
   }
 
   def stampWith(DslWriter dslWriter) {
