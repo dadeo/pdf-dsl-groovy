@@ -271,10 +271,10 @@ public class VisualTest extends GroovyTestCase {
             }
 
             List list = new List(false, 10)
-            list.add new ListItem("item 1, xxx x xx x xx x xxx x xxxx x xxx x xxx x xxx xx xxx xxxxx xxx xxxxxx xxxxx xxxxx xxx xx xxx xxxx x xx xxxxx xx xx x xxx")
-            list.add new ListItem("item 2")
-            list.add new ListItem("item 3")
-            insert list:list
+            list.add "item 1, xxx x xx x xx x xxx x xxxx x xxx x xxx x xxx xx xxx xxxxx xxx xxxxxx xxxxx xxxxx xxx xx xxx xxxx x xx xxxxx xx xx x xxx"
+            list.add "item 2"
+            list.add "item 3"
+            insert list:list, leading:1
             
             PdfPTable table = new PdfPTable(4)
             table.addCell("hello")

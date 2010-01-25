@@ -30,6 +30,9 @@ class InsertCommand extends InternalCommand {
       }
     } else if (lingo.list) {
       dslWriter.column(lingo) {ColumnText columnText ->
+        lingo.list.items.each {
+          it.leading = lingo.leading * lingo.fontSize
+        }
         columnText.addElement lingo.list
       }
     }
