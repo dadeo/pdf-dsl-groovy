@@ -20,7 +20,7 @@ class ColumnCommand extends InternalCommand {
   def preChildExecute(childCommand, int index) {
     def merged = super.preChildExecute(childCommand, index)
     if (index != 0) {
-      merged.mapIn.at = [merged.at[0], Locations.lastY - merged.sectionSpacing]
+      merged.setY Locations.lastY - merged.sectionSpacing
     }
     merged
   }

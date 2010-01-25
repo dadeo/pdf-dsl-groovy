@@ -121,6 +121,14 @@ class MapWrapper {
     plus wrapper.mapIn
   }
 
+  def getX() {
+    at[0]
+  }
+
+  def getY() {
+    at[1]
+  }
+  
   def getX(DslWriter dslWriter) {
     at[0].value(dslWriter.getPageSize(page), this)
   }
@@ -138,6 +146,10 @@ class MapWrapper {
     mapIn["width"] = value
   }
   
+  def getSpacing() {
+    forceToLocation(mapIn["spacing"] ?: 0)
+  }
+
   def getWidth() {
     forceToLocation(mapIn["width"] ?: 0)
   }
@@ -154,8 +166,12 @@ class MapWrapper {
     height.value(dslWriter.getPageSize(page), this)
   }
 
+  def setX(amount) {
+    mapIn["at"] = [amount, at[1]]
+  }
+
   def setY(amount) {
-    mapIn["at"][1] = amount
+    mapIn["at"] = [at[0], amount]
   }
 
   private List forceCoordinatesToLocation(location) {

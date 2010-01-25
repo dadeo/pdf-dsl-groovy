@@ -30,6 +30,11 @@ class ColumnsCommand extends InternalCommand {
     } else {
       LastPosition.lastY = lastY
     }
+    if (lingo.widths) {
+      merged.width = lingo.widths[index]
+      def offset = lingo.widths[0..<index].inject(new Location(0)) {a, b -> a+b+merged.spacing}
+      merged.x = lingo.x + offset
+    }
     merged
   }
   
