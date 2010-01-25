@@ -12,12 +12,11 @@
  */
 package pdfdsl.support
 
-
 class CommandDefinitionFactory {
 
   def createDefinitions() {
     [
-        spacer:  new CommandDefinition(new SpacerCommand()),
+        spacer: new CommandDefinition(new SpacerCommand()),
         write: new CommandDefinition(new WriteCommand()),
         line: new CommandDefinition(new LineCommand()),
         rectangle: new CommandDefinition(new RectangleCommand()),
@@ -48,9 +47,9 @@ class CommandDefinitionFactory {
   private CommandDefinition createPageDefinition() {
     def spacerDefinition = new CommandDefinition(new SpacerCommand())
     def insertDefinition = new CommandDefinition(new InsertCommand())
-    def columnDefinition = new CommandDefinition(new ColumnCommand(), [section: createSectionDefinition(), insert:insertDefinition, spacer:spacerDefinition])
+    def columnDefinition = new CommandDefinition(new ColumnCommand(), [section: createSectionDefinition(), insert: insertDefinition, spacer: spacerDefinition])
     def columnsDefinition = new CommandDefinition(new ColumnsCommand(), [column: columnDefinition])
-    new CommandDefinition(new PageCommand(), [columns: columnsDefinition, section:createSectionDefinition(), spacer:spacerDefinition], [number:'page'])
+    new CommandDefinition(new PageCommand(), [columns: columnsDefinition, section: createSectionDefinition(), spacer: spacerDefinition], [number: 'page'])
   }
 
 }

@@ -12,9 +12,8 @@
  */
 package pdfdsl.support
 
-
 class LocationPdfLingo {
-  
+
   static getRight(target) {
     Locations.right
   }

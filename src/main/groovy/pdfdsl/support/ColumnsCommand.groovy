@@ -32,16 +32,16 @@ class ColumnsCommand extends InternalCommand {
     }
     if (lingo.widths) {
       merged.width = lingo.widths[index]
-      def offset = lingo.widths[0..<index].inject(new Location(0)) {a, b -> a+b+merged.spacing}
-      if(merged.unaltered('at')) {
+      def offset = lingo.widths[0..<index].inject(new Location(0)) {a, b -> a + b + merged.spacing}
+      if (merged.unaltered('at')) {
         merged.x = lingo.x + offset
       } else {
-        merged.mapIn.at = [Locations.left + offset, LastPosition.lastY]      
+        merged.mapIn.at = [Locations.left + offset, LastPosition.lastY]
       }
     }
     merged
   }
-  
+
   def postChildExecute(childCommand, int index) {
     lastYs << LastPosition.lastY
   }

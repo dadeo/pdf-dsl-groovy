@@ -22,7 +22,7 @@ class CommandPdfLingo {
   private def commandDefinitions
   private def commandPath
 
-  CommandPdfLingo(commands, defaults, commandDefinitions, commandPath="/") {
+  CommandPdfLingo(commands, defaults, commandDefinitions, commandPath = "/") {
     this.commands = commands
     this.defaultSettings = defaults
     this.commandDefinitions = commandDefinitions
@@ -39,7 +39,7 @@ class CommandPdfLingo {
     builtCommand.COMMAND_NAME = name
 
     Closure closure = findClosure(args)
-    if(closure) {
+    if (closure) {
       builtCommand.CHILDREN = []
       closure.delegate = new CommandPdfLingo(builtCommand.CHILDREN, defaultSettings, commandDefinition.commandDefinitions, appendToPath(commandPath, name))
       closure.resolveStrategy = Closure.DELEGATE_FIRST
@@ -52,7 +52,7 @@ class CommandPdfLingo {
   }
 
   private def findClosure(args) {
-    if(args) {
+    if (args) {
       if (args.size() == 1 && (args[0] instanceof Closure)) {
         return args[0]
       } else if (args.size() == 2 && (args[1] instanceof Closure)) {
@@ -63,7 +63,7 @@ class CommandPdfLingo {
   }
 
   private def appendToPath(path, name) {
-    if(path == "/") {
+    if (path == "/") {
       path + name
     } else {
       path + "/" + name

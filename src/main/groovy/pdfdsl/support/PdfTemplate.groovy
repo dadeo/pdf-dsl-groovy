@@ -60,7 +60,7 @@ class PdfTemplate {
     executableCommand.lingo = lingo
     executableCommand.stampWith(dslWriter)
 
-    command.CHILDREN.eachWithIndex { child, index ->
+    command.CHILDREN.eachWithIndex {child, index ->
       executeChildCommand executableCommand, child, dslWriter, index
     }
     executableCommand.postChildrenExecute()

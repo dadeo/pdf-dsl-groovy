@@ -37,10 +37,10 @@ class MapWrapper {
 
   def getColor() {
     def value = mapIn['color']
-    if(value instanceof String) {
+    if (value instanceof String) {
       mapIn.namedColors[value]
     } else {
-      value ?: Color.BLACK
+        value ?: Color.BLACK
     }
   }
 
@@ -59,12 +59,12 @@ class MapWrapper {
   def getFont() {
     def font
     def namedFont = mapIn.namedFonts[mapIn.font]
-    if(namedFont) {
+    if (namedFont) {
       font = namedFont
     } else {
       font = new Font(baseFont, fontSize)
     }
-    if(color) {
+    if (color) {
       font.color = color
     }
     font
@@ -85,7 +85,7 @@ class MapWrapper {
   def getFontSize() {
     def font
     def namedFont = mapIn.namedFonts[mapIn.font]
-    if(namedFont) {
+    if (namedFont) {
       namedFont.size
     } else {
       mapIn["fontSize"]
@@ -114,7 +114,7 @@ class MapWrapper {
   }
 
   def plus(Map map) {
-    new MapWrapper(mapIn + map)  
+    new MapWrapper(mapIn + map)
   }
 
   def plus(MapWrapper wrapper) {
@@ -128,7 +128,7 @@ class MapWrapper {
   def getY() {
     at[1]
   }
-  
+
   def getX(DslWriter dslWriter) {
     at[0].value(dslWriter.getPageSize(page), this)
   }
@@ -145,7 +145,11 @@ class MapWrapper {
   def setWidth(value) {
     mapIn["width"] = value
   }
-  
+
+  def setHeight(value) {
+    mapIn["height"] = value
+  }
+
   def getSpacing() {
     forceToLocation(mapIn["spacing"] ?: 0)
   }

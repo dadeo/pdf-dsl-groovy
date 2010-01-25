@@ -23,7 +23,7 @@ class RectangleCommand extends InternalCommand {
   def stampWith(DslWriter dslWriter) {
     dslWriter.withDirectContent(lingo.page) {cb, pageSize ->
       def attrs = lingo
-      
+
       cb.lineWidth = attrs.borderWidth ?: 1
 
       def plotRectangle = {
@@ -39,7 +39,7 @@ class RectangleCommand extends InternalCommand {
         )
       }
 
-      if(attrs.backgroundColor) {
+      if (attrs.backgroundColor) {
         plotRectangle()
         cb.colorFill = attrs.backgroundColor
         cb.fill()

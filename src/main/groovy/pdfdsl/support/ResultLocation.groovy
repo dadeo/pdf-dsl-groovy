@@ -43,7 +43,7 @@ class ResultLocation extends Location {
   String toString() {
     (location1.invoked && location2.invoked) ?
       String.valueOf(valueClosure(null, null)) :
-          location1.toString() + " " + operation + " " + location2.toString()
+      location1.toString() + " " + operation + " " + location2.toString()
   }
 
 }

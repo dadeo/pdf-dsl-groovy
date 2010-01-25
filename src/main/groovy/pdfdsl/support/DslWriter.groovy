@@ -50,7 +50,7 @@ abstract class DslWriter {
 
     def lastY = columnText.getYLine()
 
-    if(callback instanceof Closure) callback(lastY)
+    if (callback instanceof Closure) callback(lastY)
 
     LastPosition.lastY = lastY
   }

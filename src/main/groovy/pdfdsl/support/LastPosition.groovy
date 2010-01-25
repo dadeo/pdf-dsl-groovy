@@ -17,7 +17,7 @@ class LastPosition {
   private static lastYs = new ThreadLocal()
 
   static def getStartY() {
-    startYs.get() ?: 0
+      startYs.get() ?: 0
   }
 
   static def setStartY(value) {
@@ -25,7 +25,7 @@ class LastPosition {
   }
 
   static def getLastY() {
-    lastYs.get() ?: 0
+      lastYs.get() ?: 0
   }
 
   static def setLastY(value) {

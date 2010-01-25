@@ -33,7 +33,7 @@ class TableCommand extends InternalCommand {
   }
 
   def stampWith(DslWriter dslWriter) {
-    dslWriter.withDirectContent(lingo.page) { contentBytes, pageSize ->
+    dslWriter.withDirectContent(lingo.page) {contentBytes, pageSize ->
       def table = new PdfPTable(headers.data.size())
 
       def headersLingo = lingo + headers
@@ -62,8 +62,8 @@ class TableCommand extends InternalCommand {
 
       table.totalWidth = (float) lingo.getWidth(dslWriter)
       table.writeSelectedRows 0, -1, adjustedX, adjustedY, contentBytes
-      
-      LastPosition.lastY = (float) (adjustedY - table.totalHeight)      
+
+      LastPosition.lastY = (float) (adjustedY - table.totalHeight)
     }
   }
 

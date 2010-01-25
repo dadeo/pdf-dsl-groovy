@@ -23,18 +23,18 @@ class CanvasCommand extends InternalCommand {
   }
 
   def stampWith(DslWriter dslWriter) {
-    if(!lingo.mapIn["at"]) {
+    if (!lingo.mapIn["at"]) {
       lingo.mapIn["at"] = [Locations.left, Locations.top]
     }
     def pageSize = dslWriter.getPageSize(lingo.page)
-    if(!lingo.mapIn["width"]) {
+    if (!lingo.mapIn["width"]) {
       lingo.mapIn["width"] = pageSize.width
     }
-    if(!lingo.mapIn["height"]) {
+    if (!lingo.mapIn["height"]) {
       lingo.mapIn["height"] = pageSize.height
     }
     dslWriter.column(lingo) {columnText ->
-      insertTables.each { insertTable ->
+      insertTables.each {insertTable ->
         def insertLingo = lingo + insertTable
         def y = insertLingo.getY(dslWriter)
         insertLingo.table.writeSelectedRows 0, -1, insertLingo.getX(dslWriter), y, columnText.canvas

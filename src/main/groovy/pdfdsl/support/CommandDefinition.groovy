@@ -12,7 +12,6 @@
  */
 package pdfdsl.support
 
-
 class CommandDefinition {
   private def commandObject
   private def commandDefinitions
@@ -22,7 +21,7 @@ class CommandDefinition {
     this(commandObject, [:])
   }
 
-  CommandDefinition(commandObject, commandDefinitions, attributeMappings=[:]) {
+  CommandDefinition(commandObject, commandDefinitions, attributeMappings = [:]) {
     this.commandObject = commandObject
     this.commandDefinitions = commandDefinitions
     this.attributeMappings = attributeMappings
@@ -34,7 +33,7 @@ class CommandDefinition {
 
   private def remap(incoming) {
     def result = [:]
-    incoming.each { k, v ->
+    incoming.each {k, v ->
       def newName = attributeMappings[k]
       result[newName ?: k] = v
     }

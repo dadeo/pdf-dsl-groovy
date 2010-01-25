@@ -16,6 +16,7 @@ import java.awt.Color
 import com.lowagie.text.pdf.BaseFont
 import com.lowagie.text.pdf.PdfPTable
 import com.lowagie.text.pdf.PdfPCell
+import com.lowagie.text.List
 import com.lowagie.text.ListItem
 import com.lowagie.text.Phrase
 import com.lowagie.text.Paragraph
@@ -269,7 +270,20 @@ public class VisualTest extends GroovyTestCase {
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
             }
 
+            List list = new List(false, 10)
+            list.add new ListItem("item 1, xxx x xx x xx x xxx x xxxx x xxx x xxx x xxx xx xxx xxxxx xxx xxxxxx xxxxx xxxxx xxx xx xxx xxxx x xx xxxxx xx xx x xxx")
+            list.add new ListItem("item 2")
+            list.add new ListItem("item 3")
+            insert list:list
+            
             PdfPTable table = new PdfPTable(4)
+            table.addCell("hello")
+            table.addCell("world")
+            table.addCell("yo")
+            table.addCell("dog")
+            insert table:table
+
+            table = new PdfPTable(2)
             table.addCell("hello")
             table.addCell("world")
             table.addCell("yo")

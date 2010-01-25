@@ -33,10 +33,10 @@ class SectionCommand extends InternalCommand {
 
 
   def stampWith(DslWriter dslWriter) {
-    if(!lingo.mapIn.width) {
+    if (!lingo.mapIn.width) {
       lingo.mapIn.width = Locations.right - Locations.left
     }
-    if(!lingo.unaltered('at')) {
+    if (!lingo.unaltered('at')) {
       lingo.mapIn.at = [Locations.left, Locations.lastY]
     }
 
@@ -100,7 +100,7 @@ class SectionCommand extends InternalCommand {
         cb.rectangle(* dimensionsExtractor(pageSize))
       }
 
-      if(lingo.backgroundColor) {
+      if (lingo.backgroundColor) {
         plotRectangle()
         cb.colorFill = lingo.backgroundColor
         cb.fill()
