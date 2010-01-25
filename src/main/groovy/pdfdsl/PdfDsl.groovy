@@ -31,7 +31,7 @@ class PdfDsl {
       namedColors: [:],
       page: 1,
       fontSize: 12,
-      spaces: '  ',
+      spaces: ' ',
       padding: 0,
       leading: 1.25,
       extraParagraphSpace: 0.25,
