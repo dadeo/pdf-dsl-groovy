@@ -49,7 +49,7 @@ class CommandDefinitionFactory {
     def insertDefinition = new CommandDefinition(new InsertCommand())
     def columnDefinition = new CommandDefinition(new ColumnCommand(), [section: createSectionDefinition(), insert:insertDefinition, spacer:spacerDefinition])
     def columnsDefinition = new CommandDefinition(new ColumnsCommand(), [column: columnDefinition])
-    new CommandDefinition(new NoOpCommand(), [columns: columnsDefinition, section:createSectionDefinition(), spacer:spacerDefinition], [number:'page'])
+    new CommandDefinition(new PageCommand(), [columns: columnsDefinition, section:createSectionDefinition(), spacer:spacerDefinition], [number:'page'])
   }
 
 }

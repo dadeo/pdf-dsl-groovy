@@ -26,6 +26,5 @@ class Locations {
 
   static def fontSize = new Location("fontSize", {Rectangle rect, MapWrapper mapWrapper -> mapWrapper.fontSize }, false)
 
-  static def startY = new Location("startY", {Rectangle rect, MapWrapper mapWrapper -> LastPosition.startY }, false)
   static def lastY = new Location("lastY", {Rectangle rect, MapWrapper mapWrapper -> LastPosition.lastY}, false)
 }

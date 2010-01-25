@@ -239,7 +239,7 @@ public class VisualTest extends GroovyTestCase {
       }
 
       page number: 3, {
-        section at: [left, top - 1.inch], width: 7.5.inches, height: 550, justified: left, font: 'f3', fontSize: 10, {
+        section width: 7.5.inches, height: 550, justified: left, font: 'f3', fontSize: 10, {
           text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
           text value: "This is important.", font: 'f2'
           text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
@@ -298,7 +298,7 @@ public class VisualTest extends GroovyTestCase {
           }
         }
 
-        section at: [left, min(lastY, middle) - 0.5.inch], width: 7.5 * 72, height: 150, justified: left, font: 'f3', fontSize: 10, {
+        section width: 7.5 * 72, height: 150, justified: left, font: 'f3', fontSize: 10, {
           text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
           text value: "This is important.", font: 'f2'
           text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"

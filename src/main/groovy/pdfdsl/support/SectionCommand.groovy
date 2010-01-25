@@ -33,7 +33,9 @@ class SectionCommand extends InternalCommand {
 
 
   def stampWith(DslWriter dslWriter) {
-    LastPosition.startY = lingo.at[1].value(dslWriter.getPageSize(lingo.page), lingo)
+    if(!lingo.unaltered('at')) {
+      lingo.mapIn.at = [Locations.left, Locations.lastY]
+    }
 
     if (texts) {
       processText(dslWriter)
