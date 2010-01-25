@@ -12,19 +12,26 @@
  */
 package pdfdsl.support
 
+import com.lowagie.text.pdf.ColumnText
 
-class InsertCommand  extends InternalCommand {
+class InsertCommand extends InternalCommand {
 
   InsertCommand() {
-    defaults = [width:500]
+    defaults = [width: 500]
   }
 
   def stampWith(DslWriter dslWriter) {
-    dslWriter.withDirectContent(lingo.page) {cb, pageSize ->
-      def startY = lingo.getY(dslWriter)
-      lingo.table.totalWidth = lingo.locationValue('width', dslWriter)
-      lingo.table.writeSelectedRows 0, -1, lingo.getX(dslWriter), startY, cb
-      LastPosition.lastY = startY - lingo.table.totalHeight
+    if (lingo.table) {
+      dslWriter.withDirectContent(lingo.page) {cb, pageSize ->
+        def startY = lingo.getY(dslWriter)
+        lingo.table.totalWidth = lingo.locationValue('width', dslWriter)
+        lingo.table.writeSelectedRows 0, -1, lingo.getX(dslWriter), startY, cb
+        LastPosition.lastY = startY - lingo.table.totalHeight
+      }
+    } else if (lingo.list) {
+      dslWriter.column(lingo) {ColumnText columnText ->
+        columnText.addElement lingo.list
+      }
     }
   }
 
