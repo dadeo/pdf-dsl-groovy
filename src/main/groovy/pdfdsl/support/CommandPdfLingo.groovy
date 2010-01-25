@@ -70,76 +70,9 @@ class CommandPdfLingo {
     }
   }
 
-//  def page(lingo, closure) {
-//    closure.resolveStrategy = Closure.DELEGATE_FIRST
-//
-//    def pageNumber = lingo.number
-//    lingo.remove "number"
-//    def newDefaults = defaultSettings + lingo
-//    newDefaults.page = pageNumber
-//
-//    closure.delegate = new CommandPdfLingo(commands, newDefaults)
-//    use(CommandPdfLingo) {
-//      closure()
-//    }
-//  }
-
-//  def insert(lingo) {
-//    commands << new InsertCommand(lingo: defaultSettings + lingo)
-//  }
-//
-//  def line(lingo) {
-//    commands << new LineCommand(lingo: defaultSettings + lingo)
-//  }
-//
-//  def write(lingo) {
-//    commands << new WriteCommand(lingo: defaultSettings + lingo)
-//  }
-//
-//  def section(closure) {
-//    section([:], closure)
-//  }
-//
-//  def section(lingo, closure) {
-//    SectionCommand command = new SectionCommand(lingo: defaultSettings + lingo)
-//    closure.delegate = command
-//    closure.resolveStrategy = Closure.DELEGATE_FIRST
-//    use(LocationPdfLingo) {
-//      closure()
-//    }
-//    commands << command
-//  }
-//
-//  def table(lingo, closure) {
-//    TableCommand command = new TableCommand(lingo: defaultSettings + lingo)
-//    closure.delegate = command
-//    closure()
-//    commands << command
-//  }
-//
-//  def rectangle(lingo) {
-//    commands << new RectangleCommand(lingo: defaultSettings + lingo)
-//  }
-//
-//  def canvas(lingo, closure) {
-//    commands << new CanvasCommand(lingo: defaultSettings + lingo, closure: closure)
-//  }
-//
-//  def column(lingo, closure) {
-//    commands << new ColumnCommand(lingo: defaultSettings + lingo, closure: closure)
-//  }
-
-//  def columns(closure) {
-//    columns [:], closure
-//  }
-
-//  def columns(lingo, closure) {
-//    def command = new ColumnsCommand(lingo: defaultSettings + lingo, closure: closure)
-//    closure.delegate = command
-//    closure.resolveStrategy = Closure.DELEGATE_FIRST
-//    closure()
-//    commands << command
-//  }
+  def defaults(lingo) {
+    defaultSettings.putAll lingo
+  }
 
   def font(lingo) {
     if (!lingo.id) throw new RuntimeException("Font id required")

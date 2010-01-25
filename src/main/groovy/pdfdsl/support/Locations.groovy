@@ -17,11 +17,11 @@ import com.lowagie.text.Rectangle
 class Locations {
 
   static def center = new Location("center", {Rectangle rect, MapWrapper mapWrapper -> (rect.right - rect.left) / 2}, false)
-  static def right = new Location("right", {Rectangle rect, MapWrapper mapWrapper -> rect.right }, false)
-  static def left = new Location("left", {Rectangle rect, MapWrapper mapWrapper -> rect.left }, false)
+  static def right = new Location("right", {Rectangle rect, MapWrapper mapWrapper -> rect.right - mapWrapper.margin}, false)
+  static def left = new Location("left", {Rectangle rect, MapWrapper mapWrapper -> rect.left + mapWrapper.margin}, false)
 
-  static def top = new Location("top", {Rectangle rect, MapWrapper mapWrapper -> rect.top }, false)
-  static def bottom = new Location("bottom", {Rectangle rect, MapWrapper mapWrapper -> rect.bottom }, false)
+  static def top = new Location("top", {Rectangle rect, MapWrapper mapWrapper -> rect.top - mapWrapper.margin}, false)
+  static def bottom = new Location("bottom", {Rectangle rect, MapWrapper mapWrapper -> rect.bottom + mapWrapper.margin }, false)
   static def middle = new Location("middle", {Rectangle rect, MapWrapper mapWrapper -> (rect.top - rect.bottom) / 2}, false)
 
   static def fontSize = new Location("fontSize", {Rectangle rect, MapWrapper mapWrapper -> mapWrapper.fontSize }, false)
