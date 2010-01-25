@@ -17,6 +17,7 @@ class CommandDefinitionFactory {
 
   def createDefinitions() {
     [
+        spacer:  new CommandDefinition(new SpacerCommand()),
         write: new CommandDefinition(new WriteCommand()),
         line: new CommandDefinition(new LineCommand()),
         rectangle: new CommandDefinition(new RectangleCommand()),

@@ -16,6 +16,7 @@ class PageCommand extends InternalCommand {
 
   def stampWith(DslWriter dslWriter) {
     LastPosition.lastY = Locations.top.value(dslWriter.getPageSize(lingo.page), lingo)
+    lingo.width = Locations.right - Locations.left
   }
 
 }

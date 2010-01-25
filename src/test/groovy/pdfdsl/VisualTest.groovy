@@ -141,7 +141,9 @@ public class VisualTest extends GroovyTestCase {
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
       }
 
-      section page: 1, at: [left + 50, lastY - 12], width: 250, height: 150, justified: left, font: 'f3', fontSize: 10, borderColor: Color.YELLOW, padding: 4, {
+      spacer height: 1.inch
+      
+      section page: 1, height: 150, justified: left, font: 'f3', fontSize: 10, borderColor: Color.YELLOW, padding: 4, {
         text value: "This is important.", font: 'f2'
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
       }
@@ -239,7 +241,7 @@ public class VisualTest extends GroovyTestCase {
       }
 
       page number: 3, {
-        section width: 7.5.inches, height: 550, justified: left, font: 'f3', fontSize: 10, {
+        section height: 550, justified: left, font: 'f3', fontSize: 10, {
           text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
           text value: "This is important.", font: 'f2'
           text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
@@ -298,7 +300,9 @@ public class VisualTest extends GroovyTestCase {
           }
         }
 
-        section width: 7.5 * 72, height: 150, justified: left, font: 'f3', fontSize: 10, {
+        spacer height:0.25.inch
+        
+        section height: 150, justified: left, font: 'f3', fontSize: 10, {
           text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
           text value: "This is important.", font: 'f2'
           text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"

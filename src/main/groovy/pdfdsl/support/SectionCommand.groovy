@@ -33,6 +33,9 @@ class SectionCommand extends InternalCommand {
 
 
   def stampWith(DslWriter dslWriter) {
+    if(!lingo.mapIn.width) {
+      lingo.mapIn.width = Locations.right - Locations.left
+    }
     if(!lingo.unaltered('at')) {
       lingo.mapIn.at = [Locations.left, Locations.lastY]
     }
