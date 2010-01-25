@@ -45,10 +45,11 @@ class CommandDefinitionFactory {
   }
 
   private CommandDefinition createPageDefinition() {
+    def spacerDefinition = new CommandDefinition(new SpacerCommand())
     def insertDefinition = new CommandDefinition(new InsertCommand())
-    def columnDefinition = new CommandDefinition(new ColumnCommand(), [section: createSectionDefinition(), insert:insertDefinition])
+    def columnDefinition = new CommandDefinition(new ColumnCommand(), [section: createSectionDefinition(), insert:insertDefinition, spacer:spacerDefinition])
     def columnsDefinition = new CommandDefinition(new ColumnsCommand(), [column: columnDefinition])
-    new CommandDefinition(new NoOpCommand(), [columns: columnsDefinition, section:createSectionDefinition()], [number:'page'])
+    new CommandDefinition(new NoOpCommand(), [columns: columnsDefinition, section:createSectionDefinition(), spacer:spacerDefinition], [number:'page'])
   }
 
 }
