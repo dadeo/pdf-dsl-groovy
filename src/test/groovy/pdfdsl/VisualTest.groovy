@@ -248,7 +248,7 @@ public class VisualTest extends GroovyTestCase {
 
         spacer height: 0.25.inch
 
-        columns at: [left + 50, lastY], widths: [250, 250], spacing:0.5.inch, {
+        columns widths: [250, 250], spacing:0.5.inch, {
           column sectionSpacing:10, {
             section height: 550, justified: left, font: 'f3', fontSize: 10, {
               text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
@@ -256,7 +256,7 @@ public class VisualTest extends GroovyTestCase {
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
             }
 
-            spacer height: 1.inch
+            spacer height: 0.25.inch
             
             section height: 550, justified: left, font: 'f3', fontSize: 10, {
               text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
