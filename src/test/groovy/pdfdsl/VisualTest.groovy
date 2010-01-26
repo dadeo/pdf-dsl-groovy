@@ -293,9 +293,9 @@ public class VisualTest extends GroovyTestCase {
             }
           }
           column {
-            section height: 550, justified: left, font: 'verdana', fontSize: 10, {
-              text value: "This is my Main Heading", font: 'verdana bold', fontSize: 12, newline: 'after'
-              text value: "This is important.", font: 'verdana bold'
+            section height: 550, justified: left, font: 'f3', fontSize: 10, {
+              text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
+              text value: "This is important.", font: 'f2'
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"

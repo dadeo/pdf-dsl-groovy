@@ -122,10 +122,6 @@ class CommandPdfLingo {
     defaultSettings.namedColors
   }
 
-  def getFont(String id, int size) {
-    new Font(defaultSettings.configuredFonts[id], size)
-  }
-
   def each(collection, closure) {
     closure.delegate = this
     closure.resolveStrategy = Closure.DELEGATE_FIRST

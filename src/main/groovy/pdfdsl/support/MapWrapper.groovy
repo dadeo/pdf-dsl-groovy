@@ -23,6 +23,10 @@ class MapWrapper {
     mapIn = map
   }
 
+  MapWrapper(MapWrapper wrapper) {
+    mapIn = wrapper.mapIn
+  }
+
   boolean has(name) {
     mapIn[name] != null
   }

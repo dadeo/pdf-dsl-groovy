@@ -126,7 +126,7 @@ class SectionCommand extends InternalCommand {
       }
 
       texts.each {
-        def mapLingo = new MapWrapper(lingo + it)
+        def mapLingo = lingo + it
         if (it.newline == 'before') {
           writeParagraph()
         }
