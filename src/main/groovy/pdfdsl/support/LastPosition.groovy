@@ -13,22 +13,13 @@
 package pdfdsl.support
 
 class LastPosition {
-  private static startYs = new ThreadLocal()
   private static lastYs = new ThreadLocal()
-
-  static def getStartY() {
-      startYs.get() ?: 0
-  }
-
-  static def setStartY(value) {
-    startYs.set(value)
-  }
 
   static def getLastY() {
       lastYs.get() ?: 0
   }
 
   static def setLastY(value) {
-    lastYs.set(value)
+    lastYs.set(value as float)
   }
 }
