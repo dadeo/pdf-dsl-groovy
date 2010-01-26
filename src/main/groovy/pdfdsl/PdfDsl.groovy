@@ -35,6 +35,7 @@ class PdfDsl {
       padding: 0,
       leading: 1.25,
       extraParagraphSpace: 0.25,
+      margin: 72,
   ]
 
   private def validCommands = definitionFactory.createDefinitions()
