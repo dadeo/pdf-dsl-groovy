@@ -34,7 +34,7 @@ class PdfDsl {
       spaces: ' ',
       padding: 0,
       leading: 1.25,
-      extraParagraphSpace: 0.25,
+      extraParagraphSpace: 0,
       margin: 72,
   ]
 
