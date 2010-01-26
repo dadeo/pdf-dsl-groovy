@@ -20,7 +20,7 @@ class SectionCommand extends InternalCommand {
 
 
   SectionCommand() {
-    defaults = [padding: 0]
+    defaults = [padding: 0, at:[Locations.left, Locations.lastY]]
   }
 
   def getLines() {
@@ -55,9 +55,11 @@ class SectionCommand extends InternalCommand {
     lines.each {
       def lineLingo = lingo + coordinates + it
       dslWriter.stamp(lineLingo)
+      LastPosition.lastY = coordinates.at[1].value(dslWriter.getPageSize(lineLingo.page), lineLingo)
       coordinates = [at: [lineLingo.at[0], coordinates.at[1] - lineLingo.fontSize]]
       maxLength = Math.max(maxLength, lineLingo.getTextLength(it.text))
     }
+
 
     drawBorder(maxLength, dslWriter, coordinates.at[1].value(dslWriter.getPageSize(lingo.page), lingo))
   }
