@@ -15,18 +15,19 @@ package pdfdsl.support
 class HLineCommand extends InternalCommand {
 
   HLineCommand() {
-    defaults = [width: 1]
+    defaults = [before: 0, after: 0, width: 1]
   }
 
   def stampWith(DslWriter dslWriter) {
     dslWriter.withDirectContent(lingo.page) {cb, pageSize ->
       def width = lingo.width.value(pageSize, lingo)
       cb.lineWidth = width
-      cb.moveTo((float) Locations.left.value(pageSize, lingo), LastPosition.lastY)
-      cb.lineTo((float) Locations.right.value(pageSize, lingo), LastPosition.lastY)
+      def y = (Locations.lastY - lingo.before).value(pageSize, lingo)
+      cb.moveTo((float) Locations.left.value(pageSize, lingo), y)
+      cb.lineTo((float) Locations.right.value(pageSize, lingo), y )
       cb.colorStroke = lingo.color
       cb.stroke()
-      LastPosition.lastY += width
+      LastPosition.lastY -= new ResultLocation("+", width, lingo.after).value(pageSize, lingo)
     }
   }
 

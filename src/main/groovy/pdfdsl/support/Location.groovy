@@ -56,7 +56,7 @@ class Location {
       result
     } else {
       invoked = cache
-      result = valueClosure(rect, mapWrapper)
+      result = valueClosure(rect, mapWrapper) as float
     }
   }
 

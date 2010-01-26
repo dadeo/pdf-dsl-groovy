@@ -17,6 +17,18 @@ class ResultLocation extends Location {
   private Location location1
   private Location location2
 
+  ResultLocation(String operation, Number location1, Location location2) {
+    this(operation, new Location(location1), location2)
+  }
+
+  ResultLocation(String operation, Location location1, Number location2) {
+    this(operation, location1, new Location(location2))
+  }
+
+  ResultLocation(String operation, Number location1, Number location2) {
+    this(operation, new Location(location1), new Location(location2))
+  }
+
   ResultLocation(String operation, Location location1, Location location2) {
     this.operation = operation
     this.location1 = location1
