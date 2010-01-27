@@ -74,11 +74,11 @@ class ResultLocationTest extends GroovyTestCase {
   }
 
   void test_toString_location1_not_invoked() {
-    assertEquals "center + 5.0", new ResultLocation("+", Locations.center, new Location(5)).toString()
+    assertEquals "(center + 5.0)", new ResultLocation("+", Locations.center, new Location(5)).toString()
   }
 
   void test_toString_location2_not_invoked() {
-    assertEquals "5.0 / center", new ResultLocation("/", new Location(5), Locations.center).toString()
+    assertEquals "(5.0 / center)", new ResultLocation("/", new Location(5), Locations.center).toString()
   }
   
   void test_toString_both_locations_invoked() {
