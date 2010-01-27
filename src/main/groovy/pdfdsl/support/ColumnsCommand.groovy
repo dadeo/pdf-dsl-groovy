@@ -30,6 +30,11 @@ class ColumnsCommand extends InternalCommand {
     } else {
       LastPosition.lastY = lastY
     }
+
+    if (!(lingo.widths || lingo.CHILDREN[index].width)) {
+      lingo.mapIn.widths = calculateWidths()
+    }
+
     if (lingo.widths) {
       merged.width = lingo.widths[index]
       def offset = lingo.widths[0..<index].inject(new Location(0)) {a, b -> a + b + merged.spacing}
@@ -50,4 +55,16 @@ class ColumnsCommand extends InternalCommand {
     LastPosition.lastY = lastYs.inject(lastYs[0]) {v1, v2 -> Math.min(v1, v2) }
   }
 
+  private def calculateWidths() {
+    def calculatedWidths = new Location[lingo.CHILDREN.size()]
+
+    def totalSpaceAvailable = new ResultLocation("-", Locations.right, Locations.left)
+    def totalSpacingNeeded = lingo.spacing * (lingo.CHILDREN.size() - 1)
+    def spaceAvailableForColumns = new ResultLocation("-", totalSpaceAvailable, totalSpacingNeeded)
+    def width = new ResultLocation("/", spaceAvailableForColumns, lingo.CHILDREN.size())
+
+    Arrays.fill calculatedWidths, width
+
+    calculatedWidths
+  }
 }

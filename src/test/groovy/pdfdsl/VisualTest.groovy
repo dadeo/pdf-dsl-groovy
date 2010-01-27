@@ -89,6 +89,24 @@ public class VisualTest extends GroovyTestCase {
             include template:template, args:[4]
           }
         }
+
+        columns spacing:0.5.inch, {
+          column {
+            section {
+              text value:"hello"
+            }
+          }
+          column {
+            section {
+              text value:"happy"
+            }
+          }
+          column {
+            section {
+              text value:"world"
+            }
+          }
+        }
       }
     }
 
