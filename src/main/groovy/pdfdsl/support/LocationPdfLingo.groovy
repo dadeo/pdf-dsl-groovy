@@ -78,4 +78,12 @@ class LocationPdfLingo {
     (number * 72) as float
   }
 
+  static getCm(Number number) {
+    (getInches(number) / 2.54) as float
+  }
+
+  static getMm(Number number) {
+    (getCm(number) / 10) as float
+  }
+
 }
