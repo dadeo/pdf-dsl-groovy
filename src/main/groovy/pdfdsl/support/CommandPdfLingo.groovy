@@ -78,6 +78,15 @@ class CommandPdfLingo {
     }
   }
   
+  def include(lingo) {
+    def closure = lingo.template
+    closure.delegate = this
+    closure.resolveStrategy = Closure.DELEGATE_FIRST
+    use(LocationPdfLingo) {
+      closure(*lingo.args)
+    }
+  }
+
   def defaults(lingo) {
     defaultSettings.putAll lingo
   }

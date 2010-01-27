@@ -74,21 +74,19 @@ public class VisualTest extends GroovyTestCase {
             ["c1", "c2", "c3", "c4", "c5"]
         ]
       }
-
+  
+      def template = { count ->
+        section {
+          text value:"Section ${count} xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
+        }
+      }
       page number:4, {
-        columns {
-          column at: [3.inches, 720], width: 4.5.inches, height: 550, sectionSpacing: 10, extraParagraphSpace:0, leading:1, {
-            section {
-              text value:"Section 1 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
-            }
-
-            section {
-              text value:"Section 2 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
-            }
-
-            section {
-              text value:"Section 3 xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
-            }
+        columns at: [3.inches, 720], {
+          column width: 4.5.inches, height: 550, sectionSpacing: 10, extraParagraphSpace:0, leading:1, {
+            include template:template, args:[1]
+            include template:template, args:[2]
+            include template:template, args:[3]
+            include template:template, args:[4]
           }
         }
       }
@@ -244,7 +242,7 @@ public class VisualTest extends GroovyTestCase {
       }
 
       page number: 3, {
-        section height: 550, justified: left, font: 'f3', fontSize: 10, {
+        section justified: left, font: 'f3', fontSize: 10, {
           text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
           text value: "This is important.", font: 'f2'
           text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
@@ -257,7 +255,7 @@ public class VisualTest extends GroovyTestCase {
 
         columns widths: [250, 250], spacing:0.5.inch, {
           column sectionSpacing:10, {
-            section height: 550, justified: left, font: 'f3', fontSize: 10, {
+            section justified: left, font: 'f3', fontSize: 10, {
               text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
               text value: "This is important.", font: 'f2'
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
@@ -265,7 +263,7 @@ public class VisualTest extends GroovyTestCase {
 
             spacer height: 0.25.inch
             
-            section height: 550, justified: left, font: 'f3', fontSize: 10, {
+            section justified: left, font: 'f3', fontSize: 10, {
               text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
               text value: "This is important.", font: 'f2'
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
@@ -287,13 +285,13 @@ public class VisualTest extends GroovyTestCase {
             table.addCell("dog")
             insert table:table
 
-            section height: 550, justified: left, font: 'f3', fontSize: 10, {
+            section justified: left, font: 'f3', fontSize: 10, {
               text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
               text value: "This is important.", font: 'f2'
             }
           }
           column {
-            section height: 550, justified: left, font: 'f3', fontSize: 10, {
+            section justified: left, font: 'f3', fontSize: 10, {
               text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
               text value: "This is important.", font: 'f2'
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
@@ -313,7 +311,7 @@ public class VisualTest extends GroovyTestCase {
 
         spacer height:0.25.inch
         
-        section height: 150, justified: left, font: 'f3', fontSize: 10, {
+        section justified: left, font: 'f3', fontSize: 10, {
           text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
           text value: "This is important.", font: 'f2'
           text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
