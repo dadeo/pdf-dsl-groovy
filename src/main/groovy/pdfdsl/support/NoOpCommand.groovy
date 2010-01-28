@@ -14,7 +14,4 @@ package pdfdsl.support
 
 class NoOpCommand extends InternalCommand {
 
-  def stampWith(DslWriter dslWriter) {
-  }
-
 }

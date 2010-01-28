@@ -21,7 +21,6 @@ class InternalCommand {
   }
 
   def stampWith(DslWriter dslWriter) {
-    dslWriter.stamp(lingo)
   }
 
   def preChildExecute(childCommand, int index) {

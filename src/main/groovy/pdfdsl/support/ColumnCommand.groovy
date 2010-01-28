@@ -14,9 +14,6 @@ package pdfdsl.support
 
 class ColumnCommand extends InternalCommand {
 
-  def stampWith(DslWriter dslWriter) {
-  }
-
   def preChildExecute(childCommand, int index) {
     def merged = super.preChildExecute(childCommand, index)
     if (index != 0) {
