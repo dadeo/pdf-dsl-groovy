@@ -31,24 +31,50 @@ class ColumnsCommandTest extends GroovyTestCase {
 
     assertEquals 4, widths.size()
     widths.each { width ->
-      doAssertWidth width
+      assertEquals "(((right - left) - 150.0) / 4.0)", width.toString()
     }
   }
 
-  private doAssertWidth(width) {
-    assertTrue width instanceof ResultLocation
-    assertEquals "/", width.operation
-    assertEquals 4f, width.location2.value(null, null)
+  void test_calculatedWidths_child_with_numeric_width() {
+    ColumnsCommand command = new ColumnsCommand()
+    command.lingo = [
+        spacing: 50,
+        CHILDREN: [
+            [:],
+            [width:100],
+            [:],
+        ]
+    ]
 
-    assertTrue width.location1 instanceof ResultLocation
-    assertEquals "-", width.location1.operation
-    assertEquals 150f, width.location1.location2.value(null, null)
+    def widths = command.calculateWidths()
 
-    def location1 = width.location1.location1
-    assertTrue location1 instanceof ResultLocation
-    assertEquals "-", location1.operation
-    assertEquals "right", location1.location1.description
-    assertEquals "left", location1.location2.description
+    assertEquals 3, widths.size()
+    assertEquals "(((right - left) - 200.0) / 2.0)", widths[0].toString()
+    assertEquals 100, widths[1]
+    assertEquals "(((right - left) - 200.0) / 2.0)", widths[2].toString()
+  }
+
+  void test_calculatedWidths_child_with_location_width() {
+    ColumnsCommand command = new ColumnsCommand()
+    command.lingo = [
+        spacing: 50,
+        CHILDREN: [
+            [:],
+            [width:new Location(25)],
+            [:],
+            [:],
+            [width:new Location(75)],
+        ]
+    ]
+
+    def widths = command.calculateWidths()
+
+    assertEquals 5, widths.size()
+    assertEquals "(((right - left) - (200.0 + (25.0 + 75.0))) / 3.0)", widths[0].toString()
+    assertEquals "25.0", widths[1].toString()
+    assertEquals "(((right - left) - (200.0 + (25.0 + 75.0))) / 3.0)", widths[2].toString()
+    assertEquals "(((right - left) - (200.0 + (25.0 + 75.0))) / 3.0)", widths[3].toString()
+    assertEquals "75.0", widths[4].toString()
   }
 
 }

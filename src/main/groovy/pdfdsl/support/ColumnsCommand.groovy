@@ -56,14 +56,27 @@ class ColumnsCommand extends InternalCommand {
   }
 
   private def calculateWidths() {
-    def calculatedWidths = new Location[lingo.CHILDREN.size()]
-
+    def calculatedWidths = []
+    def columnsWithoutExplicitWidths = 0
     def totalSpaceAvailable = new ResultLocation("-", Locations.right, Locations.left)
     def totalSpacingNeeded = lingo.spacing * (lingo.CHILDREN.size() - 1)
-    def spaceAvailableForColumns = new ResultLocation("-", totalSpaceAvailable, totalSpacingNeeded)
-    def width = new ResultLocation("/", spaceAvailableForColumns, lingo.CHILDREN.size())
+    def totalExplicitColumnWidths = lingo.CHILDREN.inject(0) {total, child ->
+      if(child.width) {
+        if((total instanceof Location) || (child.width instanceof Location)) {
+          new ResultLocation("+", total, child.width)
+        } else {
+          total + (child.width ? child.width : 0)
+        }
+      } else {
+        ++columnsWithoutExplicitWidths
+        total
+      }
+    }
+    def totalConsumedSpace = totalExplicitColumnWidths ? new ResultLocation("+", totalSpacingNeeded, totalExplicitColumnWidths) : totalSpacingNeeded
+    def spaceAvailableForColumns = new ResultLocation("-", totalSpaceAvailable, totalConsumedSpace)
+    def implicitWidth = new ResultLocation("/", spaceAvailableForColumns, columnsWithoutExplicitWidths)
 
-    Arrays.fill calculatedWidths, width
+    lingo.CHILDREN.each { child -> calculatedWidths << (child.width ? child.width : implicitWidth) }
 
     calculatedWidths
   }
