@@ -37,7 +37,7 @@ class CommandPdfLingo {
 
     def builtCommand = commandDefinition.build((args.size() != 0 && args[0] instanceof Map) ? args[0] : [:])
     builtCommand.COMMAND_NAME = name
-
+    verifyFontsExist builtCommand
     Closure closure = findClosure(args)
     if (closure) {
       builtCommand.CHILDREN = []
@@ -49,6 +49,15 @@ class CommandPdfLingo {
     }
 
     commands << builtCommand
+  }
+
+  private def verifyFontsExist(command) {
+    def specifiedFont = command.font
+    if(specifiedFont instanceof String) {
+      if(!(defaultSettings.configuredFonts[specifiedFont] || defaultSettings.namedFonts[specifiedFont])) {
+        throw new RuntimeException("font with id of '${specifiedFont}' is not configured")
+      }
+    }
   }
 
   private def findClosure(args) {

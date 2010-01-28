@@ -12,18 +12,14 @@
  */
 package pdfdsl
 
-import java.awt.Color
-import com.lowagie.text.pdf.BaseFont
-import com.lowagie.text.pdf.PdfPTable
-import com.lowagie.text.pdf.PdfPCell
+import com.lowagie.text.Chunk
+import com.lowagie.text.Font
 import com.lowagie.text.List
 import com.lowagie.text.ListItem
-import com.lowagie.text.Phrase
-import com.lowagie.text.Paragraph
-import com.lowagie.text.Chunk
-import com.lowagie.text.ZapfDingbatsList
-import com.lowagie.text.Font
-
+import com.lowagie.text.pdf.BaseFont
+import com.lowagie.text.pdf.PdfPCell
+import com.lowagie.text.pdf.PdfPTable
+import java.awt.Color
 
 public class VisualTest extends GroovyTestCase {
 
@@ -41,21 +37,18 @@ public class VisualTest extends GroovyTestCase {
     def pdfTemplate1 = dsl.createTemplate {
       defaults margin:0.75.inch
       
-      font id: 'f1', file: '/Library/Fonts/Herculanum.ttf', embedded: true
-      font id: 'f2', name: BaseFont.TIMES_BOLD
-      font id: 'f3', name: BaseFont.TIMES_ROMAN
-      font id: 'verdana', file: '/Library/Fonts/Verdana.ttf', embedded: true
-      font id: 'verdana bold', file: '/Library/Fonts/Verdana Bold.ttf', embedded: true
+      font id: 'bold', name: BaseFont.TIMES_BOLD
+      font id: 'times', name: BaseFont.TIMES_ROMAN
 
-      namedFont id: 'text', font: 'f3', size: 11
-      namedFont id: 'bold text', font: 'f2', size: 24
+      namedFont id: 'text', font: 'times', size: 11
+      namedFont id: 'bold text', font: 'bold', size: 24
 
       write text: "100, top-100", at: [100, top - 100], page: 1, font: 'bold text'
 
       table at: [100, top - 100], page: 1, width: 4 * 72, height: 600, {
-        headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'f1'
+        headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'bold'
 
-        rows font: 'f2', data: [
+        rows font: 'bold', data: [
             ["c1", "c2", "c3", "c4", "c5"],
             ["c1", "c2", "c3", "c4", "c5"],
             ["c1", "c2", "c3", "c4", "c5"]
@@ -66,9 +59,9 @@ public class VisualTest extends GroovyTestCase {
       write text: "and I follow it", at: [100, lastY - fontSize], page: 1
 
       table at: [100, lastY], page: 1, width: 4 * 72, height: 600, {
-        headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'f1'
+        headers justified: center, data: ["hello\nworld", "column 0", "column 1", "column 2", "column 3"], font: 'bold'
 
-        rows font: 'f2', data: [
+        rows font: 'bold', data: [
             ["c1", "c2", "c3", "c4", "c5"],
             ["c1", "c2", "c3", "c4", "c5"],
             ["c1", "c2", "c3", "c4", "c5"]
@@ -141,24 +134,24 @@ public class VisualTest extends GroovyTestCase {
       write text: "hello world 3", at: [25, 700 - fontSize], page: 2
       write text: "bottom-right", justified: right, at: [right, bottom], page: 1
       write text: "bottom-left", justified: left, at: [left, bottom], page: 1
-      write text: "top-right", justified: right, at: [right, top - fontSize], page: 1, font: 'f3'
-      write text: "top-left", at: [left, top - fontSize], page: 1, font: 'f2'
+      write text: "top-right", justified: right, at: [right, top - fontSize], page: 1, font: 'times'
+      write text: "top-left", at: [left, top - fontSize], page: 1, font: 'bold'
       write text: "top-center", at: [(right - left) / 2, top - fontSize], page: 1
       write text: "almost-top-center", at: [center, top - fontSize - fontSize], page: 1
       write text: "top-center-justified", justified: center, at: [center, top - fontSize * 3], page: 1
       write text: "top-right-justified", justified: right, at: [center, top - fontSize * 4], page: 1
-      write text: "centered-middle", justified: center, at: [center, middle], page: 1, font: 'f1'
+      write text: "centered-middle", justified: center, at: [center, middle], page: 1, font: 'bold'
 
       rectangle at: [center, middle], width: 144, height: 72, backgroundColor: Color.lightGray, borderColor: Color.RED
 
       section page: 1, at: [left + 50, 400], borderColor: Color.BLUE, {
-        line text: "pinky jones", font: 'f1'
+        line text: "pinky jones", font: 'bold'
         line text: "suite abc"
         line text: "123 main st"
         line text: "des moines, ia 50023"
       }
 
-      section page: 1, at: [center, 300], justified: center, font: 'f3', fontSize: 24, borderColor: Color.RED, padding: 10, {
+      section page: 1, at: [center, 300], justified: center, font: 'times', fontSize: 24, borderColor: Color.RED, padding: 10, {
         line text: "pinky jones"
         line text: "suite abc"
         line text: "123 main st"
@@ -172,16 +165,16 @@ public class VisualTest extends GroovyTestCase {
         line text: "des moines, ia 50023"
       }
 
-      section page: 1, at: [left + 50, 250], width: 250, height: 150, justified: left, font: 'f3', fontSize: 10, {
-        text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-        text value: "This is important.", font: 'f2'
+      section page: 1, at: [left + 50, 250], width: 250, height: 150, justified: left, font: 'times', fontSize: 10, {
+        text value: "This is my Main Heading", font: 'bold', fontSize: 12, newline: 'after'
+        text value: "This is important.", font: 'bold'
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
       }
 
       spacer height: 1.inch
       
-      section page: 1, height: 150, justified: left, font: 'f3', fontSize: 10, borderColor: Color.YELLOW, padding: 4, {
-        text value: "This is important.", font: 'f2'
+      section page: 1, height: 150, justified: left, font: 'times', fontSize: 10, borderColor: Color.YELLOW, padding: 4, {
+        text value: "This is important.", font: 'bold'
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
       }
 
@@ -278,9 +271,9 @@ public class VisualTest extends GroovyTestCase {
       }
 
       page number: 3, {
-        section justified: left, font: 'f3', fontSize: 10, {
-          text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-          text value: "This is important.", font: 'f2'
+        section justified: left, font: 'times', fontSize: 10, {
+          text value: "This is my Main Heading", font: 'bold', fontSize: 12, newline: 'after'
+          text value: "This is important.", font: 'bold'
           text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
           text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
           text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
@@ -291,17 +284,17 @@ public class VisualTest extends GroovyTestCase {
 
         columns widths: [250, 250], spacing:0.5.inch, {
           column sectionSpacing:10, {
-            section justified: left, font: 'f3', fontSize: 10, {
-              text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-              text value: "This is important.", font: 'f2'
+            section justified: left, font: 'times', fontSize: 10, {
+              text value: "This is my Main Heading", font: 'bold', fontSize: 12, newline: 'after'
+              text value: "This is important.", font: 'bold'
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
             }
 
             spacer height: 0.25.inch
             
-            section justified: left, font: 'f3', fontSize: 10, {
-              text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-              text value: "This is important.", font: 'f2'
+            section justified: left, font: 'times', fontSize: 10, {
+              text value: "This is my Main Heading", font: 'bold', fontSize: 12, newline: 'after'
+              text value: "This is important.", font: 'bold'
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
             }
@@ -321,15 +314,15 @@ public class VisualTest extends GroovyTestCase {
             table.addCell("dog")
             insert table:table
 
-            section justified: left, font: 'f3', fontSize: 10, {
-              text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-              text value: "This is important.", font: 'f2'
+            section justified: left, font: 'times', fontSize: 10, {
+              text value: "This is my Main Heading", font: 'bold', fontSize: 12, newline: 'after'
+              text value: "This is important.", font: 'bold'
             }
           }
           column {
-            section justified: left, font: 'f3', fontSize: 10, {
-              text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-              text value: "This is important.", font: 'f2'
+            section justified: left, font: 'times', fontSize: 10, {
+              text value: "This is my Main Heading", font: 'bold', fontSize: 12, newline: 'after'
+              text value: "This is important.", font: 'bold'
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
               text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
@@ -347,16 +340,16 @@ public class VisualTest extends GroovyTestCase {
 
         spacer height:0.25.inch
         
-        section justified: left, font: 'f3', fontSize: 10, {
-          text value: "This is my Main Heading", font: 'f2', fontSize: 12, newline: 'after'
-          text value: "This is important.", font: 'f2'
+        section justified: left, font: 'times', fontSize: 10, {
+          text value: "This is my Main Heading", font: 'bold', fontSize: 12, newline: 'after'
+          text value: "This is important.", font: 'bold'
           text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
           text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
           text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
         }
       }
 
-      section page: 2, at: [center, bottom + 150], width: right - center - 50, height: bottom + 72, justified: left, font: 'f3', fontSize: 10, {
+      section page: 2, at: [center, bottom + 150], width: right - center - 50, height: bottom + 72, justified: left, font: 'times', fontSize: 10, {
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
         text value: "This is where all the unimportant text follows.  It looks something like this ... asdkfasd asdf asdf asd fasdf asd f"
