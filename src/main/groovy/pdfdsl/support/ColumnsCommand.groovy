@@ -13,11 +13,17 @@
 package pdfdsl.support
 
 class ColumnsCommand extends InternalCommand {
+  private calculator = new WidthCalculator()
   private lastY   // TODO: not thread safe
   private lastYs = [] // TODO: not thread safe
 
   ColumnsCommand() {
     defaults = [sectionSpacing: 0]
+  }
+
+  void setLingo(lingo) {
+    super.setLingo(lingo)
+    this.lingo.mapIn.widths = calculator.calculateFor(this.lingo)
   }
 
   def preChildExecute(childCommand, int index) {
@@ -28,19 +34,14 @@ class ColumnsCommand extends InternalCommand {
       LastPosition.lastY = lastY
     }
 
-    if (!(lingo.widths || lingo.CHILDREN[index].width)) {
-      lingo.mapIn.widths = calculateWidths()
+    merged.width = lingo.widths[index]
+    def offset = lingo.widths[0..<index].inject(new Location(0)) {a, b -> a + b + merged.spacing}
+    if (merged.unaltered('at')) {
+      merged.x = lingo.x + offset
+    } else {
+      merged.mapIn.at = [Locations.left + offset, LastPosition.lastY]
     }
 
-    if (lingo.widths) {
-      merged.width = lingo.widths[index]
-      def offset = lingo.widths[0..<index].inject(new Location(0)) {a, b -> a + b + merged.spacing}
-      if (merged.unaltered('at')) {
-        merged.x = lingo.x + offset
-      } else {
-        merged.mapIn.at = [Locations.left + offset, LastPosition.lastY]
-      }
-    }
     merged
   }
 
@@ -52,29 +53,4 @@ class ColumnsCommand extends InternalCommand {
     LastPosition.lastY = lastYs.inject(lastYs[0]) {v1, v2 -> Math.min(v1, v2) }
   }
 
-  private def calculateWidths() {
-    def calculatedWidths = []
-    def columnsWithoutExplicitWidths = 0
-    def totalSpaceAvailable = new ResultLocation("-", Locations.right, Locations.left)
-    def totalSpacingNeeded = lingo.spacing * (lingo.CHILDREN.size() - 1)
-    def totalExplicitColumnWidths = lingo.CHILDREN.inject(0) {total, child ->
-      if(child.width) {
-        if((total instanceof Location) || (child.width instanceof Location)) {
-          new ResultLocation("+", total, child.width)
-        } else {
-          total + (child.width ? child.width : 0)
-        }
-      } else {
-        ++columnsWithoutExplicitWidths
-        total
-      }
-    }
-    def totalConsumedSpace = totalExplicitColumnWidths ? new ResultLocation("+", totalSpacingNeeded, totalExplicitColumnWidths) : totalSpacingNeeded
-    def spaceAvailableForColumns = new ResultLocation("-", totalSpaceAvailable, totalConsumedSpace)
-    def implicitWidth = new ResultLocation("/", spaceAvailableForColumns, columnsWithoutExplicitWidths)
-
-    lingo.CHILDREN.each { child -> calculatedWidths << (child.width ? child.width : implicitWidth) }
-
-    calculatedWidths
-  }
 }

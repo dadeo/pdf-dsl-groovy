@@ -35,7 +35,7 @@ public class VisualTest extends GroovyTestCase {
     PdfDsl dsl = new PdfDsl()
 
     def pdfTemplate1 = dsl.createTemplate {
-      defaults margin:0.75.inch
+      defaults margin:0.75.inch, font: 'text'
       
       font id: 'bold', name: BaseFont.TIMES_BOLD
       font id: 'times', name: BaseFont.TIMES_ROMAN
@@ -68,54 +68,116 @@ public class VisualTest extends GroovyTestCase {
         ]
       }
   
-      def template = { count ->
-        section {
-          text value:"Section ${count} xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx xxxxxx xxxxx xxxx x xxx xx x x x xxxx x xx xxx x x xxx x xxx xx xxxxxx xxxxxx xxxx xx", font:"text"
-        }
-      }
       page number:4, {
-        columns at: [3.inches, 720], {
-          column width: 4.5.inches, height: 550, sectionSpacing: 10, extraParagraphSpace:0, leading:1, {
-            include template:template, args:[1]
-            include template:template, args:[2]
-            include template:template, args:[3]
-            include template:template, args:[4]
+        def headingTemplate = { description ->
+          spacer height:4.mm
+          section {
+            text value:description, font:"bold", fontSize: 12
+          }
+          spacer height:1.mm
+        }
+
+        def sectionTemplate = {
+          section borderColor:Color.BLACK, {
+            text value:"xxxx xx x x x x xxxx x xxx x x xxx x xx xxxxxx xxxxx x xxxxxx"
           }
         }
 
-        columns spacing:0.5.inch, {
+        include template:headingTemplate, args:['width: 1.5 inch']
+
+        columns width:1.5.inches, spacing:0.5.inch, {
           column {
-            section {
-              text value:"hello"
-            }
+            include template:sectionTemplate
           }
           column {
-            section {
-              text value:"happy"
-            }
+            include template:sectionTemplate
           }
           column {
-            section {
-              text value:"world"
-            }
+            include template:sectionTemplate
           }
         }
+
+        include template:headingTemplate, args:['1.5 inch, 1.5 inch, 1.5 inch']
+
+        columns spacing:0.5.inch, {
+          column width:1.5.inches, {
+            include template:sectionTemplate
+          }
+          column width:1.5.inches, {
+            include template:sectionTemplate
+          }
+          column width:1.5.inches, {
+            include template:sectionTemplate
+          }
+        }
+
+        include template:headingTemplate, args:['implied, implied, implied']
+
+        columns spacing:0.5.inch, {
+          column {
+            include template:sectionTemplate
+          }
+          column {
+            include template:sectionTemplate
+          }
+          column {
+            include template:sectionTemplate
+          }
+        }
+
+        include template:headingTemplate, args:['1 inch, implied, implied']
 
         columns spacing:0.5.inch, {
           column width: 1.inch, {
-            section {
-              text value:"hello"
-            }
+            include template:sectionTemplate
           }
           column {
-            section {
-              text value:"happy"
-            }
+            include template:sectionTemplate
           }
           column {
-            section {
-              text value:"world"
-            }
+            include template:sectionTemplate
+          }
+        }
+
+        include template:headingTemplate, args:['1 inch, 1 inch, implied']
+
+        columns spacing:0.5.inch, {
+          column width: 1.inch, {
+            include template:sectionTemplate
+          }
+          column width: 1.inch, {
+            include template:sectionTemplate
+          }
+          column {
+            include template:sectionTemplate
+          }
+        }
+
+        include template:headingTemplate, args:['widths: 1 inch, 1 inch, implied']
+
+        columns widths: [1.inch, 1.inch], spacing:0.5.inch, {
+          column {
+            include template:sectionTemplate
+          }
+          column {
+            include template:sectionTemplate
+          }
+          column {
+            include template:sectionTemplate
+          }
+        }
+
+        include template:headingTemplate, args:['widths: 1 inch, 1 inch, implied -- column 2 overriden to 2 inches']
+
+        columns widths: [1.inch, 1.inch], spacing:0.5.inch, {
+          column {
+            include template:sectionTemplate
+          }
+          column width:2.inches, {
+            include template:sectionTemplate
+          }
+          column {
+            include template:sectionTemplate
           }
         }
       }
