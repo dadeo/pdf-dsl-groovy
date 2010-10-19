@@ -41,7 +41,8 @@ class CommandDefinitionFactory {
   private CommandDefinition createSectionDefinition() {
     def lineDefinition = new CommandDefinition(new NoOpCommand())
     def textDefinition = new CommandDefinition(new NoOpCommand())
-    new CommandDefinition(new SectionCommand(), [line: lineDefinition, text: textDefinition])
+    def markupDefinition = new CommandDefinition(new NoOpCommand())
+    new CommandDefinition(new SectionCommand(), [line: lineDefinition, text: textDefinition, markup: markupDefinition])
   }
 
   private CommandDefinition createPageDefinition() {

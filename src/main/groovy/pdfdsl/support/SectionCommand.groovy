@@ -20,15 +20,19 @@ class SectionCommand extends InternalCommand {
 
 
   SectionCommand() {
-    defaults = [padding: 0, at:[Locations.left, Locations.lastY]]
+    defaults = [padding: 0, at: [Locations.left, Locations.lastY]]
   }
 
   def getLines() {
     lingo.CHILDREN.findAll { it.COMMAND_NAME == 'line' }
   }
 
-  def getTexts() {
+  def getTextLines() {
     lingo.CHILDREN.findAll { it.COMMAND_NAME == 'text' }
+  }
+
+  def getMarkupLines() {
+    lingo.CHILDREN.findAll { it.COMMAND_NAME == 'markup' }
   }
 
 
@@ -40,12 +44,18 @@ class SectionCommand extends InternalCommand {
       lingo.mapIn.at = [Locations.left, Locations.lastY]
     }
 
+    def texts = textLines
     if (texts) {
-      processText(dslWriter)
+      processText(texts, dslWriter)
     }
 
     if (lines) {
       processLines(dslWriter)
+    }
+
+    def markups = markupLines
+    if (markups) {
+      processMarkUp(markups, dslWriter)
     }
   }
 
@@ -115,7 +125,7 @@ class SectionCommand extends InternalCommand {
     }
   }
 
-  private def processText(DslWriter dslWriter) {
+  private def processText(texts, DslWriter dslWriter) {
     dslWriter.column(lingo) {ColumnText columnText ->
       def p = null
       def writeParagraph = {
@@ -144,6 +154,29 @@ class SectionCommand extends InternalCommand {
       }
       writeParagraph()
 
+      drawBorder2.curry lingo.getWidth(dslWriter), dslWriter
+    }
+  }
+
+  private def processMarkUp(markups, DslWriter dslWriter) {
+    dslWriter.column(lingo) {ColumnText columnText ->
+      markups.each {
+        def mapLingo = lingo + it
+        lingo.markedUpTextProcessor.process(it.text, mapLingo.font).eachWithIndex { paragraph, index ->
+          final def modifier = mapLingo.paragraphModifier
+          if (modifier) {
+            modifier.resolveStrategy = Closure.DELEGATE_FIRST
+            use(LocationPdfLingo) {
+              if (modifier.getMaximumNumberOfParameters() == 2) {
+                modifier paragraph, index
+              } else {
+                modifier paragraph
+              }
+            }
+          }
+          columnText.addElement(paragraph)
+        }
+      }
       drawBorder2.curry lingo.getWidth(dslWriter), dslWriter
     }
   }

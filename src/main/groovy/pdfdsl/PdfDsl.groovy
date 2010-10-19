@@ -21,6 +21,8 @@ import pdfdsl.support.LineCommand
 import pdfdsl.support.RectangleCommand
 import pdfdsl.support.TableCommand
 import pdfdsl.support.CommandDefinitionFactory
+import pdfdsl.support.text.MarkedUpTextProcessor
+import pdfdsl.support.text.MarkedUpTextProcessorFactory
 
 class PdfDsl {
   CommandDefinitionFactory definitionFactory = new CommandDefinitionFactory()
@@ -41,6 +43,8 @@ class PdfDsl {
   private def validCommands = definitionFactory.createDefinitions()
 
   def createTemplate(closure) {
+    defaultSettings.markedUpTextProcessor = new MarkedUpTextProcessorFactory().create(defaultSettings)
+
     def commands = []
     closure.resolveStrategy = Closure.DELEGATE_FIRST
     closure.delegate = new CommandPdfLingo(commands, defaultSettings, validCommands)
