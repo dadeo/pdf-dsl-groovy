@@ -18,6 +18,7 @@ import com.lowagie.text.pdf.PdfPTable
 import com.lowagie.text.Paragraph
 import com.lowagie.text.Font
 import java.awt.Color
+import com.lowagie.text.pdf.PdfPCell
 
 public class MarkupTest extends GroovyTestCase {
 
@@ -46,6 +47,8 @@ public class MarkupTest extends GroovyTestCase {
               |<nf:bold text>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</nf:bold text>|
           """
         }
+
+        insert table:exec(createTable)
       }
     }
 
@@ -58,4 +61,13 @@ public class MarkupTest extends GroovyTestCase {
     }
   }
 
-}
+  private createTable = {
+    PdfPTable table = new PdfPTable([1.5.inches, 1.inch, 0.5.inch, 0.5.inch] as float[])
+    table.addCell(markup("<u><nc:red>red</nc:red> underlined text</u>"))
+    table.addCell("world")
+    table.addCell("yo")
+    table.addCell("dog")
+    table
+  }
+
+ }

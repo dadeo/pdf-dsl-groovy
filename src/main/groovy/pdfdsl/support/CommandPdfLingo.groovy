@@ -96,6 +96,10 @@ class CommandPdfLingo {
     }
   }
 
+  def markup(String text) {
+    defaultSettings.markedUpTextProcessor.process(text, namedFont(defaultSettings.font))
+  }
+
   def defaults(lingo) {
     defaultSettings.putAll lingo
   }
