@@ -12,24 +12,19 @@
  */
 package pdfdsl.support.text
 
-import com.lowagie.text.Paragraph
-import com.lowagie.text.Chunk
+import java.util.regex.Matcher
 
 
-class ParagraphBuilder {
-  TextTokenizer tokenizer = new TextTokenizer()
-  ChunkDecorator chunkDecorator
+class AttributeParser {
+  private static final ATTRIBUTE_EXPRESSION = /(\w+)=(['"])(.+?)\2/
 
-  Paragraph build(String paragraphText, defaultFont) {
-    Paragraph paragraph = new Paragraph()
-    paragraph.font = defaultFont
-    tokenizer.tokenize(paragraphText).each {
-      def chunk = new Chunk(it.text)
-      chunkDecorator.decorate(chunk, it.tags)
-      paragraph.addChunk(chunk)
+  Map parseAttributes(attributeString) {
+    def attributes = [:]
+    Matcher matcher = attributeString =~ ATTRIBUTE_EXPRESSION
+    while(matcher.find()) {
+      attributes[matcher.group(1)] = matcher.group(3)
     }
-    
-    paragraph
+    attributes
   }
 
 }

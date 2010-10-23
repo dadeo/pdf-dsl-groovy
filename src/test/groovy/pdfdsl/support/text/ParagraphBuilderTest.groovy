@@ -28,12 +28,12 @@ class ParagraphBuilderTest extends TestCase {
 
   void test_build() {
     def tokenizer = new MockFor(TextTokenizer)
-    tokenizer.demand.tokenize("paragraph text") { [[text:"chunk 1", tokens:["a"]], [text:"chunk 2", tokens:["b"]]] }
+    tokenizer.demand.tokenize("paragraph text") { [[text:"chunk 1", tags:[[tag:"a"]]], [text:"chunk 2", tags:[[tag:"b"]]]] }
 
     int chunkDecoratorInvocations = 0
     def chunkDecorator = new MockFor(ChunkDecorator)
-    chunkDecorator.demand.decorate() { chunk, tokens -> assert chunk.getContent() == "chunk 1"; assert tokens == ["a"]; ++chunkDecoratorInvocations }
-    chunkDecorator.demand.decorate() { chunk, tokens -> assert chunk.getContent() == "chunk 2"; assert tokens == ["b"]; ++chunkDecoratorInvocations }
+    chunkDecorator.demand.decorate() { chunk, tags -> assert chunk.getContent() == "chunk 1"; assert tags == [[tag:"a"]]; ++chunkDecoratorInvocations }
+    chunkDecorator.demand.decorate() { chunk, tags -> assert chunk.getContent() == "chunk 2"; assert tags == [[tag:"b"]]; ++chunkDecoratorInvocations }
 
     builder.tokenizer = tokenizer.proxyInstance()
     builder.chunkDecorator = chunkDecorator.proxyInstance()

@@ -16,48 +16,29 @@ import java.util.regex.Matcher
 
 
 class TextTokenizer {
-  private static final TOKEN_EXPRESSION = /<(\/?\w+?)( .+?)?>/
-  private static final ATTRIBUTE_EXPRESSION = /(\w+)=(['"])(.+?)\2/
+  private static final TOKEN_EXPRESSION = /<(\/)?(\w+?)( .+?)?>/
 
   List tokenize(String text) {
     def tagValidator = new TagValidator()
-    def result = []
-    def tokens = []
+    def resultBuilder = new ResultBuilder(text)
     Matcher matcher = text =~ TOKEN_EXPRESSION
-    def lastStart = 0
-    while(matcher.find()) {
-      if(matcher.start() != lastStart) {
-        result << [text: text[lastStart..matcher.start() - 1], tokens: tokens.clone()]
-      }
-      if(matcher.group(1).startsWith("/")) {
-        tagValidator.closeTag(matcher.group(1)[1..-1])
-        tokens.pop()
+
+    while (matcher.find()) {
+      String terminator = matcher.group(1)
+      String tagName = matcher.group(2)
+      String attributeString = matcher.group(3)
+
+      if (terminator) {
+        tagValidator.closeTag(tagName)
+        resultBuilder.closeTag(matcher.start(), matcher.end())
       } else {
-        tagValidator.openTag(matcher.group(1))
-        final def tag = [tag: matcher.group(1)]
-        if(matcher.groupCount() == 2) {
-          def attributes = parseAttributes(matcher.group(2))
-          if(attributes) {
-            tag.attributes = attributes
-          }
-        }
-        tokens << tag
+        tagValidator.openTag(tagName)
+        resultBuilder.openTag(tagName, attributeString, matcher.start(), matcher.end())
       }
-      lastStart = matcher.end()
     }
-    if(lastStart != text.size()) {
-      result << [text:text[lastStart..-1], tokens:tokens]
-    }
+
     tagValidator.validate()
-    result
+    resultBuilder.toResults()
   }
 
-  private parseAttributes(attributeString) {
-    def attributes = [:]
-    Matcher matcher = attributeString =~ ATTRIBUTE_EXPRESSION
-    while(matcher.find()) {
-      attributes[matcher.group(1)] = matcher.group(3)
-    }
-    attributes
-  }
 }
