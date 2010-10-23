@@ -13,7 +13,7 @@
 package pdfdsl.support.text
 
 import junit.framework.TestCase
-
+import static pdfdsl.util.AssertionHelper.shouldFail
 
 class TextTokenizerTest extends TestCase {
   private TextTokenizer tokenizer
@@ -77,7 +77,31 @@ class TextTokenizerTest extends TestCase {
   }
 
   void test_tokenize_tag_name_may_be_more_than_one_character() {
-    assert tokenizer.tokenize("<abc a='2'>text</a>") == [[text:"text", tokens:[[tag:"abc", attributes:[a:"2"]]]]]
+    assert tokenizer.tokenize("<abc a='2'>text</abc>") == [[text:"text", tokens:[[tag:"abc", attributes:[a:"2"]]]]]
+  }
+
+  void test_tokenize_throws_exception_when_tag_not_terminated() {
+    shouldFail("tag not terminated correctly: 'abc'") {
+      tokenizer.tokenize("<abc a='2'>text")
+    }
+  }
+
+  void test_tokenize_throws_exception_when_multiple_tags_not_terminated() {
+    shouldFail("tags not terminated correctly: 'abc', 'xyz'") {
+      tokenizer.tokenize("<abc a='2'><xyz>text")
+    }
+  }
+
+  void test_tokenize_throws_exception_when_nested_tag_not_terminated() {
+    shouldFail("close tag 'abc' does not match open tag 'xyz'") {
+      tokenizer.tokenize("<abc a='2'><xyz>text</abc>")
+    }
+  }
+
+  void test_tokenize_throws_exception_when_tag_not_terminated_correctly() {
+    shouldFail("close tag 'xyz' does not match open tag 'abc'") {
+      tokenizer.tokenize("<abc a='2'>text</xyz>")
+    }
   }
 
 }

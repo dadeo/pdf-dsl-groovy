@@ -20,6 +20,7 @@ class TextTokenizer {
   private static final ATTRIBUTE_EXPRESSION = /(\w+)=(['"])(.+?)\2/
 
   List tokenize(String text) {
+    def tagValidator = new TagValidator()
     def result = []
     def tokens = []
     Matcher matcher = text =~ TOKEN_EXPRESSION
@@ -29,8 +30,10 @@ class TextTokenizer {
         result << [text: text[lastStart..matcher.start() - 1], tokens: tokens.clone()]
       }
       if(matcher.group(1).startsWith("/")) {
+        tagValidator.closeTag(matcher.group(1)[1..-1])
         tokens.pop()
       } else {
+        tagValidator.openTag(matcher.group(1))
         final def tag = [tag: matcher.group(1)]
         if(matcher.groupCount() == 2) {
           def attributes = parseAttributes(matcher.group(2))
@@ -45,6 +48,7 @@ class TextTokenizer {
     if(lastStart != text.size()) {
       result << [text:text[lastStart..-1], tokens:tokens]
     }
+    tagValidator.validate()
     result
   }
 
