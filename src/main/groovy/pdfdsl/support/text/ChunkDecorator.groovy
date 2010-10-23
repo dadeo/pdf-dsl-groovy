@@ -27,13 +27,13 @@ class ChunkDecorator {
     def font = chunk.font
     def color = chunk.font.color
     tokens.each {
-      if(it.startsWith("nf:")) {
-        font = settings.namedFonts[it[3..-1]]
+      if(it.tag == "font") {
+        font = settings.namedFonts[it.attributes.name]
       }
-      if(it.startsWith("nc:")) {
-        color = settings.namedColors[it[3..-1]]
+      if(it.tag == "color") {
+        color = settings.namedColors[it.attributes.name]
       }
-      if(it == "u") {
+      if(it.tag == "u") {
         chunk.setUnderline(0.2f, -2f)
       }
     }

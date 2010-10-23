@@ -29,11 +29,14 @@ class ChunkDecoratorTest extends TestCase {
   private static final Font FONT_2 = new Font()
 
   void test_decorate_named_font() {
-    Map<String, Serializable> settings = [namedFonts:[text1:FONT_1, text2:FONT_2]]
+    Map<String, Serializable> settings = [namedFonts: [text1: FONT_1, text2: FONT_2]]
 
     Chunk chunk = new Chunk()
 
-    new ChunkDecorator(settings).decorate(chunk, ["nf:text2", "nf:text1"])
+    new ChunkDecorator(settings).decorate(chunk, [
+        [tag: 'font', attributes: [name: 'text2']],
+        [tag: 'font', attributes: [name: 'text1']]
+    ])
 
     assert chunk.font.family == FAMILY
     assert chunk.font.size == SIZE
@@ -42,11 +45,15 @@ class ChunkDecoratorTest extends TestCase {
   }
 
   void test_decorate_named_color() {
-    Map<String, Serializable> settings = [namedFonts:[text1:FONT_1, text2:FONT_2], namedColors:["red": Color.red]]
+    Map<String, Serializable> settings = [namedFonts: [text1: FONT_1, text2: FONT_2], namedColors: ["red": Color.red]]
 
     Chunk chunk = new Chunk()
 
-    new ChunkDecorator(settings).decorate(chunk, ["nf:text2", "nc:red", "nf:text1"])
+    new ChunkDecorator(settings).decorate(chunk, [
+        [tag: 'font', attributes:[name: 'text2']],
+        [tag: 'color', attributes:[name: 'red']],
+        [tag: 'font', attributes:[name: 'text1']]
+    ])
 
     assert chunk.font.family == FAMILY
     assert chunk.font.size == SIZE
@@ -59,7 +66,7 @@ class ChunkDecoratorTest extends TestCase {
 
     Chunk chunk = new Chunk()
 
-    new ChunkDecorator(settings).decorate(chunk, ["u"])
+    new ChunkDecorator(settings).decorate(chunk, [[tag: "u"]])
 
     final def underLineAttributes = chunk.attributes?.get(Chunk.UNDERLINE)
     assert underLineAttributes

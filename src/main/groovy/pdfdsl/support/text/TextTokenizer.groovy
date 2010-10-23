@@ -16,7 +16,8 @@ import java.util.regex.Matcher
 
 
 class TextTokenizer {
-  private static final TOKEN_EXPRESSION = /<(.+?)>/
+  private static final TOKEN_EXPRESSION = /<(\/?\w+?)( .+?)?>/
+  private static final ATTRIBUTE_EXPRESSION = /(\w+)=(['"])(.+?)\2/
 
   List tokenize(String text) {
     def result = []
@@ -28,9 +29,16 @@ class TextTokenizer {
         result << [text: text[lastStart..matcher.start() - 1], tokens: tokens.clone()]
       }
       if(matcher.group(1).startsWith("/")) {
-        tokens.remove(matcher.group(1)[1..-1])
+        tokens.pop()
       } else {
-        tokens << matcher.group(1)
+        final def tag = [tag: matcher.group(1)]
+        if(matcher.groupCount() == 2) {
+          def attributes = parseAttributes(matcher.group(2))
+          if(attributes) {
+            tag.attributes = attributes
+          }
+        }
+        tokens << tag
       }
       lastStart = matcher.end()
     }
@@ -40,4 +48,12 @@ class TextTokenizer {
     result
   }
 
+  private parseAttributes(attributeString) {
+    def attributes = [:]
+    Matcher matcher = attributeString =~ ATTRIBUTE_EXPRESSION
+    while(matcher.find()) {
+      attributes[matcher.group(1)] = matcher.group(3)
+    }
+    attributes
+  }
 }

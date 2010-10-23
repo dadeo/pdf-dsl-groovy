@@ -42,9 +42,9 @@ public class MarkupTest extends GroovyTestCase {
       page {
         section {
           markup paragraphModifier: { Paragraph paragraph -> paragraph.spacingAfter = 3.mm }, text: """|
-              |<nf:h1><nc:red>Hello</nc:red> <u>World</u>!!!</nf:h1>|
-              |Lorem ipsum <u>dolor sit</u> amet, <nf:bold text>consectetur adipisicing elit</nf:bold text>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.|
-              |<nf:bold text>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</nf:bold text>|
+              |<font name="h1"><color name="red">Hello</color> <u>World</u>!!!</font>|
+              |Lorem ipsum <u>dolor sit</u> amet, <font name="bold text">consectetur adipisicing elit</font>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.|
+              |<font name="bold text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</font>|
           """
         }
 
@@ -63,7 +63,7 @@ public class MarkupTest extends GroovyTestCase {
 
   private createTable = {
     PdfPTable table = new PdfPTable([1.5.inches, 1.inch, 0.5.inch, 0.5.inch] as float[])
-    table.addCell(markup("<u><nc:red>red</nc:red> underlined text</u>"))
+    table.addCell(markup("<u><color name='red'>red</color> underlined text</u>"))
     table.addCell("world")
     table.addCell("yo")
     table.addCell("dog")

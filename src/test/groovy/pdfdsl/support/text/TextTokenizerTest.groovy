@@ -27,21 +27,57 @@ class TextTokenizerTest extends TestCase {
   }
 
   void test_tokenize_text_and_token() {
-    assert tokenizer.tokenize("<a>text with token</a>") == [[text:"text with token", tokens:["a"]]]
+    assert tokenizer.tokenize("<a>text with token</a>") == [[text:"text with token", tokens:[[tag:"a"]]]]
   }
 
   void test_tokenize_text_with_multiple_tokens() {
-    assert tokenizer.tokenize("<a><b>text with token</b></a>") == [[text:"text with token", tokens:["a", "b"]]]
+    assert tokenizer.tokenize("<a><b>text with token</b></a>") == [[text:"text with token", tokens:[[tag:"a"], [tag:"b"]]]]
   }
   
   void test_tokenize_multiple_text_with_tokens() {
     assert tokenizer.tokenize("text <a>with <b>tokens</b> and</a> otherwise") == [
         [text:"text ", tokens:[]],
-        [text:"with ", tokens:["a"]],
-        [text:"tokens", tokens:["a", "b"]],
-        [text:" and", tokens:["a"]],
+        [text:"with ", tokens:[[tag:"a"]]],
+        [text:"tokens", tokens:[[tag:"a"], [tag:"b"]]],
+        [text:" and", tokens:[[tag:"a"]]],
         [text:" otherwise", tokens:[]],
     ]
+  }
+  
+  void test_tokenize_tag_with_single_attribute() {
+    assert tokenizer.tokenize("<a b='2'>text</a>") == [[text:"text", tokens:[[tag:"a", attributes:[b:"2"]]]]]
+  }
+
+  void test_tokenize_tag_with_multiple_attributes() {
+    assert tokenizer.tokenize("<a b='2' c='3'>text</a>") == [[text:"text", tokens:[[tag:"a", attributes:[b:"2", c:"3"]]]]]
+  }
+
+  void test_tokenize_tag_attributes_value_wrapped_with_half_quotes() {
+    assert tokenizer.tokenize("<a b='2'>text</a>") == [[text:"text", tokens:[[tag:"a", attributes:[b:"2"]]]]]
+  }
+
+  void test_tokenize_tag_attributes_value_wrapped_with_quotes() {
+    assert tokenizer.tokenize('<a b="2">text</a>') == [[text:"text", tokens:[[tag:"a", attributes:[b:"2"]]]]]
+  }
+
+  void test_tokenize_tag_attributes_value_may_contain_half_quote() {
+    assert tokenizer.tokenize('<a b="\'2\'">text</a>') == [[text:"text", tokens:[[tag:"a", attributes:[b:"'2'"]]]]]
+  }
+
+  void test_tokenize_tag_attributes_value_may_contain_quote() {
+    assert tokenizer.tokenize("<a b='\"2\"'>text</a>") == [[text:"text", tokens:[[tag:"a", attributes:[b:'"2"']]]]]
+  }
+
+  void test_tokenize_tag_attributes_name_may_be_more_than_one_character() {
+    assert tokenizer.tokenize("<a abc='2'>text</a>") == [[text:"text", tokens:[[tag:"a", attributes:[abc:"2"]]]]]
+  }
+
+  void test_tokenize_tag_attributes_value_may_be_more_than_one_character() {
+    assert tokenizer.tokenize("<a b='hello world'>text</a>") == [[text:"text", tokens:[[tag:"a", attributes:[b:"hello world"]]]]]
+  }
+
+  void test_tokenize_tag_name_may_be_more_than_one_character() {
+    assert tokenizer.tokenize("<abc a='2'>text</a>") == [[text:"text", tokens:[[tag:"abc", attributes:[a:"2"]]]]]
   }
 
 }
