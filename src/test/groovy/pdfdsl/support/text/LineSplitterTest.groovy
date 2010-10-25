@@ -13,7 +13,7 @@
 package pdfdsl.support.text
 
 import junit.framework.TestCase
-
+import static pdfdsl.util.AssertionHelper.shouldFail
 
 class LineSplitterTest extends TestCase {
   private LineSplitter splitter
@@ -24,16 +24,13 @@ class LineSplitterTest extends TestCase {
 
 
   void test_split_no_line_markup() {
-    def text = """
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          """
+    def text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
     assert splitter.split(text) == [text]
   }
 
   void test_split_each_line_marked() {
-    def text = """|
+    def text = """
               |Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.|
               |Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.|
           """
@@ -46,7 +43,7 @@ class LineSplitterTest extends TestCase {
   }
 
   void test_split_with_word_wrap() {
-    def text = """|
+    def text = """
               |Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
               |incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
               |exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
@@ -62,7 +59,7 @@ class LineSplitterTest extends TestCase {
   }
 
   void test_split_multiple_lines_with_word_wrap() {
-    def text = """|
+    def text = """
               |Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
               |incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud|
               |exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
@@ -80,7 +77,7 @@ class LineSplitterTest extends TestCase {
   }
 
   void test_split_lines_starting_with_spaces() {
-    def text = """|
+    def text = """
               |a|
               |  b|
               |  c|
@@ -97,7 +94,7 @@ class LineSplitterTest extends TestCase {
   void test_split_no_blank_lines() {
     def text = """|a|
               |b|
-              |c| """
+              |c|"""
 
     List<String> out = splitter.split(text)
 
@@ -109,9 +106,9 @@ class LineSplitterTest extends TestCase {
               b
               |c| """
 
-    List<String> out = splitter.split(text)
-
-    assert out == ["a", "              b c"]
+    shouldFail("Text with newline characters ('\\n') must be marked up with left margins characters '|'") {
+      splitter.split(text)
+    }
   }
 
   void test_split_with_blank_lines() {

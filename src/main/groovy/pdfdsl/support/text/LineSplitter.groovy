@@ -15,25 +15,26 @@ package pdfdsl.support.text
 
 class LineSplitter {
   private static final LINE_START = /^\s*\|/
-  private static final LINE_END = /\|\s*$/
+  private static final LINE_END = /^\s*\|(.*?)(\s*\|\s*)?$/
 
   List<String> split(String text) {
-    if(text[0] == '|') {
+    if(text.contains('\n')) {
       def result = []
       String line = null
       def reader = new BufferedReader(new StringReader(text))
       def lineOut = ""
       while((line = reader.readLine()) != null) {
         if(line.trim()) {
-          if(line =~ LINE_START) {
-            line = line.replaceFirst(LINE_START, "")
-          }
-          if(line =~ LINE_END) {
-            line = line.replaceFirst(LINE_END, "")
-            result << (lineOut ? lineOut + " " + line : line)
-            lineOut = ""
-          } else {
+          def matcher = line =~ LINE_END
+          if(matcher) {
+            line = matcher.group(1)
             lineOut += (lineOut ? " " + line : line)
+          } else {
+            throw new RuntimeException("Text with newline characters ('\\n') must be marked up with left margins characters '|'")
+          }
+          if(matcher.group(2)) {
+            result << lineOut
+            lineOut = ""
           }
         }
       }
