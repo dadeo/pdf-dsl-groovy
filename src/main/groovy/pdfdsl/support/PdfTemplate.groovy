@@ -44,6 +44,9 @@ class PdfTemplate {
 
     execute command, lingo, dslWriter
 
+    if(LastPosition.lastY < 0) {
+      throw new RuntimeException("pdf page contents overflow")
+    }
     return lastPage
   }
 
