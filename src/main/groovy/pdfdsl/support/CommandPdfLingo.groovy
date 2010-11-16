@@ -16,7 +16,7 @@ import com.lowagie.text.Font
 import com.lowagie.text.pdf.BaseFont
 
 class CommandPdfLingo {
-
+  private ClosureExecutor closureExecutor = new ClosureExecutor()
   private def commands
   private def defaultSettings
   private def commandDefinitions
@@ -41,11 +41,7 @@ class CommandPdfLingo {
     Closure closure = findClosure(args)
     if (closure) {
       builtCommand.CHILDREN = []
-      closure.delegate = new CommandPdfLingo(builtCommand.CHILDREN, defaultSettings, commandDefinition.commandDefinitions, appendToPath(commandPath, name))
-      closure.resolveStrategy = Closure.DELEGATE_FIRST
-      use(LocationPdfLingo) {
-        closure()
-      }
+      closureExecutor.execute closure, new CommandPdfLingo(builtCommand.CHILDREN, defaultSettings, commandDefinition.commandDefinitions, appendToPath(commandPath, name))
     }
 
     commands << builtCommand
@@ -53,8 +49,8 @@ class CommandPdfLingo {
 
   private def verifyFontsExist(command) {
     def specifiedFont = command.font
-    if(specifiedFont instanceof String) {
-      if(!(defaultSettings.configuredFonts[specifiedFont] || defaultSettings.namedFonts[specifiedFont])) {
+    if (specifiedFont instanceof String) {
+      if (!(defaultSettings.configuredFonts[specifiedFont] || defaultSettings.namedFonts[specifiedFont])) {
         throw new RuntimeException("font with id of '${specifiedFont}' is not configured")
       }
     }
@@ -80,20 +76,12 @@ class CommandPdfLingo {
   }
 
   def exec(closure, ... args) {
-    closure.delegate = this
-    closure.resolveStrategy = Closure.DELEGATE_FIRST
-    use(LocationPdfLingo) {
-      closure(*args)
-    }
+    closureExecutor.execute closure, this, args
   }
-  
+
   def include(lingo) {
     def closure = lingo.template
-    closure.delegate = this
-    closure.resolveStrategy = Closure.DELEGATE_FIRST
-    use(LocationPdfLingo) {
-      closure(*lingo.args)
-    }
+    exec(closure, *lingo.args)
   }
 
   def markup(String text) {
@@ -145,9 +133,9 @@ class CommandPdfLingo {
   }
 
   def each(collection, closure) {
-    closure.delegate = this
-    closure.resolveStrategy = Closure.DELEGATE_FIRST
-    collection.each closure
+    collection.each {
+      exec closure, it
+    }
   }
 
 }

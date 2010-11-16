@@ -163,8 +163,7 @@ class CommandPdfLingoTest extends GroovyTestCase {
   }
 
   private def execute(closure) {
-    closure.delegate = commandPdfLingo
-    closure()
+    new ClosureExecutor().execute closure, commandPdfLingo
   }
 
   private def shouldFail(closure, failureClosure) {

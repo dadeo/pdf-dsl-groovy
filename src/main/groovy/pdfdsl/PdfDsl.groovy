@@ -23,9 +23,11 @@ import pdfdsl.support.TableCommand
 import pdfdsl.support.CommandDefinitionFactory
 import pdfdsl.support.text.MarkedUpTextProcessor
 import pdfdsl.support.text.MarkedUpTextProcessorFactory
+import pdfdsl.support.ClosureExecutor
 
 class PdfDsl {
   CommandDefinitionFactory definitionFactory = new CommandDefinitionFactory()
+  ClosureExecutor closureExecutor = new ClosureExecutor()
 
   private def defaultSettings = [
       configuredFonts: [:],
@@ -46,11 +48,7 @@ class PdfDsl {
     defaultSettings.markedUpTextProcessor = new MarkedUpTextProcessorFactory().create(defaultSettings)
 
     def commands = []
-    closure.resolveStrategy = Closure.DELEGATE_FIRST
-    closure.delegate = new CommandPdfLingo(commands, defaultSettings, validCommands)
-    use(LocationPdfLingo) {
-      closure()
-    }
+    closureExecutor.execute closure, new CommandPdfLingo(commands, defaultSettings, validCommands)
     new PdfTemplate(commands, defaultSettings)
   }
 
