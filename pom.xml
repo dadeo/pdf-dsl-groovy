@@ -5,7 +5,7 @@
 
     <groupId>pdf-dsl</groupId>
     <artifactId>pdf-dsl-groovy</artifactId>
-    <version>0.1.9-SNAPSHOT</version>
+    <version>0.1.9</version>
     <packaging>jar</packaging>
 
     <scm>
