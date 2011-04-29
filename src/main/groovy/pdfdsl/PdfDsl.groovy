@@ -12,18 +12,11 @@
  */
 package pdfdsl
 
+import pdfdsl.support.ClosureExecutor
+import pdfdsl.support.CommandDefinitionFactory
 import pdfdsl.support.CommandPdfLingo
 import pdfdsl.support.PdfTemplate
-import pdfdsl.support.LocationPdfLingo
-import pdfdsl.support.WriteCommand
-import pdfdsl.support.CommandDefinition
-import pdfdsl.support.LineCommand
-import pdfdsl.support.RectangleCommand
-import pdfdsl.support.TableCommand
-import pdfdsl.support.CommandDefinitionFactory
-import pdfdsl.support.text.MarkedUpTextProcessor
 import pdfdsl.support.text.MarkedUpTextProcessorFactory
-import pdfdsl.support.ClosureExecutor
 
 class PdfDsl {
   CommandDefinitionFactory definitionFactory = new CommandDefinitionFactory()
@@ -48,8 +41,9 @@ class PdfDsl {
     defaultSettings.markedUpTextProcessor = new MarkedUpTextProcessorFactory().create(defaultSettings)
 
     def commands = []
-    closureExecutor.execute closure, new CommandPdfLingo(commands, defaultSettings, validCommands)
-    new PdfTemplate(commands, defaultSettings)
+    def pageCommands = [:]
+    closureExecutor.execute closure, new CommandPdfLingo(commands, pageCommands, defaultSettings, validCommands)
+    new PdfTemplate(commands, pageCommands, defaultSettings)
   }
 
 }

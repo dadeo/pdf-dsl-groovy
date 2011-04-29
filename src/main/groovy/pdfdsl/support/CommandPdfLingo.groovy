@@ -18,18 +18,32 @@ import com.lowagie.text.pdf.BaseFont
 class CommandPdfLingo {
   private ClosureExecutor closureExecutor = new ClosureExecutor()
   private def commands
+  private def pageCommands
   private def defaultSettings
   private def commandDefinitions
   private def commandPath
 
-  CommandPdfLingo(commands, defaults, commandDefinitions, commandPath = "/") {
+  CommandPdfLingo(commands, defaults, commandDefinitions, String commandPath = "/") {
+    this(commands, null, defaults, commandDefinitions, commandPath)
+  }
+
+  CommandPdfLingo(commands, pageCommands, defaults, commandDefinitions, String commandPath = "/") {
     this.commands = commands
+    this.pageCommands = pageCommands
     this.defaultSettings = defaults
     this.commandDefinitions = commandDefinitions
     this.commandPath = commandPath
   }
 
   def methodMissing(String name, args) {
+    commands << buildCommand(name, args)
+  }
+
+  def header(args) {
+    pageCommands.headers = [buildCommand("header", [args])]
+  }
+
+  private def buildCommand(String name, args) {
     def commandDefinition = commandDefinitions[name]
     if (!commandDefinition) {
       throw new RuntimeException("$name is not a valid command; valid commands for '$commandPath' are (${commandDefinitions.keySet().join(", ")})")
@@ -43,8 +57,7 @@ class CommandPdfLingo {
       builtCommand.CHILDREN = []
       closureExecutor.execute closure, new CommandPdfLingo(builtCommand.CHILDREN, defaultSettings, commandDefinition.commandDefinitions, appendToPath(commandPath, name))
     }
-
-    commands << builtCommand
+    builtCommand
   }
 
   private def verifyFontsExist(command) {

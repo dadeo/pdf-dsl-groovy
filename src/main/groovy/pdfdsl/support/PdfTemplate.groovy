@@ -14,10 +14,12 @@ package pdfdsl.support
 
 class PdfTemplate {
   private def commands
+  private def pageCommands
   private def defaultSettings
 
-  PdfTemplate(commands, defaultSettings) {
+  PdfTemplate(commands, pageCommands, defaultSettings) {
     this.commands = commands
+    this.pageCommands = pageCommands
     this.defaultSettings = defaultSettings
   }
 
@@ -27,13 +29,26 @@ class PdfTemplate {
     commands.sort {it.page ?: defaultSettings.page}.each {command ->
       lastPage = executeRootCommand(command, dslWriter, lastPage)
     }
-    dslWriter.bytes()
+    stampPageCommands(dslWriter.bytes())
   }
 
   byte[] stamp(byte[] original) {
     def dslWriter = new ExistingPdfWriter(original)
     commands.each {command ->
       executeRootCommand(command, dslWriter, dslWriter.pageCount())
+    }
+    stampPageCommands(dslWriter.bytes())
+  }
+
+  byte[] stampPageCommands(byte[] original) {
+    if (!pageCommands.headers) return original
+
+    def dslWriter = new ExistingPdfWriter(original)
+    dslWriter.pageCount().times { pageIndex ->
+      pageCommands.headers?.each {command ->
+        command.page = pageIndex + 1
+        executeRootCommand(command, dslWriter, dslWriter.pageCount())
+      }
     }
     dslWriter.bytes()
   }
@@ -44,7 +59,7 @@ class PdfTemplate {
 
     execute command, lingo, dslWriter
 
-    if(LastPosition.lastY < 0) {
+    if (LastPosition.lastY < 0) {
       throw new RuntimeException("pdf page contents overflow")
     }
     return lastPage

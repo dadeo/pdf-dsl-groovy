@@ -23,7 +23,8 @@ class CommandDefinitionFactory {
         table: createTableDefinition(),
         canvas: createCanvasDefinition(),
         section: createSectionDefinition(),
-        page: createPageDefinition()
+        page: createPageDefinition(),
+        header: createPageDefinition()
     ]
   }
 

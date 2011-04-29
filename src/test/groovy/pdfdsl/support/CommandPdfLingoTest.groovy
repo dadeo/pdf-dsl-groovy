@@ -16,6 +16,7 @@ package pdfdsl.support
 class CommandPdfLingoTest extends GroovyTestCase {
   private def commandDefinitions
   private def commands
+  private def pageCommands
   private def defaultSettings
   private def commandPdfLingo
   private def grandChildDefinition
@@ -24,15 +25,18 @@ class CommandPdfLingoTest extends GroovyTestCase {
   void setUp() {
     grandChildDefinition = new CommandDefinition(new Object())
     childDefinition = new CommandDefinition(new Object(), [grandChild: grandChildDefinition])
+    def test1Definition = new CommandDefinition(new Object(), [other: childDefinition])
 
     commands = []
+    pageCommands = [:]
     defaultSettings = [:]
     commandDefinitions = [
-        test1: new CommandDefinition(new Object(), [other: childDefinition]),
+        test1: test1Definition,
         test2: new CommandDefinition(new Object()),
         test3: new CommandDefinition(new Object()),
+        header: new CommandDefinition(new Object(), [test1: test1Definition]),
     ]
-    commandPdfLingo = new CommandPdfLingo(commands, defaultSettings, commandDefinitions)
+    commandPdfLingo = new CommandPdfLingo(commands, pageCommands, defaultSettings, commandDefinitions)
   }
 
   void test_valid_commands() {
@@ -47,6 +51,8 @@ class CommandPdfLingoTest extends GroovyTestCase {
     doAssertCommand command:commands[0], expected:[COMMAND_NAME:"test1", COMMAND_OBJECT:commandDefinitions.test1.commandObject]
     doAssertCommand command:commands[1], expected:[COMMAND_NAME:"test2", COMMAND_OBJECT:commandDefinitions.test2.commandObject]
     doAssertCommand command:commands[2], expected:[COMMAND_NAME:"test3", COMMAND_OBJECT:commandDefinitions.test3.commandObject]
+
+    assertEquals 0, pageCommands.size()
   }
 
   void test_command_with_only_attributes() {
@@ -55,6 +61,7 @@ class CommandPdfLingoTest extends GroovyTestCase {
     }
 
     doAssertCommand command:commands[0], expected:[COMMAND_NAME:"test1", COMMAND_OBJECT:commandDefinitions.test1.commandObject, code: 2, other:'stuff']
+    assertEquals 0, pageCommands.size()
   }
 
   void test_command_with_only_closure() {
@@ -70,6 +77,8 @@ class CommandPdfLingoTest extends GroovyTestCase {
     commands[0].remove("CHILDREN")
     doAssertCommand command:commands[0], expected:[COMMAND_NAME:"test1", COMMAND_OBJECT:commandDefinitions.test1.commandObject]
     doAssertCommand command:childCommands[0], expected:[COMMAND_NAME:"other", COMMAND_OBJECT:childDefinition.commandObject, code: 5]
+
+    assertEquals 0, pageCommands.size()
   }
 
   void test_command_with_attributes_and_closure() {
@@ -85,6 +94,8 @@ class CommandPdfLingoTest extends GroovyTestCase {
     commands[0].remove("CHILDREN")
     doAssertCommand command:commands[0], expected:[COMMAND_NAME:"test1", COMMAND_OBJECT:commandDefinitions.test1.commandObject, code:1, number:7]
     doAssertCommand command:childCommands[0], expected:[COMMAND_NAME:"other", COMMAND_OBJECT:childDefinition.commandObject, code: 5]
+
+    assertEquals 0, pageCommands.size()
   }
 
   void test_command_with_grand_child() {
@@ -102,6 +113,29 @@ class CommandPdfLingoTest extends GroovyTestCase {
     commands[0].remove("CHILDREN")
     doAssertCommand command:commands[0], expected:[COMMAND_NAME:"test1", COMMAND_OBJECT:commandDefinitions.test1.commandObject]
     doAssertCommand command:grandChildCommands[0], expected:[COMMAND_NAME:"grandChild", COMMAND_OBJECT:grandChildDefinition.commandObject, code: 8]
+
+    assertEquals 0, pageCommands.size()
+  }
+
+  void test_header_command_with_grand_child() {
+    execute {
+      header {
+        test1 {
+          other {
+            grandChild code:8
+          }
+        }
+      }
+    }
+
+    def greatGrandChildCommands = pageCommands.headers[0].CHILDREN[0].CHILDREN[0].CHILDREN
+    assertNotNull greatGrandChildCommands
+
+    pageCommands.headers[0].remove("CHILDREN")
+    doAssertCommand command: pageCommands.headers[0], expected:[COMMAND_NAME:"header", COMMAND_OBJECT:commandDefinitions.header.commandObject]
+    doAssertCommand command:greatGrandChildCommands[0], expected:[COMMAND_NAME:"grandChild", COMMAND_OBJECT:grandChildDefinition.commandObject, code: 8]
+
+    assertEquals 0, commands.size()
   }
 
   void test_invalid_command() {
@@ -110,7 +144,7 @@ class CommandPdfLingoTest extends GroovyTestCase {
       test2()
       other()
     }, {
-      assertEquals "other is not a valid command; valid commands for '/' are (test1, test2, test3)", it.message
+      assertEquals "other is not a valid command; valid commands for '/' are (test1, test2, test3, header)", it.message
     })
   }
 
