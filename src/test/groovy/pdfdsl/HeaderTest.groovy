@@ -31,8 +31,8 @@ public class HeaderTest extends GroovyTestCase {
       namedFont id: 'bold text', font: 'bold', size: 24
 
       header {
-        section at: [right, 10.5.inch], justified: right, {
-          line text: "Page #{#} of #{##}", font: 'text'
+        section at: [right - 1.25.inch, 10.5.inch], {
+          markup text: "Page #{#} of #{##}", font: 'text'
         }
         hline width: 2, before: 2.mm, after: 1.mm
       }

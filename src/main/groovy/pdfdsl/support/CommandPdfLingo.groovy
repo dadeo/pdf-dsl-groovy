@@ -98,7 +98,7 @@ class CommandPdfLingo {
   }
 
   def markup(String text) {
-    defaultSettings.markedUpTextProcessor.process(text, namedFont(defaultSettings.font))
+    defaultSettings.markedUpTextProcessor.process(text, namedFont(defaultSettings.font), [:])
   }
 
   def defaults(lingo) {

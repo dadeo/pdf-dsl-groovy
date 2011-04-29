@@ -44,10 +44,13 @@ class PdfTemplate {
     if (!pageCommands.headers) return original
 
     def dslWriter = new ExistingPdfWriter(original)
-    dslWriter.pageCount().times { pageIndex ->
+    int totalPages = dslWriter.pageCount()
+    totalPages.times { pageIndex ->
       pageCommands.headers?.each {command ->
-        command.page = pageIndex + 1
-        executeRootCommand(command, dslWriter, dslWriter.pageCount())
+        final pageNumber = pageIndex + 1
+        command.page = pageNumber
+        command.DATA = ["#":pageNumber, pageNumber:pageNumber, "##": totalPages, totalPages: totalPages]
+        executeRootCommand(command, dslWriter, totalPages)
       }
     }
     dslWriter.bytes()

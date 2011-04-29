@@ -162,7 +162,7 @@ class SectionCommand extends InternalCommand {
     dslWriter.column(lingo) {ColumnText columnText ->
       markups.each {
         def mapLingo = lingo + it
-        lingo.markedUpTextProcessor.process(it.text, mapLingo.font).eachWithIndex { paragraph, index ->
+        lingo.markedUpTextProcessor.process(it.text, mapLingo.font, mapLingo.DATA).eachWithIndex { paragraph, index ->
           final def modifier = mapLingo.paragraphModifier
           if (modifier) {
             modifier.resolveStrategy = Closure.DELEGATE_FIRST

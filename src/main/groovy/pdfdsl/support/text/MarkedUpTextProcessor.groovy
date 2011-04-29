@@ -18,9 +18,11 @@ import com.lowagie.text.Font
 class MarkedUpTextProcessor {
   LineSplitter lineSplitter = new LineSplitter()
   ParagraphBuilder paragraphBuilder = new ParagraphBuilder()
+  DataSubstitutor dataSubstitutor = new DataSubstitutor()
 
-  List<com.lowagie.text.Paragraph> process(String text, Font defaultFont) {
-    lineSplitter.split(text).collect { paragraphBuilder.build(it, defaultFont) }
+  List<com.lowagie.text.Paragraph> process(String text, Font defaultFont, Map substitutionData) {
+    String substitutedText = dataSubstitutor.substitute(text, substitutionData)
+    lineSplitter.split(substitutedText).collect { paragraphBuilder.build(it, defaultFont) }
   }
 
 }
